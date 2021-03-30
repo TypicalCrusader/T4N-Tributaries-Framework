@@ -1,0 +1,248 @@
+﻿namespace = tributaries
+
+#Clear "Roadblocks"
+
+#Copy old Ruler tributaries list to his primary heir (on_death)
+#Root is old ruler
+tributaries.1 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		every_in_list = {
+			variable = permanent_tributaries
+			root.primary_heir = {
+				add_to_variable_list = { name = permanent_tributaries target = prev }
+				set_variable = { name = suzerain value = this }
+			}
+		}			
+		remove_variable = suzerain
+	}
+}
+
+#give the heir var:my_suzerain
+#Root is old suzerain
+#on_death
+
+tributaries.2 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				exists = var:my_suzerain
+				var:my_suzerain = {
+					is_target_in_variable_list = { name = permanent_tributaries target = prev }
+				}
+			}
+			root.primary_title = {
+				prev = {
+					var:my_suzerain = {
+						prevprev = {
+							set_variable = { name = my_suzerain value = prev }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#stop being a tributary if landless or no longer independent
+#On_title_lost, on_war_won_attacker
+#Root is suzerain
+tributaries.3 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:former_tributary = {
+			if = {
+				limit = {
+					prev = {
+						is_target_in_variable_list = { name = permanent_tributaries target = prev }
+					}
+				}
+				root = {
+					remove_list_variable = { name = permanent_tributaries target = prev }
+				}
+			}
+			if = {
+				limit = {
+					prev = {
+						is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+					}
+				}
+				root = {
+					remove_list_variable = { name = non_permanent_tributaries target = prev }
+				}
+			}
+		}
+	}
+}
+
+#Suzerain no longer have any tributaries
+#on_monthly_tribute
+#Root is suzerain
+tributaries.4 = {
+	type = character_event
+	hidden = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				variable_list_size = { name = non_permanent_tributaries target = 0 }
+				variable_list_size = { name = permanent_tributaries target = 0 }
+			}
+			clear_variable_list = non_permanent_tributaries
+			clear_variable_list = permanent_tributaries
+			remove_variable = suzerain
+		}
+		else_if = {
+			limit = {
+				variable_list_size = { name = non_permanent_tributaries target = 0 }
+				variable_list_size = { name = permanent_tributaries target > 0 }
+			}	
+			clear_variable_list = non_permanent_tributaries		
+		}
+		else_if = {
+			limit = {
+				variable_list_size = { name = non_permanent_tributaries target > 0 }
+				variable_list_size = { name = permanent_tributaries target = 0 }
+			}	
+			clear_variable_list = permanent_tributaries				
+		}
+	}
+}
+
+
+#Monthly gain from tributes
+#on_monthly_tribute
+#Root is suzerain
+tributaries.5 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable_list = non_permanent_tributaries
+			}
+			every_independent_ruler = {
+				limit = {
+					exists = var:my_suzerain
+					var:my_suzerain = {
+						this = root
+						is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+					}
+				}
+				#it can be also done by using scripted_effect, you can change it to whatever you want, 
+				#but remember unless you will flag characters or something this is everything you gain from this type of tributary.
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.05 }}
+				set_variable = {
+					name = prestige_of_non_perma_tributaries 
+					value = 0 
+				}
+				change_variable = {
+					name = prestige_of_non_perma_tributaries
+					value = monthly_prestige
+					multiply = 0.01
+				}
+
+				root = {
+					add_prestige = prev.var:prestige_of_non_perma_tributaries
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable_list = permanent_tributaries
+			}
+			every_in_list = {
+				variable = permanent_tributaries
+
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.1 }}
+				set_variable = {
+					name = prestige_of_tributaries 
+					value = 0 
+				}
+				change_variable = {
+					name = prestige_of_tributaries
+					value = monthly_prestige
+					multiply = 0.05
+				}
+		
+				prev = {
+					add_prestige = prev.var:prestige_of_tributaries
+				}					
+			}
+		}
+	}
+}
+
+#Suzerain is called to permanent tributary war
+#on_war_started
+#Root is suzerain
+#call_to_arms_tribute is defender
+tributary.6 = {
+	type = character_event
+	title = tributary_6_tit
+	desc = tributary_6_desc
+	right_portrait = {
+		character = call_to_arms_tribute
+		animation = war_defender 
+	}
+	left_portrait = { 
+		character = root
+		animation = personality_rational 
+	}
+
+	option = {
+		name = suzerain_joins_the_war
+		scope:call_to_arms_tribute = {
+			add_defender = root
+		}
+		add_piety = minor_piety_value
+		scope:call_to_arms_tribute = {
+			trigger_event = { id = tributary.8 } #tributary gets a positive response
+		}		
+	}
+
+	option = {
+		name = suzerain_refuses_to_join_war
+		add_prestige = major_prestige_loss
+		save_scope_as = former_suzerain
+		scope:call_to_arms_tribute = {
+			trigger_event = { id = tributary.7 } #tributary gets a negative response
+		}
+	}
+}
+
+#Tribute gets negative a response from suzerain
+#root is defender and former tribute
+tributary.7 = {
+	type = character_event
+	title = tributary_7_tit
+	desc = tributary_7_desc
+	right_portrait = {
+		character = root
+		animation = disapproval 
+	}
+	left_portrait = { 
+		character = scope:former_suzerain
+		animation = personality_dishonorable
+	}
+
+	option = { #stop paying tribute
+		name = tribute_stop_war
+		scope:former_suzerain = {
+			remove_list_variable = { name = permanent_tributaries target = prev }
+			remove_variable = my_suzerain
+		}
+	}
+}
+
+
+
+

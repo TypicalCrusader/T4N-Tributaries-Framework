@@ -1,0 +1,140 @@
+﻿#Tributaries Character Inetractions
+
+call_suzerain_to_war = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+
+	is_shown = {
+		scope:actor = { #put here every tributary type which should be able to call suzerain
+			scope:recipient = {
+				OR = {
+					is_target_in_variable_list = { name = permanent_tributaries target = prev }
+					is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+				}
+			}
+			OR = {
+				is_defender = yes
+				is_attacker = yes
+			}
+			NOT = { is_at_war_with = scope:recipient }
+		}
+		scope:recipient = {
+			exists = var:suzerain
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		#all hail jank, this is a only way i think i can achive that xD
+		NOT = {
+			scope:actor = {
+				exists = var:my_suzerain
+				any_war_ally = {
+					this = var:my_suzerain
+				}
+				var:my_suzerain = {
+					is_target_in_variable_list = { name = permanent_tributaries target = prev }
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			if = {
+				limit = {
+					is_attacker = yes
+				}
+				add_attacker = scope:recipient
+			}
+			else = {
+				add_defender = scope:recipient
+			}
+		}
+	}
+}
+
+#Call Tributaries to war
+call_tributaries_to_war = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	is_shown = {
+		scope:actor = {
+			exists = var:suzerain
+			OR = {
+				is_defender = yes
+				is_attacker = yes
+			}
+		}
+		scope:recipient = {
+			exists = var:my_suzerain
+			var:my_suzerain = {
+				this = scope:actor
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_tooltip = tributaries_not_already_called
+			every_in_list = {
+				variable = permanent_tributaries
+				any_war_ally = {
+					this = prev
+				}
+			}
+		}
+	}
+
+	auto_accept = {
+		always = yes
+	}
+
+	on_accept = {
+		custom_description = {
+			text = call_of_arms_is_sent_to_tributaries
+		}
+		scope:actor = {
+			save_scope_as = suzerain_cta_caller
+		}
+		scope:recipient = {
+			trigger_event = { id = tributary.9 }
+		}
+	}
+}
+
+#ruler offers tribute to other character
+offer_tribute = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = yes
+	is_shown = {
+		scope:actor = {
+			NOT = {
+				exist = var:suzerain
+			}
+			NOT = {
+				exists = var:my_suzerain
+				var:my_suzerain = {
+					this = scope:recipient
+				}
+			}
+		}
+		scope:recipient = {
+			every_suzerain = {
+				NOT = {
+					every_in_list = {
+						list = tributaries
+					}
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			add_to_variable_list = { name = non_permanent_tributaries target = scope:actor }
+		}
+		scope:actor = {
+			set_variable = { name = my_suzerain value = scope:recipient }
+		}
+	}
+}
