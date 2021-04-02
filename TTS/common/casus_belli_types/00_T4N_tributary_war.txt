@@ -1,5 +1,6 @@
 ﻿tributary_war_cb = {
-    group = tributary
+    group = vassalization
+	ai_only_against_neighbors = yes
 
 	war_name = trib_war_cb
 	my_war_name = trib_war_me # Used when the claimant and attacker is the same person
@@ -52,6 +53,81 @@
         scope:defender = {
             scope:attacker = {
                 add_to_variable_list = { name = non_permanent_tributaries target = prev }
+            }
+            set_variable = { name = my_suzerain value = scope:attacker }
+        }
+    }
+
+	on_white_peace = { 
+        scope:attacker = {
+            prestige = -150 
+        }
+    }
+
+    on_defeat = {
+        scope:attacker = {
+            prestige = -150
+            pay_long_term_gold = { target = scope:defender gold = 150 }
+        }
+    }
+
+}
+
+permament_tributary_war_cb = {
+    group = vassalization
+	ai_only_against_neighbors = yes
+
+	war_name = perma_trib_war_cb
+	my_war_name = perma_trib_war_me # Used when the claimant and attacker is the same person
+	war_name_base = perma_trib_war_m_b
+	my_war_name_base = perma_trib_war_m_b
+
+    truce_days = 970
+
+    allowed_for_character_display_regardless = {
+        scope:defender = {
+            primary_title = {
+                tier >= tier_county
+            }
+            root.primary_title.tier > scope:defender.primary_title.tier  
+            NOT = {
+                root = {
+                    is_target_in_variable_list = { name = tributaries target = prev }
+                }
+            }
+        }
+        NAND = {
+            root = {
+                primary_title = {
+                    tier < tier_county
+                }
+                root.primary_title.tier < scope:defender.primary_title.tier  
+                scope:defender = {
+                    is_target_in_variable_list = { name = tributaries target = prev }
+                }
+            }
+        }
+    }
+
+    cost = {
+        prestige = 150
+        cb_prestige_factor = 0.15
+    }
+
+    on_victory = {
+        scope:attacker = {
+            if = {
+                limit = {
+                    scope:attacker = {
+                        NOT = { has_variable = suzerain }
+                    }
+                }
+                set_variable = { name = suzerain value = this }
+            }
+        }
+        scope:defender = {
+            scope:attacker = {
+                add_to_variable_list = { name = permanent_tributaries target = prev }
             }
             set_variable = { name = my_suzerain value = scope:attacker }
         }
