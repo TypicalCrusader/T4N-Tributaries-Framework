@@ -111,21 +111,24 @@ offer_tribute = {
 			NOT = {
 				exist = var:suzerain
 			}
+			is_at_war = no
 			NOT = {
 				exists = var:my_suzerain
-				var:my_suzerain = {
-					this = scope:recipient
-				}
 			}
 		}
 		scope:recipient = {
-			every_suzerain = {
-				NOT = {
-					every_in_list = {
-						list = tributaries
+			NOT= {
+				exists = var:my_suzerain
+			}				
+			NOT = {
+				any_suzerain = {
+					OR = {
+						is_target_in_variable_list = { name = non_permanent_tributaries target = scope:recipient }
+						is_target_in_variable_list = { name = permanent_tributaries target = scope:recipient }
 					}
 				}
 			}
+			is_at_war = no				
 		}
 	}
 
@@ -135,6 +138,31 @@ offer_tribute = {
 		}
 		scope:actor = {
 			set_variable = { name = my_suzerain value = scope:recipient }
+		}
+	}
+}
+
+#Ruler offers character to become a tribute
+ruler_offer_tribute_to_recipient = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = yes
+	is_shown = {
+		scope:actor = {
+			NOT = {
+				exists = var:my_suzerain
+			}
+			is_at_war = no
+		}
+		scope:recipient = {
+			NOR = {
+				exists = var:my_suzerain
+				any_suzerain = {
+					OR = {
+						is_target_in_variable_list = { name = non_permanent_tributaries target = scope:recipient }
+						is_target_in_variable_list = { name = permanent_tributaries target = scope:recipient }
+					}
+				}
+			}
 		}
 	}
 }
