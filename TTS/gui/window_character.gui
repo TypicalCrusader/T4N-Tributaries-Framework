@@ -1894,7 +1894,10 @@ window = {
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[CharacterWindow.SetTab('family')]"
-					down = "[CharacterWindow.IsTabShown('family')]"
+					# Clear Custom Tab visbility
+					onclick = "[GetVariableSystem.Clear('char_gui_tabs')]"
+					# Do not show selected if custom tab is selected
+					down = "[And(CharacterWindow.IsTabShown('family'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 
 					using = tooltip_above
 
@@ -1922,9 +1925,11 @@ window = {
 					name = "relations_button"
 					datacontext = "[CharacterWindow.GetCharacter]"
 					layoutpolicy_horizontal = expanding
-
 					onclick = "[CharacterWindow.SetTab('relations')]"
-					down = "[CharacterWindow.IsTabShown('relations')]"
+					# Clear Custom Tab visbility
+					onclick = "[GetVariableSystem.Clear('char_gui_tabs')]"
+					# Do not show selected if custom tab is selected
+					down = "[And(CharacterWindow.IsTabShown('relations'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 
 					using = tooltip_above
 
@@ -1955,7 +1960,10 @@ window = {
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[CharacterWindow.SetTab('court')]"
-					down = "[CharacterWindow.IsTabShown('court')]"
+					# Clear Custom Tab visbility
+					onclick = "[GetVariableSystem.Clear('char_gui_tabs')]"
+					# Do not show selected if custom tab is selected
+					down = "[And(CharacterWindow.IsTabShown('court'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 
 					using = tooltip_above
 
@@ -1987,7 +1995,10 @@ window = {
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[CharacterWindow.SetTab('vassals')]"
-					down = "[CharacterWindow.IsTabShown('vassals')]"
+					# Clear Custom Tab visbility
+					onclick = "[GetVariableSystem.Clear('char_gui_tabs')]"
+					# Do not show selected if custom tab is selected
+					down = "[And(CharacterWindow.IsTabShown('vassals'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 
 					using = tooltip_above
 
@@ -2011,14 +2022,15 @@ window = {
 					}
 				}
 
+				# Custom tab
 				button_tab = {
 					name = "tribs_button"
 					datacontext = "[CharacterWindow.GetCharacter]"
 					visible = "[Character.IsRuler]"
 					layoutpolicy_horizontal = expanding
 
-					onclick = "[CharacterWindow.SetTab('vassals')]"
-					down = "[CharacterWindow.IsTabShown('vassals')]"
+					onclick = "[GetVariableSystem.Set('char_gui_tabs','tribs')]"
+					down = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
 
 					using = tooltip_above
 
@@ -2059,7 +2071,8 @@ window = {
 
 				widget = {
 					name = "family"
-					visible = "[CharacterWindow.IsTabShown('family')]"
+					# Modify visbility to include custom tab variable
+					visible = "[And(CharacterWindow.IsTabShown('family'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 					size = { 100% 100% }
 
 					using = Animation_Tab_Switch
@@ -2425,7 +2438,8 @@ window = {
 
 				widget = {
 					name = "relations"
-					visible = "[CharacterWindow.IsTabShown('relations')]"
+					# Modify visbility to include custom tab variable
+					visible = "[And(CharacterWindow.IsTabShown('relations'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 					size = { 100% 100% }
 
 					using = Animation_Tab_Switch
@@ -2710,7 +2724,8 @@ window = {
 
 				vbox_character_list = {
 					datacontext = "[CharacterWindow.GetCourt]"
-					visible = "[CharacterWindow.IsTabShown('court')]"
+					# Modify visbility to include custom tab variable
+					visible = "[And(CharacterWindow.IsTabShown('court'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 					layoutpolicy_vertical = expanding
 					layoutpolicy_horizontal = expanding
 
@@ -2755,7 +2770,8 @@ window = {
 				####################################
 
 				vbox_character_list = {
-					visible = "[CharacterWindow.IsTabShown('vassals')]"
+					# Modify visbility to include custom tab variable
+					visible = "[And(CharacterWindow.IsTabShown('vassals'),Not(GetVariableSystem.Exists('char_gui_tabs')))]"
 					layoutpolicy_vertical = expanding
 					layoutpolicy_horizontal = expanding
 					datacontext = "[CharacterWindow.GetVassals]"
@@ -2793,7 +2809,7 @@ window = {
 				####################################
 
 				vbox_character_list = {
-					visible = "[CharacterWindow.IsTabShown('vassals')]"
+					visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
 					layoutpolicy_vertical = expanding
 					layoutpolicy_horizontal = expanding
 					datacontext = "[CharacterWindow.vassals]"

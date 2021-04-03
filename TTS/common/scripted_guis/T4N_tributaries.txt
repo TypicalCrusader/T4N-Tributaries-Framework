@@ -1,0 +1,7 @@
+t4n_tributaries_gui = {
+    scope = character
+    saved_scopes = {}
+    is_shown = {}
+    is_valid = {}
+    effect = {}
+}
