@@ -15,7 +15,12 @@ tributaries.1 = {
 				add_to_variable_list = { name = permanent_tributaries target = prev }
 				set_variable = { name = suzerain value = this }
 			}
-		}			
+			set_variable = { name = my_suzerain value = prev.primary_heir }
+		}		
+		every_in_list = {
+			variable = non_permanent_tributaries
+			remove_variable = my_suzerain
+		}	
 		remove_variable = suzerain
 	}
 }
@@ -46,6 +51,17 @@ tributaries.2 = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				exists = var:my_suzerain
+				var:my_suzerain = {
+					is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+				}
+			}
+			var:my_suzerain = {
+				remove_list_variable = { name = non_permanent_tributaries target = prev }
+			}	
+		}
 	}
 }
 
@@ -66,6 +82,7 @@ tributaries.3 = {
 				}
 				root = {
 					remove_list_variable = { name = permanent_tributaries target = prev }
+					remove_variable = my_suzerain
 				}
 			}
 			if = {
@@ -76,6 +93,7 @@ tributaries.3 = {
 				}
 				root = {
 					remove_list_variable = { name = non_permanent_tributaries target = prev }
+					remove_variable = my_suzerain
 				}
 			}
 		}
