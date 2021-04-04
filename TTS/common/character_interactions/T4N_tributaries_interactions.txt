@@ -108,18 +108,17 @@ offer_tribute = {
 	use_diplomatic_range = yes
 	is_shown = {
 		scope:actor = {
-			NOT = {
-				exist = var:suzerain
+			NOR = {
+				exists = var:suzerain
+				exists = var:my_suzerain
 			}
 			is_at_war = no
-			NOT = {
-				exists = var:my_suzerain
-			}
+			NOT = { this = scope:recipient }
 		}
 		scope:recipient = {
-			NOT= {
+			NOT = {
 				exists = var:my_suzerain
-			}				
+			}					
 			NOT = {
 				any_suzerain = {
 					OR = {
@@ -132,13 +131,33 @@ offer_tribute = {
 		}
 	}
 
+	#Non Permanent trib
+	send_option = {										
+		is_shown = {
+			always = yes
+		}
+		flag = non_permanent_trib							# If selected then scope:flag_name will be set to yes
+		localization = non_permanent_trib				# Loc_key for option label
+		starts_enabled = { always = yes	}				# Trigger for whether this should be on when the window opens. If not defined, defaults to off
+
+	}
+
+	#Permanent trib
+	send_option = {
+		is_shown = {
+			always = yes
+		}
+		flag = permanent_trib
+		localization = permanent_trib	
+	}
+
+	send_options_exclusive = yes
+
 	on_accept = {
-		scope:recipient = {
-			add_to_variable_list = { name = non_permanent_tributaries target = scope:actor }
-		}
 		scope:actor = {
+			trigger_event = { id = tributary.8 }
 			set_variable = { name = my_suzerain value = scope:recipient }
-		}
+		}		
 	}
 }
 
@@ -152,6 +171,7 @@ ruler_offer_tribute_to_recipient = {
 				exists = var:my_suzerain
 			}
 			is_at_war = no
+			NOT = { this = scope:recipient }
 		}
 		scope:recipient = {
 			NOR = {
@@ -165,4 +185,33 @@ ruler_offer_tribute_to_recipient = {
 			}
 		}
 	}
+
+	on_accept = {
+		scope:recipient = {
+			trigger_event = { id = tributary.8 }
+			set_variable = { name = my_suzerain value = scope:actor }
+		}
+	}
+
+	#Non Permanent trib
+	send_option = {										
+		is_shown = {
+			always = yes
+		}
+		flag = non_permanent_trib							# If selected then scope:flag_name will be set to yes
+		localization = non_permanent_trib				# Loc_key for option label
+		starts_enabled = { always = yes	}				# Trigger for whether this should be on when the window opens. If not defined, defaults to off
+
+	}
+
+	#Permanent trib
+	send_option = {
+		is_shown = {
+			always = yes
+		}
+		flag = permanent_trib
+		localization = permanent_trib	
+	}
+
+	send_options_exclusive = yes
 }
