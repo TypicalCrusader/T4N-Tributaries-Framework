@@ -1,2 +1,5 @@
 ﻿l_english:
  CV_TAB_TRIBS:0 "Tributaries"
+ trib_war_cb:0 "Claim the [.GetBaseName] as a Temporary Tributary"
+ perma_trib_war_cb:0 "Claim the [TITLE.GetBaseName] as a Permanent Tributary"
+ trib_suzerain:0 "Suzerain"

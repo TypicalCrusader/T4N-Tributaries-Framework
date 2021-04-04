@@ -365,6 +365,92 @@ window = {
 				}
 			}
 
+			#################
+			### Suzerain ####
+			#################
+
+			container = {
+				name = "suzerain"
+				datacontext = "[CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter]"
+				#visible = false
+				#visible = "[(CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter.IsValid)"
+				parentanchor = bottom|right
+				widgetanchor = top|left
+				position = { -105 -250 }
+				allow_outside = yes
+
+				using = Animation_Character_Window_Refresh
+
+				portrait_head_small = {
+					blockoverride "portrait_transformation"
+					{
+						portrait_scale = { -1 1 }
+						portrait_offset = { 1 0 }
+					}
+
+					blockoverride "coa" {
+						coa_realm_tiny = {
+							visible = "[And(CharacterWindow.GetCharacter.IsAlive, CharacterWindow.HasLiegeTitleEvenWhenDead)]"
+							parentanchor = bottom|left
+							position = { 3 -2 }
+							scale = 0.85
+						}
+
+						coa_title_tiny = {
+							visible = "[And(Not(CharacterWindow.GetCharacter.IsAlive), CharacterWindow.HasLiegeTitleEvenWhenDead)]"
+							datacontext = "[CharacterWindow.GetCharacter.GetLiegeTitleEvenWhenDead]"
+							parentanchor = bottom|left
+							position = { 3 -2 }
+							scale = 0.85
+						}
+					}
+				}
+
+				text_label_center = {
+					parentanchor = top|hcenter
+					position = { 0 85 }
+					text = "trib_suzerian"
+					allow_outside = yes
+				}
+
+				portrait_opinion = {
+					name = "suzerain_opinion"
+					parentanchor = top|hcenter
+					position = { 0 110 }
+
+					datacontext = "[CharacterWindow.GetCharacter]"
+					visible = "[And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) )]"
+
+					blockoverride "dread_logic" {
+						visible = "[Character.ShouldShowDreadEffectIconFor( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+						frame = "[Character.GetDreadEffectIconFrameFor( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+						tooltip = "[Character.GetDreadEffectTooltipFor( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+					}
+
+					blockoverride "opinion_text"
+					{
+						text = "[Character.GetOpinionOf( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+					}
+
+					blockoverride "ott_heading_text"
+					{
+						text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+					}
+
+					blockoverride "ott_opinion_value_text"
+					{
+						text = "[Character.GetOpinionOf( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+					}
+
+					blockoverride "ott_opinion_breakdown_text"
+					{
+						text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCharacter.MakeScope.Var('my_suzerain').GetCharacter )]"
+					}
+				}
+			}
+
 			### Host
 			container = {
 				name = "host"
@@ -2035,16 +2121,18 @@ window = {
 					using = tooltip_above
 
 					hbox = {
+						
 						text_single = {
 							layoutpolicy_horizontal = expanding
 							align = center
 							text = "CV_TAB_TRIBS"
+							#visible = ""
 							default_format = "#low"
 						}
 
 						text_single = {
 							align = center
-							text = "[CharacterWindow.GetTabItemsCount('vassals')]"
+							text = "[Add_int32(GetDataModelSize(Character.MakeScope.GetList('permanent_tributaries')),GetDataModelSize(Character.MakeScope.GetList('non_permanent_tributaries')))]"
 							default_format = "#low"
 							margin_right = 15
 							min_width = 24
@@ -2805,14 +2893,14 @@ window = {
 				}
 
 				####################################
-				########### TRIBS TAB ############
+				######### CUSTOM TRIBS TAB #########
 				####################################
 
 				vbox_character_list = {
 					visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
 					layoutpolicy_vertical = expanding
 					layoutpolicy_horizontal = expanding
-					datacontext = "[CharacterWindow.vassals]"
+					datacontext = "[CharacterWindow.GetCharacter.MakeScope.GetList('permanent_tributaries')]"
 
 					blockoverride "sort_buttons" {}
 					blockoverride "character_count" {}
@@ -2824,15 +2912,15 @@ window = {
 					blockoverride "container_implementation" {
 						fixedgridbox = {
 							name = "characters_grid"
-							datamodel = "[CharacterSelectionList.GetList]"
-							visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+							datamodel = "[Character.MakeScope.GetList('permanent_tributaries')]"
+
 							addcolumn = 590
 							addrow = 90
 							setitemsizefromcell = yes
 
 							item = {
 								widget_vassal_list_item = {
-									datacontext = "[CharacterListItem.GetCharacter]"
+									datacontext = "[Scope.GetCharacter]"
 									layoutpolicy_horizontal = expanding
 
 									blockoverride "own_vassal" {}
@@ -2840,6 +2928,7 @@ window = {
 							}
 						}
 					}
+					blockoverride "scrollbox_empty" {}
 				}
 			}
 
