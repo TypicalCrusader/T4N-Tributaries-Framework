@@ -1,4 +1,4 @@
-﻿on_game_start_after_lobby = {
+﻿on_game_start_after_lobby= {
     on_actions = {
      delay = { months = 1 }
      T4N_on_on_monthly_tribute
@@ -232,14 +232,14 @@ T4N_tributaries_on_death = {
     effect = {
         if = {
             limit = {
-                has_variable = suzerain
+                exists = var:suzerain
             }
             trigger_event = { id = tributaries.1 }
         }
         if = {
             limit = {
                 root = {
-                    has_variable = my_suzerain
+                    exists = var:my_suzerain
                 }
             }
             trigger_event = { id = tributaries.2 }
