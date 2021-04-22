@@ -2112,7 +2112,7 @@ window = {
 				button_tab = {
 					name = "tribs_button"
 					datacontext = "[CharacterWindow.GetCharacter]"
-					visible = "[Character.IsRuler]"
+					visible = "[Not(And(IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries')),IsDataModelEmpty(Character.MakeScope.GetList('non_permanent_tributaries'))))]"
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[GetVariableSystem.Set('char_gui_tabs','tribs')]"
@@ -2895,41 +2895,88 @@ window = {
 				####################################
 				######### CUSTOM TRIBS TAB #########
 				####################################
-
-				vbox_character_list = {
-					visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
+				hbox = {
 					layoutpolicy_vertical = expanding
-					layoutpolicy_horizontal = expanding
-					datacontext = "[CharacterWindow.GetCharacter.MakeScope.GetList('permanent_tributaries')]"
+					
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						
+						vbox_character_list = {
+							spacing = 3
+							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+							blockoverride "sort_buttons" {}
+							blockoverride "character_count" {}
+							blockoverride "scrollbox_margins" {
+								margin = { 0 5 }
+								margin_right = 10
+							}
 
-					blockoverride "sort_buttons" {}
-					blockoverride "character_count" {}
-					blockoverride "scrollbox_margins" {
-						margin = { 0 5 }
-						margin_right = 10
-					}
+							blockoverride "container_implementation" {
+								fixedgridbox = {
+									name = "characters_grid"
+									datamodel = "[Character.MakeScope.GetList('permanent_tributaries')]"
+									addcolumn = 590
+									addrow = 90
+									setitemsizefromcell = yes
 
-					blockoverride "container_implementation" {
-						fixedgridbox = {
-							name = "characters_grid"
-							datamodel = "[Character.MakeScope.GetList('permanent_tributaries')]"
-
-							addcolumn = 590
-							addrow = 90
-							setitemsizefromcell = yes
-
-							item = {
-								widget_vassal_list_item = {
-									datacontext = "[Scope.GetCharacter]"
-									layoutpolicy_horizontal = expanding
-
-									blockoverride "own_vassal" {}
+									item = {
+										widget_vassal_list_item = {
+											datacontext = "[Scope.GetCharacter]"
+											layoutpolicy_horizontal = expanding
+											blockoverride "own_vassal" {}
+										}
+									}
 								}
+							}
+							
+
+							blockoverride "scrollbox_empty_visibility" {
+								visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
 							}
 						}
 					}
-					blockoverride "scrollbox_empty" {}
+					vbox = {
+						#max_width = 250
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						vbox_character_list = {
+							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
+							layoutpolicy_vertical = expanding
+							layoutpolicy_horizontal = expanding
+
+							blockoverride "sort_buttons" {}
+							blockoverride "character_count" {}
+							blockoverride "scrollbox_margins" {
+								margin = { 0 5 }
+								margin_right = 10
+							}
+
+							blockoverride "container_implementation" {
+							fixedgridbox = {
+								name = "characters_grid"
+								datamodel = "[Character.MakeScope.GetList('non_permanent_tributaries')]"
+								addcolumn = 590
+								addrow = 90
+								setitemsizefromcell = yes
+								item = {
+									widget_vassal_list_item = {
+										datacontext = "[Scope.GetCharacter]"
+										layoutpolicy_horizontal = expanding
+										blockoverride "own_vassal" {}
+									}
+								}
+							}
+						}
+						blockoverride "scrollbox_empty_visibility" {
+							visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
+						}
+					}
 				}
+				
 			}
 
 			### EXPANDED VIEWS
