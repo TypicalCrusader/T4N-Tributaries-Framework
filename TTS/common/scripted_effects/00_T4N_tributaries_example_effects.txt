@@ -1,0 +1,24 @@
+monthly_income_special_tributary_type = {
+
+	switch = {
+		trigger = $special_tributary_type$
+
+		flag:china_tributary = {
+			pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.2 }}
+			$tribs$ = {
+				set_variable = {
+					name = prestige_of_tributaries 
+					value = 0 
+				}
+				change_variable = {
+					name = prestige_of_tributaries
+					value = monthly_prestige
+					multiply = 0.05
+				}
+			}			
+		}
+		flag:karling_tributary = {
+			pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.025 }}
+		}
+	}
+}

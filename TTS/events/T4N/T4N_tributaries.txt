@@ -135,28 +135,23 @@ tributaries.4 = {
 }
 
 
-#Monthly gain from tributes
+#Monthly income from tributes
 #on_monthly_tribute
 #Root is suzerain
 tributaries.5 = {
 	type = character_event
-	hidden = yes
+	#hidden = yes for testing purposes
 
 	immediate = {
 		if = {
 			limit = {
 				has_variable_list = non_permanent_tributaries
+				NOT
 			}
-			every_independent_ruler = {
-				limit = {
-					exists = var:my_suzerain
-					var:my_suzerain = {
-						this = root
-						is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
-					}
-				}
+			every_in_list = {
+				variable = non_permanent_tributaries
 				#it can be also done by using scripted_effect, you can change it to whatever you want, 
-				#but remember unless you will flag characters or something this is everything you gain from this type of tributary.
+				#but remember unless you will flag characters or something this is everything you income you will get from this type of tributary.
 				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.05 }}
 				set_variable = {
 					name = prestige_of_non_perma_tributaries 
@@ -180,20 +175,43 @@ tributaries.5 = {
 			every_in_list = {
 				variable = permanent_tributaries
 
-				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.1 }}
-				set_variable = {
-					name = prestige_of_tributaries 
-					value = 0 
+				if = {
+					limit = {
+
+					}
+					pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.1 }}
+					set_variable = {
+						name = prestige_of_tributaries 
+						value = 0 
+					}
+					change_variable = {
+						name = prestige_of_tributaries
+						value = monthly_prestige
+						multiply = 0.05
+					}
+			
+					prev = {
+						add_prestige = prev.var:prestige_of_tributaries
+					}	
 				}
-				change_variable = {
-					name = prestige_of_tributaries
-					value = monthly_prestige
-					multiply = 0.05
-				}
-		
-				prev = {
-					add_prestige = prev.var:prestige_of_tributaries
-				}					
+				else = {
+					switch = {
+						trigger = has_character_flag
+
+						china_tributary = {
+							monthly_income_special_tributary_type = {
+								$special_tributary_type$ = flag:china_tributary
+								$tribs$ = this
+							}
+						}
+						karling_tributary = {
+							monthly_income_special_tributary_type = {
+								$special_tributary_type$ = flag:karling_tributary
+								$tribs$ = this
+							}
+						}
+					}
+				}				
 			}
 		}
 	}
@@ -203,7 +221,7 @@ tributaries.5 = {
 #on_war_started
 #Root is suzerain
 #call_to_arms_tribute is defender
-tributary.6 = {
+tributaries.6 = {
 	type = character_event
 	title = tributary_6_tit
 	desc = tributary_6_desc
@@ -239,7 +257,7 @@ tributary.6 = {
 
 #Tribute gets negative a response from suzerain
 #root is defender and former tribute
-tributary.7 = {
+tributaries.7 = {
 	type = character_event
 	title = tributary_7_tit
 	desc = tributary_7_desc
@@ -256,11 +274,90 @@ tributary.7 = {
 		name = tribute_stop_war
 		scope:former_suzerain = {
 			remove_list_variable = { name = permanent_tributaries target = prev }
-			remove_variable = my_suzerain
 		}
+		remove_variable = my_suzerain
 	}
 }
 
+#Response from new trib
+#Root is suzerain
+tributaries.9 = {
+	type = letter_event
+	opening = {
+		desc = tributaries.9_opening
+	}
+	desc = tributaries.9_desc
+	sender = scope:trib
 
+	immediate = {
+		custom_tooltip = becomes_a_trib
+	}
 
+	option = {
+		name = nice
+	}
+}	
 
+#Response from ruler
+#Root is suzerain
+tributaries.11 = {
+	type = letter_event
+	opening = {
+		desc = tributaries.11_opening
+	}
+	desc = tributaries.11_desc
+	sender = scope:not_trib
+
+	option = {
+		name = no_trib_sad
+	}
+}
+
+#Response from Ruler
+#Root is nearly tributary
+tributaries.12 = {
+	type = letter_event
+	opening = {
+		desc = tributaries.12_opening
+	}
+	desc = tributaries.12_desc
+	sender = scope:not_suzerain
+
+	option = {
+		name = tribute_denied
+	}
+}	
+
+#Call to arms recived from suzerain
+#Root is tributary
+tributaries.13 = {
+	type = letter_event
+	opening = {
+		desc = tributaries.13_opening
+	}
+	desc = tributaries.13_opening
+	sender = scope:suzerain_cta_caller
+
+	option = {
+		name = join_suzerain_war
+		scope:suzerain_cta_caller = {
+			if = {
+				limit = {
+					is_attacker_in_war = yes
+				}
+				add_attacker = prev
+			}
+			if = {
+				limit = {
+					is_defender_in_war = yes
+				}
+				add_defender = prev
+				
+			}
+		}
+	}
+
+	option = {
+		name = do_not_join_suzerain_war
+	}
+}

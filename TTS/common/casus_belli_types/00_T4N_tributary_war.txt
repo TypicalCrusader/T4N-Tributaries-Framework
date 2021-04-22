@@ -1,5 +1,5 @@
 ﻿tributary_war_cb = {
-    group = vassalization
+    group = tributary
 	ai_only_against_neighbors = yes
 
 	war_name = trib_war_cb
@@ -14,22 +14,28 @@
             primary_title = {
                 tier >= tier_county
             }
-            root.primary_title.tier > scope:defender.primary_title.tier  
-            NOT = {
-                root = {
-                    is_target_in_variable_list = { name = tributaries target = prev }
+            NOT = { exist = var:my_suzerain }
+            scope:attacker.primary_title.tier >= scope:defender.primary_title.tier  
+            custom_description = {
+                text = not_a_tributary
+                subject = scope:defender
+                NOT = {
+                    scope:attacker = {
+                        OR = {
+                            is_target_in_variable_list = { name = permanent_tributaries target = scope:defender }
+                            is_target_in_variable_list = { name = non_permanent_tributaries target = scope:defender }
+                        }
+                    }
                 }
-            }
+            }            
         }
-        NOT = {
-            root = {
+        NAND = {
+            scope:attacker = {
                 primary_title = {
                     tier < tier_county
                 }
-                root.primary_title.tier < scope:defender.primary_title.tier  
-                scope:defender = {
-                    is_target_in_variable_list = { name = tributaries target = prev }
-                }
+                scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
+                exists = var:my_suzerain
             }
         }
     }
@@ -55,6 +61,10 @@
                 add_to_variable_list = { name = non_permanent_tributaries target = prev }
             }
             set_variable = { name = my_suzerain value = scope:attacker }
+            set_variable = {
+                name = possible_permafication_year
+                value = { value = current_year add = 15 } 
+            }            
         }
     }
 
@@ -74,7 +84,7 @@
 }
 
 permament_tributary_war_cb = {
-    group = vassalization
+    group = tributary
 	ai_only_against_neighbors = yes
 
 	war_name = perma_trib_war_cb
@@ -89,22 +99,28 @@ permament_tributary_war_cb = {
             primary_title = {
                 tier >= tier_county
             }
-            root.primary_title.tier > scope:defender.primary_title.tier  
-            NOT = {
-                root = {
-                    is_target_in_variable_list = { name = tributaries target = prev }
+            root.primary_title.tier >= scope:defender.primary_title.tier 
+            NOT = { exist = var:my_suzerain }
+            custom_description = {
+                text = not_a_tributary
+                subject = scope:defender
+                NOT = {
+                    scope:attacker = {
+                        OR = {
+                            is_target_in_variable_list = { name = permanent_tributaries target = scope:defender }
+                            is_target_in_variable_list = { name = non_permanent_tributaries target = scope:defender }
+                        }
+                    }
                 }
-            }
+            }            
         }
         NAND = {
-            root = {
+            scope:attacker = {
                 primary_title = {
                     tier < tier_county
                 }
                 root.primary_title.tier < scope:defender.primary_title.tier  
-                scope:defender = {
-                    is_target_in_variable_list = { name = tributaries target = prev }
-                }
+                exists = var:my_suzerain
             }
         }
     }
@@ -130,6 +146,71 @@ permament_tributary_war_cb = {
                 add_to_variable_list = { name = permanent_tributaries target = prev }
             }
             set_variable = { name = my_suzerain value = scope:attacker }
+            set_variable = {
+                name = possible_vasalisation_year
+                value = { value = current_year add = 20} 
+            }
+        }
+    }
+
+	on_white_peace = { 
+        scope:attacker = {
+            prestige = -150 
+        }
+    }
+
+    on_defeat = {
+        scope:attacker = {
+            prestige = -150
+            pay_long_term_gold = { target = scope:defender gold = 150 }
+        }
+    }
+
+}
+
+independence_tributary_war_cb = {
+    group = tributary
+	ai_only_against_neighbors = yes
+
+	war_name = independence_tributary_war_cb
+	my_war_name = independence_tributary_war_me # Used when the claimant and attacker is the same person
+	war_name_base = independence_tributary_war_m_b
+	my_war_name_base = independence_tributary_war_m_b
+
+    truce_days = 970
+
+    allowed_for_character_display_regardless = {
+        scope:defender = {
+            exists = var:suzerain
+            OR = {
+                is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
+                is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
+            }
+        }
+    }
+
+    cost = {
+        prestige = 150
+        cb_prestige_factor = 0.15
+    }
+
+    on_victory = {
+        scope:attacker = {
+            delete_variable = var:my_suzerain
+        }
+        scope:defender = {
+            if = {
+                limit = {
+                    is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
+                }
+                remove_list_variable = { name = permanent_tributaries value = scope:attacker }
+            }
+            if = {
+                limit = {
+                    is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
+                }
+                remove_list_variable = { name = non_permanent_tributaries value = scope:attacker }
+            }            
         }
     }
 
