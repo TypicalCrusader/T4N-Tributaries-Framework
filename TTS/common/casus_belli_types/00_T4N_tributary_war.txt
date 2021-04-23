@@ -14,7 +14,7 @@
             primary_title = {
                 tier >= tier_county
             }
-            NOT = { exist = var:my_suzerain }
+            NOT = { exists = var:my_suzerain }
             scope:attacker.primary_title.tier >= scope:defender.primary_title.tier  
             custom_description = {
                 text = not_a_tributary
@@ -42,7 +42,6 @@
 
     cost = {
         prestige = 150
-        cb_prestige_factor = 0.15
     }
 
     on_victory = {
@@ -84,7 +83,7 @@
 }
 
 permament_tributary_war_cb = {
-    group = tributary
+    group = vassalization
 	ai_only_against_neighbors = yes
 
 	war_name = perma_trib_war_cb
@@ -100,7 +99,7 @@ permament_tributary_war_cb = {
                 tier >= tier_county
             }
             root.primary_title.tier >= scope:defender.primary_title.tier 
-            NOT = { exist = var:my_suzerain }
+            NOT = { exists = var:my_suzerain }
             custom_description = {
                 text = not_a_tributary
                 subject = scope:defender
@@ -119,7 +118,7 @@ permament_tributary_war_cb = {
                 primary_title = {
                     tier < tier_county
                 }
-                root.primary_title.tier < scope:defender.primary_title.tier  
+                this.primary_title.tier < scope:defender.primary_title.tier  
                 exists = var:my_suzerain
             }
         }
@@ -127,7 +126,6 @@ permament_tributary_war_cb = {
 
     cost = {
         prestige = 150
-        cb_prestige_factor = 0.15
     }
 
     on_victory = {
@@ -170,7 +168,7 @@ permament_tributary_war_cb = {
 
 independence_tributary_war_cb = {
     group = tributary
-	ai_only_against_neighbors = yes
+	ai_only_against_neighbors = no
 
 	war_name = independence_tributary_war_cb
 	my_war_name = independence_tributary_war_me # Used when the claimant and attacker is the same person
@@ -191,7 +189,6 @@ independence_tributary_war_cb = {
 
     cost = {
         prestige = 150
-        cb_prestige_factor = 0.15
     }
 
     on_victory = {
@@ -203,20 +200,20 @@ independence_tributary_war_cb = {
                 limit = {
                     is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
                 }
-                remove_list_variable = { name = permanent_tributaries value = scope:attacker }
+                remove_list_variable = { name = permanent_tributaries target = scope:attacker }
             }
             if = {
                 limit = {
                     is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
                 }
-                remove_list_variable = { name = non_permanent_tributaries value = scope:attacker }
+                remove_list_variable = { name = non_permanent_tributaries target = scope:attacker }
             }            
         }
     }
 
 	on_white_peace = { 
         scope:attacker = {
-            prestige = -150 
+           prestige = -150 
         }
     }
 

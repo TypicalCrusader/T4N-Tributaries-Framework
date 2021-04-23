@@ -354,7 +354,7 @@ offer_tribute = {
 
 	on_accept = {
 		scope:actor = {
-			trigger_event = { id = tributaries.8 }
+			trigger_event = { id = tributaries.9 }
 			set_variable = { name = my_suzerain value = scope:recipient }
 		}		
 	}
@@ -677,7 +677,7 @@ annex_tributary = {
 	is_valid_showing_failures_only = {
 		scope:recipient = {
 			exists = var:possible_vasalisation_year
-			var:possible_vasalisation_year.compare_value >= current_year
+			current_year <= var:possible_vasalisation_year.compare_value
 		}
 		scope:actor.primary_title.tier > scope:recipient.primary_title.tier
 	}
@@ -724,7 +724,7 @@ turn_non_perma_tributary_to_perma = {
 	is_valid_showing_failures_only = {
 		scope:recipient = {
 			exists = var:possible_permafication_year
-			var:possible_permafication_year.compare_value >= current_year
+			current_year <= var:possible_permafication_year.compare_value
 		}
 	}
 

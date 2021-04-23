@@ -146,7 +146,6 @@ tributaries.5 = {
 		if = {
 			limit = {
 				has_variable_list = non_permanent_tributaries
-				NOT
 			}
 			every_in_list = {
 				variable = non_permanent_tributaries
