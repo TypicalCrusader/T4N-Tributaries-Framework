@@ -4,4 +4,4 @@ Crusader Kings 3(CK3) Mod for tributaries created by TypicalCrusader and planned
 
 This mod implements a Crusader Kings 2 like tributaries framework that can be utilized in CK3
 
-You can use the framework in your mods as long as you credit us (ie T4N team or TypicalCrusader)
+You can use the framework in your mods as long as you credit us (or T4N team or TypicalCrusader)
