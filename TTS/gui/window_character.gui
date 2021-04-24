@@ -2902,6 +2902,13 @@ window = {
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = expanding
 						
+						hbox = {
+							margin = {0 5}
+							layoutpolicy_horizontal = expanding
+							text_single = {
+								text = permanent_tributaries
+							}
+						}
 						vbox_character_list = {
 							spacing = 3
 							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
@@ -2942,7 +2949,13 @@ window = {
 						#max_width = 250
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = expanding
-
+						hbox = {
+							margin = {0 5}
+							layoutpolicy_horizontal = expanding
+							text_single = {
+								text = non_permanent_tributaries
+							}
+						}
 						vbox_character_list = {
 							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
 							layoutpolicy_vertical = expanding
@@ -2956,23 +2969,24 @@ window = {
 							}
 
 							blockoverride "container_implementation" {
-							fixedgridbox = {
-								name = "characters_grid"
-								datamodel = "[Character.MakeScope.GetList('non_permanent_tributaries')]"
-								addcolumn = 590
-								addrow = 90
-								setitemsizefromcell = yes
-								item = {
-									widget_vassal_list_item = {
-										datacontext = "[Scope.GetCharacter]"
-										layoutpolicy_horizontal = expanding
-										blockoverride "own_vassal" {}
+								fixedgridbox = {
+									name = "characters_grid"
+									datamodel = "[Character.MakeScope.GetList('non_permanent_tributaries')]"
+									addcolumn = 590
+									addrow = 90
+									setitemsizefromcell = yes
+									item = {
+										widget_vassal_list_item = {
+											datacontext = "[Scope.GetCharacter]"
+											layoutpolicy_horizontal = expanding
+											blockoverride "own_vassal" {}
+										}
 									}
 								}
 							}
-						}
-						blockoverride "scrollbox_empty_visibility" {
-							visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
+							blockoverride "scrollbox_empty_visibility" {
+								visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
+							}
 						}
 					}
 				}
