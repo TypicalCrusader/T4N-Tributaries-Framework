@@ -7,8 +7,8 @@ This mod implements a Crusader Kings 2 like tributaries framework that can be ut
 You can use the framework in your mods as long as you credit us (or T4N team or TypicalCrusader)
 
 Credits:
-TypicalCrusader - Scripting, Putting idea into Reality
-Keizerheim and Tobbzn - Help with optimising the code and with giving me idea how to implement them
-RadicalSquirel - GUI 
-Jjsfw - Ck2 Tributaries like types customization
-Maokai, GreatMarshal and Tales of Ireland - Spiritual Support :)
+  * TypicalCrusader - Scripting, Putting idea into Reality
+  * Keizerheim and Tobbzn - Help with optimising the code and with giving me idea how to implement them\n
+  * RadicalSquirel - GUI
+  * Jjsfw - Ck2 Tributaries like types customization\n
+  * Maokai, GreatMarshal and Tales of Ireland - Spiritual Support :)
