@@ -11,4 +11,4 @@ Credits:
   * Keizerheim and Tobbzn - Help with optimising the code and with giving me idea how to implement them\n
   * RadicalSquirel - GUI
   * Jjsfw - Ck2 Tributaries like types customization\n
-  * Maokai, GreatMarshal and Tales of Ireland - Spiritual Support :)
+  * Maokai, GreatMarshal and Tales of Ireland team - Spiritual Support :)
