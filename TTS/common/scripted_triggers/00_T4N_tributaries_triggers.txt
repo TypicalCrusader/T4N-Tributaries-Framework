@@ -1,0 +1,16 @@
+﻿is_tributary = {
+	exists = var:my_suzerain
+	var:my_suzerain = {
+		OR = {
+			is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+			is_target_in_variable_list = { name = permanent_tributaries target = prev }
+		}
+	}
+}
+
+is_suzerain = {
+	OR = {
+		variable_list_size = { name = non_permanent_tributaries value >= 1 }
+		variable_list_size = { name = permanent_tributaries value >= 1 }
+	}
+}

@@ -106,30 +106,17 @@ tributaries.3 = {
 tributaries.4 = {
 	type = character_event
 	hidden = yes
+
+	trigger = {
+		NOT = {
+			is_suzerain = yes
+		}
+	}
 	
 	immediate = {
-		if = {
-			limit = {
-				variable_list_size = { name = non_permanent_tributaries target = 0 }
-				variable_list_size = { name = permanent_tributaries target = 0 }
-			}
-			clear_variable_list = non_permanent_tributaries
-			clear_variable_list = permanent_tributaries
-			remove_variable = suzerain
-		}
-		else_if = {
-			limit = {
-				variable_list_size = { name = non_permanent_tributaries target = 0 }
-				variable_list_size = { name = permanent_tributaries target > 0 }
-			}	
-			clear_variable_list = non_permanent_tributaries		
-		}
-		else_if = {
-			limit = {
-				variable_list_size = { name = non_permanent_tributaries target > 0 }
-				variable_list_size = { name = permanent_tributaries target = 0 }
-			}	
-			clear_variable_list = permanent_tributaries				
+		remove_list_global_variable = {
+			name = T4N_suzerains
+			target = this
 		}
 	}
 }
@@ -146,7 +133,7 @@ tributaries.5 = {
 		if = {
 			limit = {
 				has_variable_list = non_permanent_tributaries
-				NOT
+				# NOT
 			}
 			every_in_list = {
 				variable = non_permanent_tributaries
@@ -241,7 +228,7 @@ tributaries.6 = {
 		}
 		add_piety = minor_piety_value
 		scope:call_to_arms_tribute = {
-			trigger_event = { id = tributary.8 } #tributary gets a positive response
+			trigger_event = { id = tributaries.8 } #tributary gets a positive response
 		}		
 	}
 
@@ -250,7 +237,7 @@ tributaries.6 = {
 		add_prestige = major_prestige_loss
 		save_scope_as = former_suzerain
 		scope:call_to_arms_tribute = {
-			trigger_event = { id = tributary.7 } #tributary gets a negative response
+			trigger_event = { id = tributaries.7 } #tributary gets a negative response
 		}
 	}
 }
@@ -359,5 +346,39 @@ tributaries.13 = {
 
 	option = {
 		name = do_not_join_suzerain_war
+	}
+}
+
+
+# TODO:JJ delete these debug events
+tributaries.98 = {
+	type = character_event	
+	hidden = yes
+
+	immediate	 = {
+		add_to_global_variable_list = {
+			name = T4N_suzerains
+			target = this
+		}
+	}
+}
+
+tributaries.99 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		any_in_global_list = {
+			variable = T4N_suzerains
+			count >= 1
+			is_alive = yes
+		}
+	}
+	
+	immediate = {
+		every_in_global_list = {
+			variable = T4N_suzerains
+			add_prestige = 10000
+		}
 	}
 }

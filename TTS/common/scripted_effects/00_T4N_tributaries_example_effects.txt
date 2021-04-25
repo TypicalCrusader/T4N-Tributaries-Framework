@@ -1,4 +1,4 @@
-monthly_income_special_tributary_type = {
+﻿monthly_income_special_tributary_type = {
 
 	switch = {
 		trigger = $special_tributary_type$
@@ -22,3 +22,52 @@ monthly_income_special_tributary_type = {
 		}
 	}
 }
+
+# Params
+# $SUZERAIN$
+# 	Character
+#	The character to receive tribute
+# $TRIBUTARY$
+# 	Character
+# 	The character to be paying tribute
+# $TYPE$
+#	TributaryType (name of scripted effect)
+#	The type of tributary being created
+make_tributary = {
+	$TYPE$ = {
+		TRIBUTARY = $TRIBUTARY$
+		SUZERAIN = $SUZERAIN$
+	}
+}
+
+# Params
+# $SUZERAIN$
+# 	Character
+#	The character to receive tribute
+# $TRIBUTARY$
+# 	Character
+# 	The character to be paying tribute
+make_custom_tributary = {
+	# Setup suzerain variables
+	$SUZERAIN$ = {
+		if = {
+			limit = {
+				NOT = { has_variable = suzerain }
+			}
+			add_to_global_variable_list = {
+				name = T4N_suzerains
+				target = this
+			}
+		}
+
+		add_to_variable_list = {
+			name = non_permanent_tributaries
+			target = $TRIBUTARY$
+		}
+	}
+
+	$TRIBUTARY$ = {
+		set_variable = { name = my_suzerain value = $SUZERAIN$ }
+	}
+}
+
