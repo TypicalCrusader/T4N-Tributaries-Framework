@@ -170,9 +170,9 @@ tributaries.5 = {
 				add_prestige = var:monthly_prestige_tributary
 				add_piety = var:monthly_piety_tributary
 				prev = {
-					add_prestige = var:monthly_prestige_tributary
-					add_piety = var:monthly_piety_tributary
-				}			
+					add_prestige = prev.var:monthly_prestige_suzerain
+					add_piety = prev.var:monthly_piety_suzerain
+				}		
 			}
 		}
 	}
