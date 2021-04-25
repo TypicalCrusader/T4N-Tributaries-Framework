@@ -315,7 +315,9 @@ offer_tribute = {
 			NOT = { this = scope:recipient }
 		}
 		scope:recipient = {
-			is_tributary = no
+			NOT = {
+				is_tributary = yes
+			}
 			is_at_war = no				
 		}
 	}
@@ -449,7 +451,9 @@ ruler_offer_tribute_to_recipient = {
 			NOT = { this = scope:recipient }
 		}
 		scope:recipient = {
-			is_tributary = no
+			NOT = {
+				is_tributary = yes
+			}
 		}
 	}
 
