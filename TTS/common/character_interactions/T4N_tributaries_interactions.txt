@@ -273,7 +273,7 @@ call_tributaries_to_war = {
 	is_valid_showing_failures_only = {
 		scope:actor = {
 			custom_tooltip = tributaries_not_already_called
-			every_in_list = {
+			any_in_list = {
 				variable = permanent_tributaries
 				NOT = {
 					any_war_ally = {
@@ -316,15 +316,7 @@ offer_tribute = {
 		}
 		scope:recipient = {
 			NOT = {
-				exists = var:my_suzerain
-			}					
-			NOT = {
-				any_suzerain = {
-					OR = {
-						is_target_in_variable_list = { name = non_permanent_tributaries target = scope:recipient }
-						is_target_in_variable_list = { name = permanent_tributaries target = scope:recipient }
-					}
-				}
+				is_tributary = yes
 			}
 			is_at_war = no				
 		}
@@ -459,14 +451,8 @@ ruler_offer_tribute_to_recipient = {
 			NOT = { this = scope:recipient }
 		}
 		scope:recipient = {
-			NOR = {
-				exists = var:my_suzerain
-				any_suzerain = {
-					OR = {
-						is_target_in_variable_list = { name = non_permanent_tributaries target = scope:recipient }
-						is_target_in_variable_list = { name = permanent_tributaries target = scope:recipient }
-					}
-				}
+			NOT = {
+				is_tributary = yes
 			}
 		}
 	}
@@ -477,23 +463,26 @@ ruler_offer_tribute_to_recipient = {
 				limit = {
 					scope:non_permanent_trib = yes
 				}
-				var:my_suzerain = {
-					add_to_variable_list = { name = non_permanent_tributaries target = prev }
+				make_tributary = {
+					TYPE = tributary_non_permanent
+					SUZERAIN = scope:actor
+					TRIBUTARY = scope:recipient
 				}
 			}
 			else_if = {
 				limit = {
 					scope:permanent_trib = yes
 				}
-				var:my_suzerain = {
-					add_to_variable_list = { name = permanent_tributaries target = prev }
-				}			
+				make_tributary = {
+					TYPE = tributary_permanent
+					SUZERAIN = scope:actor
+					TRIBUTARY = scope:recipient
+				}		
 			}
 			save_scope_as = trib
-			var:my_suzerain = {
+			scope:actor = {
 				trigger_event = { id = tributaries.9 }
 			}
-			set_variable = { name = my_suzerain value = scope:actor }
 		}
 	}
 
@@ -635,15 +624,13 @@ free_tributary = {
 			remove_variable = my_suzerain
 			if = {
 				limit = {
-					limit = {
-						scope:actor = {
-							is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
-						}
-					}
 					scope:actor = {
-						remove_list_variable = { name = non_permanent_tributaries target = prev }
-					}					
+						is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+					}
 				}
+				scope:actor = {
+					remove_list_variable = { name = non_permanent_tributaries target = prev }
+				}					
 			}
 			else = {
 				scope:actor = {
