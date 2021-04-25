@@ -460,7 +460,7 @@ ruler_offer_tribute_to_recipient = {
 					scope:non_permanent_trib = yes
 				}
 				make_tributary = {
-					TYPE = non_permanent
+					TYPE = tributary_non_permanent
 					SUZERAIN = scope:actor
 					TRIBUTARY = scope:recipient
 				}
@@ -470,7 +470,7 @@ ruler_offer_tribute_to_recipient = {
 					scope:permanent_trib = yes
 				}
 				make_tributary = {
-					TYPE = permanent
+					TYPE = tributary_permanent
 					SUZERAIN = scope:actor
 					TRIBUTARY = scope:recipient
 				}		

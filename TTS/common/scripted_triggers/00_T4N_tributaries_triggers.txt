@@ -10,7 +10,7 @@
 
 is_suzerain = {
 	OR = {
-		variable_list_size = { name = non_permanent_tributaries value >= 1 }
-		variable_list_size = { name = permanent_tributaries value >= 1 }
+		has_variable_list = non_permanent_tributaries
+		has_variable_list = permanent_tributaries
 	}
 }

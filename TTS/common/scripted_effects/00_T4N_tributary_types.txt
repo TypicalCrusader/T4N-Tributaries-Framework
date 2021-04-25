@@ -1,7 +1,13 @@
-﻿non_permanent = {
+﻿tributary_non_permanent = {
 	make_custom_tributary = {
 		TRIBUTARY = $TRIBUTARY$
 		SUZERAIN = $SUZERAIN$
+		TYPE = flag:non_permanent_tributary
+		TRIBUTE_GOLD_PERCENT = 0.05
+		MONTHLY_PRESTIGE_SUZERAIN = 0.1
+		MONTHLY_PRESTIGE_TRIBUTARY = -0.1
+		MONTHLY_PIETY_SUZERAIN = 0
+		MONTHLY_PIETY_TRIBUTARY = 0
 	}
 
 	$TRIBUTARY$ = {
@@ -12,10 +18,57 @@
 	}
 }
 
-permanent = {
+tributary_permanent = {
 	make_custom_tributary = {
 		TRIBUTARY = $TRIBUTARY$
 		SUZERAIN = $SUZERAIN$
+		TYPE = flag:permanent_tributary
+		TRIBUTE_GOLD_PERCENT = 0.1
+		MONTHLY_PRESTIGE_SUZERAIN = 0.05
+		MONTHLY_PRESTIGE_TRIBUTARY = -0.05
+		MONTHLY_PIETY_SUZERAIN = 0
+		MONTHLY_PIETY_TRIBUTARY = 0
+	}
+
+	$TRIBUTARY$ = {
+		set_variable = {
+            name = possible_vasalisation_year
+            value = { value = current_year add = 20} 
+        }
+	}
+}
+
+# Both of these are permanent sub-types
+tributary_karling = {
+	make_custom_tributary = {
+		TRIBUTARY = $TRIBUTARY$
+		SUZERAIN = $SUZERAIN$
+		TYPE = flag:karling_tributary
+		TRIBUTE_GOLD_PERCENT = 0.025
+		MONTHLY_PRESTIGE_SUZERAIN = 0.05
+		MONTHLY_PRESTIGE_TRIBUTARY = -0.05
+		MONTHLY_PIETY_SUZERAIN = 0
+		MONTHLY_PIETY_TRIBUTARY = 0
+	}
+
+	$TRIBUTARY$ = {
+		set_variable = {
+            name = possible_vasalisation_year
+            value = { value = current_year add = 20} 
+        }
+	}
+}
+
+tributary_china = {
+	make_custom_tributary = {
+		TRIBUTARY = $TRIBUTARY$
+		SUZERAIN = $SUZERAIN$
+		TYPE = flag:china_tributary
+		TRIBUTE_GOLD_PERCENT = 0.2
+		MONTHLY_PRESTIGE_SUZERAIN = 0.05
+		MONTHLY_PRESTIGE_TRIBUTARY = -0.05
+		MONTHLY_PIETY_SUZERAIN = 0
+		MONTHLY_PIETY_TRIBUTARY = 0
 	}
 
 	$TRIBUTARY$ = {

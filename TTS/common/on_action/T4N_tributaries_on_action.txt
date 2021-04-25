@@ -14,7 +14,6 @@ T4N_on_monthly_tribute = {
             trigger_event = { id = tributaries.4 }
             # Income
             trigger_event = { id = tributaries.5 }
-            add_prestige = 10000
         }
     }
 

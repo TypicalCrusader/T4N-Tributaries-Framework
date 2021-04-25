@@ -28,7 +28,6 @@ tributaries.1 = {
 #give the heir var:my_suzerain
 #Root is old suzerain
 #on_death
-
 tributaries.2 = {
 	type = character_event
 	hidden = yes
@@ -133,26 +132,31 @@ tributaries.5 = {
 		if = {
 			limit = {
 				has_variable_list = non_permanent_tributaries
-				# NOT
 			}
 			every_in_list = {
 				variable = non_permanent_tributaries
 				#it can be also done by using scripted_effect, you can change it to whatever you want, 
 				#but remember unless you will flag characters or something this is everything you income you will get from this type of tributary.
-				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.05 }}
-				set_variable = {
-					name = prestige_of_non_perma_tributaries 
-					value = 0 
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = var:tribute_gold_percent }}
+				add_prestige = var:monthly_prestige_tributary
+				add_piety = var:monthly_piety_tributary
+				prev = {
+					add_prestige = prev.var:monthly_prestige_suzerain
+					add_piety = prev.var:monthly_piety_suzerain
 				}
-				change_variable = {
-					name = prestige_of_non_perma_tributaries
-					value = monthly_prestige
-					multiply = 0.01
-				}
-
-				root = {
-					add_prestige = prev.var:prestige_of_non_perma_tributaries
-				}
+				
+				# Monthly prestige/piety variable export functions seems absent
+				# set_variable = {
+				# 	name = prestige_of_non_perma_tributaries 
+				# 	value = monthly_prestige
+				# }
+				# change_variable = {
+				# 	name = prestige_of_non_perma_tributaries
+				# 	multiply = var:tribute_prestige_percent
+				# }
+				# root = {
+				# 	add_prestige = prev.var:prestige_of_non_perma_tributaries
+				# }
 			}
 		}
 		if = {
@@ -162,43 +166,13 @@ tributaries.5 = {
 			every_in_list = {
 				variable = permanent_tributaries
 
-				if = {
-					limit = {
-
-					}
-					pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.1 }}
-					set_variable = {
-						name = prestige_of_tributaries 
-						value = 0 
-					}
-					change_variable = {
-						name = prestige_of_tributaries
-						value = monthly_prestige
-						multiply = 0.05
-					}
-			
-					prev = {
-						add_prestige = prev.var:prestige_of_tributaries
-					}	
-				}
-				else = {
-					switch = {
-						trigger = has_character_flag
-
-						china_tributary = {
-							monthly_income_special_tributary_type = {
-								$special_tributary_type$ = flag:china_tributary
-								$tribs$ = this
-							}
-						}
-						karling_tributary = {
-							monthly_income_special_tributary_type = {
-								$special_tributary_type$ = flag:karling_tributary
-								$tribs$ = this
-							}
-						}
-					}
-				}				
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = var:tribute_gold_percent }}
+				add_prestige = var:monthly_prestige_tributary
+				add_piety = var:monthly_piety_tributary
+				prev = {
+					add_prestige = var:monthly_prestige_tributary
+					add_piety = var:monthly_piety_tributary
+				}			
 			}
 		}
 	}
@@ -346,39 +320,5 @@ tributaries.13 = {
 
 	option = {
 		name = do_not_join_suzerain_war
-	}
-}
-
-
-# TODO:JJ delete these debug events
-tributaries.98 = {
-	type = character_event	
-	hidden = yes
-
-	immediate	 = {
-		add_to_global_variable_list = {
-			name = T4N_suzerains
-			target = this
-		}
-	}
-}
-
-tributaries.99 = {
-	type = character_event
-	hidden = yes
-
-	trigger = {
-		any_in_global_list = {
-			variable = T4N_suzerains
-			count >= 1
-			is_alive = yes
-		}
-	}
-	
-	immediate = {
-		every_in_global_list = {
-			variable = T4N_suzerains
-			add_prestige = 10000
-		}
 	}
 }
