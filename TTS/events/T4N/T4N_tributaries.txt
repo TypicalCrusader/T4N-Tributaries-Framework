@@ -107,15 +107,49 @@ tributaries.4 = {
 	hidden = yes
 
 	trigger = {
-		NOT = {
+		NOR = {
 			is_suzerain = yes
+			has_tributaries = yes
 		}
 	}
 	
 	immediate = {
-		remove_list_global_variable = {
-			name = T4N_suzerains
-			target = this
+		if = {
+			limit = {
+				NOT = {
+					is_suzerain = yes
+				}
+			}
+			remove_list_global_variable = {
+				name = T4N_suzerains
+				target = this
+			}			
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_permanent_tributaries = yes
+				}
+			}
+			clear_variable_list = permanent_tributaries
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_non_permanent_tributaries = yes
+				}
+			}
+			clear_variable_list = non_permanent_tributaries
+		}
+		else_if = {
+			limit = {
+				NAND = {
+					has_permanent_tributaries = yes
+					has_non_permanent_tributaries = yes
+				}
+			}
+			clear_variable_list = permanent_tributaries
+			clear_variable_list = non_permanent_tributaries
 		}
 	}
 }
@@ -131,7 +165,7 @@ tributaries.5 = {
 	immediate = {
 		if = {
 			limit = {
-				has_variable_list = non_permanent_tributaries
+				has_non_permanent_tributaries = yes
 			}
 			every_in_list = {
 				variable = non_permanent_tributaries
@@ -145,23 +179,11 @@ tributaries.5 = {
 					add_piety = prev.var:monthly_piety_suzerain
 				}
 				
-				# Monthly prestige/piety variable export functions seems absent
-				# set_variable = {
-				# 	name = prestige_of_non_perma_tributaries 
-				# 	value = monthly_prestige
-				# }
-				# change_variable = {
-				# 	name = prestige_of_non_perma_tributaries
-				# 	multiply = var:tribute_prestige_percent
-				# }
-				# root = {
-				# 	add_prestige = prev.var:prestige_of_non_perma_tributaries
-				# }
 			}
 		}
 		if = {
 			limit = {
-				has_variable_list = permanent_tributaries
+				has_permanent_tributaries = yes
 			}
 			every_in_list = {
 				variable = permanent_tributaries

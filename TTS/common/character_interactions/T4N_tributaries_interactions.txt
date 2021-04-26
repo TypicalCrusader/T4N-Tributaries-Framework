@@ -6,10 +6,7 @@ call_suzerain_to_war = {
 	is_shown = {
 		scope:actor = { #put here every tributary type which should be able to call suzerain
 			scope:recipient = {
-				OR = {
-					is_target_in_variable_list = { name = permanent_tributaries target = prev }
-					is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
-				}
+				is_tributary = yes
 			}
 			OR = {
 				is_defender = yes
@@ -256,7 +253,7 @@ call_tributaries_to_war = {
 	use_diplomatic_range = no
 	is_shown = {
 		scope:actor = {
-			exists = var:suzerain
+			is_suzerain = yes
 			OR = {
 				is_defender = yes
 				is_attacker = yes
@@ -308,8 +305,8 @@ offer_tribute = {
 	is_shown = {
 		scope:actor = {
 			NOR = {
-				exists = var:suzerain
-				exists = var:my_suzerain
+				is_tributary = yes
+				is_suzerain = yes
 			}
 			is_at_war = no
 			NOT = { this = scope:recipient }
@@ -445,7 +442,7 @@ ruler_offer_tribute_to_recipient = {
 	is_shown = {
 		scope:actor = {
 			NOT = {
-				exists = var:my_suzerain
+				is_tributary = yes
 			}
 			is_at_war = no
 			NOT = { this = scope:recipient }
@@ -659,19 +656,17 @@ annex_tributary = {
 				this = scope:recipient
 			}
 		}
+		exists = scope:recipient.var:possible_vasalisation_year
+		scope:recipient.var:possible_vasalisation_year.compare_value <= current_year		
 	}
 
 	is_valid_showing_failures_only = {
-		scope:recipient = {
-			exists = var:possible_vasalisation_year
-			current_year <= var:possible_vasalisation_year.compare_value
-		}
 		scope:actor.primary_title.tier > scope:recipient.primary_title.tier
 	}
 
-	auto_accept = {
-		always = yes
-	}
+	#auto_accept = {
+	#	always = yes
+	#}
 
 	on_accept = {
 		scope:recipient = {
@@ -709,10 +704,8 @@ turn_non_perma_tributary_to_perma = {
 	}
 
 	is_valid_showing_failures_only = {
-		scope:recipient = {
-			exists = var:possible_permafication_year
-			current_year <= var:possible_permafication_year.compare_value
-		}
+		exists = scope:recipient.var:possible_permafication_year
+		scope:recipient.var:possible_permafication_year.compare_value <= current_year			
 	}
 
 	auto_accept = {
