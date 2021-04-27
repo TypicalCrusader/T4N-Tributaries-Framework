@@ -44,6 +44,20 @@
         prestige = 150
     }
 
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_on_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_on_victory_desc_defender
+			}
+			desc = trib_on_victory_desc
+		}
+	}
+
     on_victory = {
         scope:attacker = {
             if = {
@@ -67,17 +81,49 @@
         }
     }
 
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_on_white_peace_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_on_white_peace_desc_defender
+			}
+			desc = trib_on_white_peace_desc
+		}
+	}
+
 	on_white_peace = { 
         scope:attacker = {
             prestige = -150 
         }
     }
 
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_on_defeat_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_on_defeat_desc_defender
+			}
+			desc = trib_on_defeat
+		}
+	}
+
     on_defeat = {
         scope:attacker = {
             prestige = -150
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
+    }
+
+    on_invalidated_desc = {
+        desc = trib_on_invalidated_desc
     }
 
 }
@@ -128,6 +174,20 @@ permament_tributary_war_cb = {
         prestige = 150
     }
 
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = perma_trib_on_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = perma_trib_on_victory_desc_defender
+			}
+			desc = perma_trib_on_victory_desc
+		}
+	}
+
     on_victory = {
         scope:attacker = {
             if = {
@@ -151,11 +211,39 @@ permament_tributary_war_cb = {
         }
     }
 
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = perma_trib_on_white_peace_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = perma_trib_on_white_peace_desc_defender
+			}
+			desc = perma_trib_on_white_peace_desc
+		}
+	}
+
 	on_white_peace = { 
         scope:attacker = {
             prestige = -150 
         }
     }
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = perma_trib_on_defeat_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = perma_trib_on_defeat_desc_defender
+			}
+			desc = perma_trib_on_defeat_desc
+		}
+	}
 
     on_defeat = {
         scope:attacker = {
@@ -163,6 +251,10 @@ permament_tributary_war_cb = {
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
     }
+
+	on_invalidated_desc = {
+		desc = perma_trib_on_invalidated_desc
+	}
 
 }
 
@@ -191,6 +283,21 @@ independence_tributary_war_cb = {
         prestige = 150
     }
 
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_indp_on_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_indp_on_victory_desc_defender
+			}
+			desc = trib_indp_on_victory_desc
+		}
+	}
+
     on_victory = {
         scope:attacker = {
             delete_variable = var:my_suzerain
@@ -211,17 +318,50 @@ independence_tributary_war_cb = {
         }
     }
 
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_indp_on_white_peace_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_indp_on_white_peace_desc_defender
+			}
+			desc = trib_indp_on_white_peace_desc
+		}
+	}
+
 	on_white_peace = { 
         scope:attacker = {
            prestige = -150 
         }
     }
 
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = trib_indp_on_defeat_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = trib_indp_on_defeat_desc_defender
+			}
+			desc = trib_indp_on_defeat_desc
+		}
+	}
+
     on_defeat = {
         scope:attacker = {
             prestige = -150
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
+    }
+
+    on_invalidated_desc = {
+        desc = trib_indp_on_invalidated_des
     }
 
 }
