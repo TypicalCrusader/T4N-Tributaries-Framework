@@ -211,6 +211,7 @@ tributaries.6 = {
 	right_portrait = {
 		character = call_to_arms_tribute
 		animation = war_defender 
+
 	}
 	left_portrait = { 
 		character = root
@@ -271,6 +272,25 @@ tributaries.9 = {
 	}
 	desc = tributaries.9_desc
 	sender = scope:trib
+
+	immediate = {
+		custom_tooltip = becomes_a_trib
+	}
+
+	option = {
+		name = nice
+	}
+}	
+
+#Response from new suzerain
+#Root is new trib
+tributaries.9.1 = {
+	type = letter_event
+	opening = {
+		desc = tributaries.9_opening
+	}
+	desc = tributaries.9.1_desc
+	sender = scope:my_suzerain
 
 	immediate = {
 		custom_tooltip = becomes_a_trib
