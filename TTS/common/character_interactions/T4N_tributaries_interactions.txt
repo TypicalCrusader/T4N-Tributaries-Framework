@@ -343,7 +343,7 @@ offer_tribute = {
 
 	on_accept = {
 		scope:actor = {
-			trigger_event = { id = tributaries.9 }
+			trigger_event = { id = tributaries.9.1 }
 			set_variable = { name = my_suzerain value = scope:recipient }
 		}		
 	}
