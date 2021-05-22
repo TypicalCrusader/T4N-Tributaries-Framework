@@ -11,4 +11,5 @@ Credits:
   * KeizerHarm and Tobbzn - Help with optimising the code and with giving me idea how to implement them
   * RadicalSquirel - GUI
   * Jjsfw - Ck2 Tributaries like types customization, bugfixing
+  * ThatOneGuy42 - Localization
   * Maokai, GreatMarshal and Tales of Ireland team - Spiritual Support :)
