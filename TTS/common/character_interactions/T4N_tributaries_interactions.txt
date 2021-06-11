@@ -342,9 +342,10 @@ offer_tribute = {
 	send_options_exclusive = yes
 
 	on_accept = {
+		offer_tribute_effect = yes
 		scope:actor = {
 			trigger_event = { id = tributaries.9.1 }
-			set_variable = { name = my_suzerain value = scope:recipient }
+			#set_variable = { name = my_suzerain value = scope:recipient }
 		}		
 	}
 
@@ -361,12 +362,12 @@ offer_tribute = {
 		base = 5
 
 		modifier = {
-			add = 1000
+			add = 150
 			scope:actor.realm_size > scope:recipient.realm_size
 			desc = will_accept_bigger_trib
 		}
 		modifier = {
-			add = 500
+			add = 50
 			scope:actor.realm_size < scope:recipient.realm_size
 			desc = will_accept_smaller_trib			
 		}
@@ -393,12 +394,38 @@ offer_tribute = {
 			desc = like_those_traits	
 		}
 		modifier = {
-			scope:recipient = {
+			scope:actor = {
 				is_at_war = yes
 			}
 			factor = 0
 			desc = do_not_want_to_fight_trib_war
 		}	
+		opinion_modifier = { # Opinion Factor
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 1.0
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			add = -50
+			NOT = { scope:recipient.faith = scope:actor.faith }
+			desc = dislike_other_faiths
+		}
+		modifier = {
+			add = -150
+			NOT = { scope:recipient.religion = scope:actor.religion }
+			desc = dislike_other_religion
+		}
+		modifier = {
+			add = 50 
+			scope:recipient.religion = scope:actor.religion 
+			desc = likes_same_religion
+		}		
+		modifier = {
+			add = 150 
+			scope:recipient.faith = scope:actor.faith
+			desc = likes_same_faith
+		}					
 	}
 
 	ai_will_do = {
@@ -554,6 +581,32 @@ ruler_offer_tribute_to_recipient = {
 			factor = 0
 			desc = do_not_want_to_fight_suzerain_war
 		}	
+		opinion_modifier = { # Opinion Factor
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 1.0
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			add = -50
+			NOT = { scope:recipient.faith = scope:actor.faith }
+			desc = dislike_other_faiths
+		}
+		modifier = {
+			add = -150
+			NOT = { scope:recipient.religion = scope:actor.religion }
+			desc = dislike_other_religion
+		}
+		modifier = {
+			add = 50 
+			scope:recipient.religion = scope:actor.religion 
+			desc = likes_same_religion
+		}		
+		modifier = {
+			add = 150 
+			scope:recipient.faith = scope:actor.faith
+			desc = likes_same_faith
+		}		
 	}
 
 	ai_will_do = {

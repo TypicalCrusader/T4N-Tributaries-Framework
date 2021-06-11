@@ -1,28 +1,4 @@
-﻿monthly_income_special_tributary_type = {
-
-	switch = {
-		trigger = $special_tributary_type$
-
-		flag:china_tributary = {
-			pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.2 }}
-			$tribs$ = {
-				set_variable = {
-					name = prestige_of_tributaries 
-					value = 0 
-				}
-				change_variable = {
-					name = prestige_of_tributaries
-					value = monthly_prestige
-					multiply = 0.05
-				}
-			}			
-		}
-		flag:karling_tributary = {
-			pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = 0.025 }}
-		}
-	}
-}
-
+﻿
 # Params
 # $SUZERAIN$
 # 	Character
@@ -61,6 +37,9 @@ free_tributary = {
 # $SUZERAIN$
 # 	Character
 #	The character to receive tribute
+# $TRIBUTARY_BASE_TYPE$
+#   Value
+#   Base type of tributary ( permanent non_permanent )
 # $TRIBUTARY$
 # 	Character
 # 	The character to be paying tribute
@@ -84,6 +63,7 @@ free_tributary = {
 # 	Value
 # 	How much piety does the tributary earn every month
 # 	Can be positive or negative
+
 make_custom_tributary = {
 	# Setup suzerain variables
 	$SUZERAIN$ = {
@@ -91,15 +71,24 @@ make_custom_tributary = {
 			limit = {
 				NOT = { has_variable = suzerain }
 			}
-			add_to_global_variable_list = {
-				name = T4N_suzerains
-				target = this
-			}
+			set_variable = suzerain
 		}
 
-		add_to_variable_list = {
-			name = non_permanent_tributaries
-			target = $TRIBUTARY$
+		switch = {
+			trigger = $TRIBUTARY_BASE_TYPE$
+
+			flag:permanent = { 
+				add_to_variable_list = {
+					name = permanent_tributaries
+					target = $TRIBUTARY$
+				}
+			}
+			flag:non_permanent = { 
+				add_to_variable_list = {
+					name = non_permanent_tributaries
+					target = $TRIBUTARY$
+				}
+			}
 		}
 	}
 
@@ -138,3 +127,94 @@ make_custom_tributary = {
 	}
 }
 
+pass_tributary_type_to_heir = {
+	$SCOPE$ = {
+		switch = {
+			trigger = $TYPE$
+
+			flag:karling_tributary = {
+				make_tributary = {
+					TYPE = tributary_karling
+					TRIBUTARY = $NEW_RULER$
+					SUZERAIN = var:my_suzerain
+				}				
+			}
+			flag:china_tributary = {
+				make_tributary = {
+					TYPE = tributary_china
+					TRIBUTARY = $NEW_RULER$
+					SUZERAIN = var:my_suzerain
+				}	
+			}
+			flag:permanent_tributary = {
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = $NEW_RULER$
+					SUZERAIN = var:my_suzerain
+				}	
+			}
+		}
+	}
+}
+
+
+ruler_offer_tribute_to_recipient_effect = {
+	scope:actor = {
+		if = {
+			limit = {
+				scope:permanent_trib = yes
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = scope:recipient
+				SUZERAIN = scope:actor
+			}				
+		}	
+		if = {
+			limit = {
+				scope:non_permanent_trib = yes
+			}	
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = scope:recipient
+				SUZERAIN = scope:actor
+			}					
+		}
+	}
+}
+
+offer_tribute_effect = {
+	#create_title_and_vassal_change = {
+	#	type = swear_fealty
+	#	save_scope_as = change
+	#}
+	#scope:recipient = {
+	#		change_liege = {
+	#		liege = scope:actor
+	#		change = scope:change
+	#	}
+	#}
+	#resolve_title_and_vassal_change = scope:change 
+	scope:recipient = {
+		if = {
+			limit = {
+				scope:permanent_trib = yes
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = scope:recipient
+				SUZERAIN = scope:actor
+			}				
+		}	
+		if = {
+			limit = {
+				scope:non_permanent_trib = yes
+			}	
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = scope:recipient
+				SUZERAIN = scope:actor
+			}					
+		}
+	}
+}

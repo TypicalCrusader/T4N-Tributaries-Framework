@@ -8,6 +8,18 @@
 	}
 }
 
+is_permanent_tributary = {
+	$SUZERAIN$ = {
+		is_target_in_variable_list = { name = permanent_tributaries target =  $TRIBUTARY$ }
+	}
+}
+
+is_non_permanent_tributary = {
+	$SUZERAIN$ = {
+		is_target_in_variable_list = { name = non_permanent_tributaries target =  $TRIBUTARY$ }
+	}
+}
+
 is_suzerain = {
 	OR = {
 		has_variable_list = non_permanent_tributaries

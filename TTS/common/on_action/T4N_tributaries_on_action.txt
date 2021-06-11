@@ -16,11 +16,6 @@ T4N_on_monthly_tribute = {
             trigger_event = { id = tributaries.5 }
         }
     }
-
-    on_actions = {
-        delay = { months = 1 }
-        T4N_on_monthly_tribute
-    }
 }
 
 
@@ -28,31 +23,32 @@ on_war_won_attacker = {
 	# The war notifications are handled in `effect` instead of `events` due to order of operations.
 	# `effect` fires on THIS tick, `events` fires on the NEXT tick, and the war gets destroyed between this tick and the next.
 	on_actions = {
-		delay = { days = 1 } #to make sure that war gets destroyed
-		T4N_tributaries_on_war_won
+		T4N_tributaries_on_war_won_attacker
 	}
 }
 
-T4N_tributaries_on_war_won = {
+T4N_tributaries_on_war_won_attacker = {
 	effect = {
         if = {
             limit = {
                 scope:defender = {
-                    exists = var:suzerain
                     OR = {
-                        is_independent_ruler = no
-                        is_landed = no
+                        is_tributary = yes
+                        is_suzerain = yes
                     }
                 }
             }
+            scope:attacker = {
+                save_scope_as = tributaries_slash_suzerain_war_winner
+            }
             scope:defender = {
-                save_scope_as = former_tributary
-                var:suzerain = {
-                    trigger_event = { id = tributaries.3 }
-                }
+                save_scope_as = tributary_slash_suzerain_loser
+            }
+            scope:tributaries_slash_suzerain_war_winner = {
+                trigger_event = { id = tributaries.3 days = 1 }
             }
         }
-	}
+	} 
 }
 
 # called when a war is started.
@@ -102,121 +98,65 @@ on_title_lost = {
 
 T4N_tributaries_on_title_lost = {
     effect = {
-        if = { #Clear Tributaries lists if Suzrain is no longer ruler, independent or holds land
-            limit = {
-                root = {
-                    exists = var:suzerain
-                    OR = {
-                        is_landed = no
-                        is_independent_ruler = no
-                        liege = scope:new_holder
+        switch = {
+            trigger = exists
+
+            var:my_suzerain = {
+                if = {
+                    limit = {
+                        OR = {
+                            is_landed = no
+                            is_independent_ruler = no
+                        }
+                        is_permanent_tributary = {
+                            SUZERAIN = var:my_suzerain
+                            TRIBUTARY = root
+                        }
                     }
+                    var:my_suzerain = {
+                        remove_list_variable = { name = permanent_tributaries target = root }
+                    }
+                    remove_variable = my_suzerain
                 }
-                scope:new_holder = {
-                    OR = {
-                        has_claim_on = scope:title
-                        dynasty = root
-                    }
+                else_if = {
+                    limit = {
+                        OR = {
+                            is_landed = no
+                            is_independent_ruler = no
+                        }
+                        is_non_permanent_tributary = {
+                            SUZERAIN = var:my_suzerain
+                            TRIBUTARY = root
+                        }
+                    }  
+                    var:my_suzerain = {    
+                        remove_list_variable = { name = non_permanent_tributaries target = root }   
+                    }       
+                    remove_variable = my_suzerain  
                 }
             }
-            every_independent_ruler = {
-                limit = {
-                    exists = var:my_suzerain
-                    var:my_suzerain = {
-                        this = root
+            var:suzerain = {
+                if = {
+                    limit = {
+                        OR = {
+                            is_landed = no
+                            is_independent_ruler = no
+                            liege = scope:new_holder
+                        }
                     }
-                    prev = {
-                        is_target_in_variable_list = { name = permanent_tributaries target = prev }
+                    every_in_list = {
+                        variable = permanent_tributaries
+
+                        set_variable = { name = my_suzerain value = scope:new_holder }
+                        scope:new_holder = {
+                            add_to_variable_list = { name = permanent_tributaries target = prev }
+                        }
                     }
-                }
-                scope:new_holder = {
-                    add_to_variable_list = { name = permanent_tributaries target = prev }
-                    set_variable = { name = suzerain value = this }
-                    prev = {
-                        set_variable = { name = my_suzerain value = prev }
-                    }
-                }
-                root = {
                     clear_variable_list = permanent_tributaries
                     clear_variable_list = non_permanent_tributaries
-                    remove_variable = suzerain
                 }
             }
         }
-        else_if = {
-            limit = {
-                root = {
-                    exists = var:suzerain
-                    is_landed = no
-                    NOT = { liege = scope:new_holder }
-                }
-                scope:new_holder = {
-                    NOR = {
-                        has_claim_on = scope:title
-                        dynasty = root
-                    }
-                }
-            }
-            every_independent_ruler = {
-                limit = {
-                    exists = var:my_suzerain
-                    var:my_suzerain = {
-                        this = root
-                    }
-                }
-                remove_variable = my_suzerain
-            }
-            root = {
-                clear_variable_list = permanent_tributaries
-                clear_variable_list = non_permanent_tributaries
-                remove_variable = suzerain
-            }            
-        }       
-        if = {
-            limit = {
-                root = {
-                    exists = var:my_suzerain
-                    OR = {
-                        is_independent_ruler = no
-                        is_landed = no
-                    }
-                }
-            }
-            root = {
-                save_scope_as = former_tributary
-                var:my_suzerain = {
-                    trigger_event = { id = tributaries.3 }
-                }
-            }
-        } 
-        else_if = {
-            limit = {
-                root = {
-                    exists = var:my_suzerain
-                    var:my_suzerain = {
-                        is_target_in_variable_list = { name = permanent_tributaries target = prev }
-                    }
-                    scope:new_holder = {
-                        OR = {
-                            dynasty = root
-                            has_claim_on = scope:title
-                        }
-                    }
-                }
-            }
-            root = {
-                var:my_suzerain = {
-                    scope:new_holder = {
-                        add_to_variable_list = { name = permanent_tributaries target = prev }
-                        set_variable = { name = my_suzerain value = prev}
-                    }
-                }
-                save_scope_as = former_tributary
-                var:my_suzerain = {
-                    trigger_event = { id = tributaries.3 }
-                }
-            }
-        }   
     }
 }
 
