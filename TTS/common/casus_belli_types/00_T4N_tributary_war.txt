@@ -59,25 +59,10 @@
 	}
 
     on_victory = {
-        scope:attacker = {
-            if = {
-                limit = {
-                    scope:attacker = {
-                        NOT = { has_variable = suzerain }
-                    }
-                }
-                set_variable = { name = suzerain value = this }
-            }
-        }
-        scope:defender = {
-            scope:attacker = {
-                add_to_variable_list = { name = non_permanent_tributaries target = prev }
-            }
-            set_variable = { name = my_suzerain value = scope:attacker }
-            set_variable = {
-                name = possible_permafication_year
-                value = { value = current_year add = 15 } 
-            }            
+        make_tributary = {
+            TYPE = tributary_non_permanent
+            SUZERAIN = scope:attacker
+            TRIBUTARY = scope:defender
         }
     }
 
@@ -189,25 +174,10 @@ permament_tributary_war_cb = {
 	}
 
     on_victory = {
-        scope:attacker = {
-            if = {
-                limit = {
-                    scope:attacker = {
-                        NOT = { has_variable = suzerain }
-                    }
-                }
-                set_variable = { name = suzerain value = this }
-            }
-        }
-        scope:defender = {
-            scope:attacker = {
-                add_to_variable_list = { name = permanent_tributaries target = prev }
-            }
-            set_variable = { name = my_suzerain value = scope:attacker }
-            set_variable = {
-                name = possible_vasalisation_year
-                value = { value = current_year add = 20} 
-            }
+        make_tributary = {
+            TYPE = tributary_permanent
+            SUZERAIN = scope:attacker
+            TRIBUTARY = scope:defender
         }
     }
 
