@@ -278,13 +278,15 @@ independence_tributary_war_cb = {
                     is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
                 }
                 remove_list_variable = { name = permanent_tributaries target = scope:attacker }
+                remove_list_variable = { name = all_tributaries target = scope:attacker }
             }
             if = {
                 limit = {
                     is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
                 }
                 remove_list_variable = { name = non_permanent_tributaries target = scope:attacker }
-            }            
+                remove_list_variable = { name = all_tributaries target = scope:attacker }
+            }           
         }
     }
 

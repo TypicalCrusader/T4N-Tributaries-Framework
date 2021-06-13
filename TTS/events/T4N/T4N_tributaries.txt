@@ -61,6 +61,7 @@ tributaries.2 = {
 			}
 			var:my_suzerain = {
 				remove_list_variable = { name = non_permanent_tributaries target = prev }
+				remove_list_variable = { name = all_tributaries target = prev}
 			}	
 		}
 	}
@@ -112,11 +113,13 @@ tributaries.3 = {
 						}
 						var:my_suzerain = {
 							remove_list_variable = { name = permanent_tributaries target = prev }
+							remove_list_variable = { name = all_tributaries target = prev }
 						}
 					}
 					else = {
 						var:my_suzerain = {
 							remove_list_variable = { name = non_permanent_tributaries target = prev }
+							remove_list_variable = { name = all_tributaries target = prev }
 						}					
 					}
 				}
@@ -278,6 +281,7 @@ tributaries.7 = {
 		name = tribute_stop_war
 		scope:former_suzerain = {
 			remove_list_variable = { name = permanent_tributaries target = prev }
+			remove_list_variable = { name = all_tributaries target = prev }
 		}
 		remove_variable = my_suzerain
 	}

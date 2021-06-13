@@ -28,6 +28,7 @@ free_tributary = {
 		else = {
 			remove_list_variable = { name = permanent_tributaries target = prev }
 		}
+		remove_list_variable = { name = all_tributaries target = prev }
 		trigger_event = { id = tributaries.4 }
 	}
 	remove_variable = my_suzerain
@@ -89,6 +90,10 @@ make_custom_tributary = {
 					target = $TRIBUTARY$
 				}
 			}
+		}
+		add_to_variable_list = {
+			name = all_tributaries
+			target = $TRIBUTARY$
 		}
 	}
 

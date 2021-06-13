@@ -115,6 +115,7 @@ T4N_tributaries_on_title_lost = {
                     }
                     var:my_suzerain = {
                         remove_list_variable = { name = permanent_tributaries target = root }
+                        remove_list_variable = { name = all_tributaries target = root }
                     }
                     remove_variable = my_suzerain
                 }
@@ -130,7 +131,8 @@ T4N_tributaries_on_title_lost = {
                         }
                     }  
                     var:my_suzerain = {    
-                        remove_list_variable = { name = non_permanent_tributaries target = root }   
+                        remove_list_variable = { name = non_permanent_tributaries target = root }
+                        remove_list_variable = { name = all_tributaries target = root }
                     }       
                     remove_variable = my_suzerain  
                 }

@@ -687,6 +687,9 @@ free_tributary = {
 					remove_list_variable = { name = permanent_tributaries target = prev }
 				}
 			}
+			scope:actor = {
+				remove_list_variable = { name = all_tributaries target = prev }
+			}
 		}
 		scope:actor = {
 			trigger_event = { id = tributaries.4 }
