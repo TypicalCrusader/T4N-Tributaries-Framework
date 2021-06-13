@@ -1,4 +1,4 @@
-﻿######################################################
+######################################################
 ################# CHARACTER WINDOW ###################
 ######################################################
 
@@ -163,12 +163,12 @@ window = {
 
 				widget = {
 					parentanchor = bottom|hcenter
-					size = { 145 40 }
+					size = { 250 40 }
 
 					flowcontainer = {
 						parentanchor = bottom|hcenter
 						widgetanchor = bottom|left
-						position = { -20 -3 }
+						position = { -25 -3 }
 						ignoreinvisible = yes
 
 						text_label_center = {
@@ -203,7 +203,7 @@ window = {
 					icon = {
 						name = "marriage_type_icon"
 						visible = "[CharacterWindow.ShowMarriageIcon]"
-						position = { 20 7 }
+						position = { 68 7 }
 
 						size = { 30 30 }
 						framesize = { 60 60 }
@@ -450,6 +450,7 @@ window = {
 					}
 				}
 			}
+			# End Suzerain
 
 			### Host
 			container = {
@@ -476,7 +477,7 @@ window = {
 					text = "[host|E]"
 				}
 
-				
+
 				portrait_opinion = {
 					name = "liege_opinion"
 					datacontext = "[CharacterWindow.GetCharacter]"
@@ -635,7 +636,7 @@ window = {
 						onclick = "[ToggleGameViewData( 'kill_list', Character.GetID  )]"
 						size = { 25 25 }
 						parentanchor = center
-						
+
 						modify_texture = {
 							texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
 							blend_mode = alphamultiply
@@ -951,7 +952,7 @@ window = {
 												{
 													size = { 40 40 }
 												}
-												
+
 												blockoverride "glow_radius"
 												{
 													glow_radius = 4
@@ -1548,7 +1549,7 @@ window = {
 								visible = "[Character.HasLandedTitles]"
 								datacontext = "[Character.GetPrimaryTitle]"
 								layoutpolicy_horizontal = expanding
-								
+
 								text_single = {
 									name = "character_title"
 									layoutpolicy_horizontal = expanding
@@ -2000,7 +2001,7 @@ window = {
 							text = "[CharacterWindow.GetTabItemsCount('family')]"
 							default_format = "#low"
 							margin_right = 15
-							min_width = 24
+							min_width = 30
 
 							using = Animation_Character_Window_Refresh
 						}
@@ -2011,7 +2012,7 @@ window = {
 					name = "relations_button"
 					datacontext = "[CharacterWindow.GetCharacter]"
 					layoutpolicy_horizontal = expanding
-					onclick = "[CharacterWindow.SetTab('relations')]"
+
 					# Clear Custom Tab visbility
 					onclick = "[GetVariableSystem.Clear('char_gui_tabs')]"
 					# Do not show selected if custom tab is selected
@@ -2032,7 +2033,7 @@ window = {
 							text = "[CharacterWindow.GetTabItemsCount('relations')]"
 							default_format = "#low"
 							margin_right = 15
-							min_width = 24
+							min_width = 30
 
 							using = Animation_Character_Window_Refresh
 						}
@@ -2066,7 +2067,7 @@ window = {
 							text = "[CharacterWindow.GetTabItemsCount('court')]"
 							default_format = "#low"
 							margin_right = 15
-							min_width = 24
+							min_width = 30
 
 							using = Animation_Character_Window_Refresh
 						}
@@ -2101,7 +2102,7 @@ window = {
 							text = "[CharacterWindow.GetTabItemsCount('vassals')]"
 							default_format = "#low"
 							margin_right = 15
-							min_width = 24
+							min_width = 30
 
 							using = Animation_Character_Window_Refresh
 						}
@@ -2112,7 +2113,7 @@ window = {
 				button_tab = {
 					name = "tribs_button"
 					datacontext = "[CharacterWindow.GetCharacter]"
-					visible = "[Not(And(IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries')),IsDataModelEmpty(Character.MakeScope.GetList('non_permanent_tributaries'))))]"
+					visible = "[Not(IsDataModelEmpty(Character.MakeScope.GetList('all_tributaries')))]"
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[GetVariableSystem.Set('char_gui_tabs','tribs')]"
@@ -2121,7 +2122,7 @@ window = {
 					using = tooltip_above
 
 					hbox = {
-						
+
 						text_single = {
 							layoutpolicy_horizontal = expanding
 							align = center
@@ -2132,7 +2133,7 @@ window = {
 
 						text_single = {
 							align = center
-							text = "[Add_int32(GetDataModelSize(Character.MakeScope.GetList('permanent_tributaries')),GetDataModelSize(Character.MakeScope.GetList('non_permanent_tributaries')))]"
+							text = "[GetDataModelSize(Character.MakeScope.GetList('all_tributaries'))]"
 							default_format = "#low"
 							margin_right = 15
 							min_width = 24
@@ -2895,102 +2896,39 @@ window = {
 				####################################
 				######### CUSTOM TRIBS TAB #########
 				####################################
-				hbox = {
+				vbox_character_list = {
+					visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
+					spacing = 3
 					layoutpolicy_vertical = expanding
-					
-					vbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						
-						hbox = {
-							margin = {0 5}
-							layoutpolicy_horizontal = expanding
-							text_single = {
-								text = permanent_tributaries
-							}
-						}
-						vbox_character_list = {
-							spacing = 3
-							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
-							layoutpolicy_vertical = expanding
-							layoutpolicy_horizontal = expanding
-							blockoverride "sort_buttons" {}
-							blockoverride "character_count" {}
-							blockoverride "scrollbox_margins" {
-								margin = { 0 5 }
-								margin_right = 10
-							}
+					layoutpolicy_horizontal = expanding
+					blockoverride "sort_buttons" {}
+					blockoverride "character_count" {}
+					blockoverride "scrollbox_margins" {
+						margin = { 0 5 }
+						margin_right = 10
+					}
 
-							blockoverride "container_implementation" {
-								fixedgridbox = {
-									name = "characters_grid"
-									datamodel = "[Character.MakeScope.GetList('permanent_tributaries')]"
-									addcolumn = 590
-									addrow = 90
-									setitemsizefromcell = yes
-
-									item = {
-										widget_vassal_list_item = {
-											datacontext = "[Scope.GetCharacter]"
-											layoutpolicy_horizontal = expanding
-											blockoverride "own_vassal" {}
-										}
-									}
+					blockoverride "container_implementation" {
+						fixedgridbox = {
+							name = "characters_grid"
+							datamodel = "[Character.MakeScope.GetList('all_tributaries')]"
+							addcolumn = 590
+							addrow = 90
+							setitemsizefromcell = yes
+							item = {
+								widget_tribs_list_item = {
+									datacontext = "[Scope.GetCharacter]"
+									layoutpolicy_horizontal = expanding
+									blockoverride "own_vassal" {}
 								}
-							}
-							
-
-							blockoverride "scrollbox_empty_visibility" {
-								visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
 							}
 						}
 					}
-					vbox = {
-						#max_width = 250
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						hbox = {
-							margin = {0 5}
-							layoutpolicy_horizontal = expanding
-							text_single = {
-								text = non_permanent_tributaries
-							}
-						}
-						vbox_character_list = {
-							visible = "[GetVariableSystem.HasValue('char_gui_tabs','tribs')]"
-							layoutpolicy_vertical = expanding
-							layoutpolicy_horizontal = expanding
-
-							blockoverride "sort_buttons" {}
-							blockoverride "character_count" {}
-							blockoverride "scrollbox_margins" {
-								margin = { 0 5 }
-								margin_right = 10
-							}
-
-							blockoverride "container_implementation" {
-								fixedgridbox = {
-									name = "characters_grid"
-									datamodel = "[Character.MakeScope.GetList('non_permanent_tributaries')]"
-									addcolumn = 590
-									addrow = 90
-									setitemsizefromcell = yes
-									item = {
-										widget_vassal_list_item = {
-											datacontext = "[Scope.GetCharacter]"
-											layoutpolicy_horizontal = expanding
-											blockoverride "own_vassal" {}
-										}
-									}
-								}
-							}
-							blockoverride "scrollbox_empty_visibility" {
-								visible = "[IsDataModelEmpty(Character.MakeScope.GetList('permanent_tributaries'))]"
-							}
-						}
+					blockoverride "scrollbox_empty_visibility" {
+						visible = "[IsDataModelEmpty(Character.MakeScope.GetList('all_tributaries'))]"
 					}
 				}
-				
+				# End custom tribs tab section
 			}
 
 			### EXPANDED VIEWS
