@@ -7,13 +7,15 @@
 
 T4N_on_monthly_tribute = {
     effect = {
-        every_in_global_list = {
-            variable = T4N_suzerains
-
+        every_suzerain = {
             # Determine if still a suzerain
             trigger_event = { id = tributaries.4 }
             # Income
             trigger_event = { id = tributaries.5 }
+        }
+        trigger_event = {
+            on_action = T4N_on_monthly_tribute
+            months = 1
         }
     }
 }
