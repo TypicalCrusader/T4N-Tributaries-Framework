@@ -243,13 +243,39 @@ tributaries.6 = {
 
 	option = {
 		name = suzerain_joins_the_war
-		scope:call_to_arms_tribute = {
-			add_defender = root
-		}
 		add_piety = minor_piety_value
 		scope:call_to_arms_tribute = {
+			any_war = {
+				limit = {
+					root = {
+						NOR = {
+							is_at_war_as_defender = yes
+							is_at_war_with = scope:call_to_arms_tribute
+						}
+					}
+				}
+				if = {
+					limit = {
+						scope:call_to_arms_tribute = {
+							is_at_war_as_attacker = yes
+						}
+					}
+					add_attacker = root
+				}
+				else_if = {
+					limit = {
+						scope:call_to_arms_tribute = {
+							is_at_war_as_defender = yes
+						}
+					}
+					add_defender = root
+				}
+				else = {
+					debug_log = "Something broke, report to typical"
+				}
+			}
 			trigger_event = { id = tributaries.8 } #tributary gets a positive response
-		}		
+		}	
 	}
 
 	option = {
