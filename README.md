@@ -12,4 +12,5 @@ Credits:
   * RadicalSquirel - GUI
   * Jjsfw - Ck2 Tributaries like types customization, bugfixing
   * ThatOneGuy42 - Localization
+  * Wrench & Leviathonlx - Extensive Playtesting
   * Maokai, GreatMarshal and Tales of Ireland team - Spiritual Support :)
