@@ -13,5 +13,5 @@ Credits:
   * Jjsfw - Ck2 Tributaries like types customization, bugfixing
   * ThatOneGuy42 - Localization
   * Wrench & Leviathonlx - Extensive Playtesting
-  * Nezaros - Tributaries Map Mode
+  * Nezaros - Tributaries Map Mode (with help from Silk Road)
   * Maokai, GreatMarshal and Tales of Ireland team - Spiritual Support :)
