@@ -1,4 +1,16 @@
-﻿
+﻿custom_map_mode_initialize = {
+    effect = {
+        set_global_variable = {
+            name = custom_map_mode
+            value = flag:none
+        }
+        T4N_e_map_barony = yes
+    }
+    is_valid = {
+        NOT = { global_var:custom_map_mode = flag:none  }
+    }
+}
+
 custom_tributary_map = {
     scope = character
     effect = {
@@ -18,7 +30,7 @@ custom_tributary_map = {
         remove_global_variable = custom_map_mode_changing
     }
     is_shown = {
-        global_var:custom_map_mode = flag:sea_tributary_map
+        global_var:custom_map_mode = flag:custom_tributary_map
     }
     is_valid = {
         NOT = { exists = global_var:custom_map_mode_changing }

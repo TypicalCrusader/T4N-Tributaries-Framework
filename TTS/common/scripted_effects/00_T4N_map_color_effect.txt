@@ -1,4 +1,12 @@
-﻿T4N_e_tributary_map = {
+﻿T4N_e_map_barony = {
+	every_barony = {
+		county = {
+			prev = { set_color_from_title = prev }
+		}
+	}
+}
+
+T4N_e_tributary_map = {
 	global_var:custom_map_tributary_target = {
 		save_temporary_scope_as = target_character
 	}
