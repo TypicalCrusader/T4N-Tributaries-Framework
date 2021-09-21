@@ -142,11 +142,7 @@ pass_tributary_type_to_heir = {
 					TYPE = tributary_karling
 					TRIBUTARY = $NEW_RULER$
 					SUZERAIN = var:my_suzerain
-				}	
-				add_to_variable_list = {
-					name = all_tributaries
-					target = $NEW_RULER$
-				}			
+				}				
 			}
 			flag:china_tributary = {
 				make_tributary = {
@@ -154,10 +150,6 @@ pass_tributary_type_to_heir = {
 					TRIBUTARY = $NEW_RULER$
 					SUZERAIN = var:my_suzerain
 				}	
-				add_to_variable_list = {
-					name = all_tributaries
-					target = $NEW_RULER$
-				}
 			}
 			flag:permanent_tributary = {
 				make_tributary = {
@@ -165,10 +157,6 @@ pass_tributary_type_to_heir = {
 					TRIBUTARY = $NEW_RULER$
 					SUZERAIN = var:my_suzerain
 				}	
-				add_to_variable_list = {
-					name = all_tributaries
-					target = $NEW_RULER$
-				}
 			}
 		}
 	}
@@ -201,17 +189,6 @@ ruler_offer_tribute_to_recipient_effect = {
 }
 
 offer_tribute_effect = {
-	#create_title_and_vassal_change = {
-	#	type = swear_fealty
-	#	save_scope_as = change
-	#}
-	#scope:recipient = {
-	#		change_liege = {
-	#		liege = scope:actor
-	#		change = scope:change
-	#	}
-	#}
-	#resolve_title_and_vassal_change = scope:change 
 	scope:recipient = {
 		if = {
 			limit = {
