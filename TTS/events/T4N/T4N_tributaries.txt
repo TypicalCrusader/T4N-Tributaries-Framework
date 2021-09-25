@@ -44,13 +44,18 @@ tributaries.2 = {
 			var:my_suzerain = {
 				root.primary_heir = { 
 					set_variable = { name = my_suzerain value = prev }
+					#prev = {
+					#	add_to_variable_list = { name = all_tributaries target = prev} #WORK YOU FUCK
+					#}
 				}
+				remove_list_variable = { name = all_tributaries target = prev }
+				remove_list_variable = { name = permanent_tributaries target = prev }
 			}
 			#move trib type + character income to the heir
 			pass_tributary_type_to_heir = {
-				SCOPE = this
+				SCOPE = root
 				TYPE = var:tributary_type
-				NEW_RULER = this.primary_heir
+				NEW_RULER = root.primary_heir
 			}
 		}
 		if = {
@@ -62,7 +67,7 @@ tributaries.2 = {
 			}
 			var:my_suzerain = {
 				remove_list_variable = { name = non_permanent_tributaries target = prev }
-				#remove_list_variable = { name = all_tributaries target = prev}
+				remove_list_variable = { name = all_tributaries target = prev}
 			}	
 
 		}
@@ -339,10 +344,10 @@ tributaries.9 = {
 tributaries.9.1 = {
 	type = letter_event
 	opening = {
-		desc = tributaries.9_opening
+		desc = tributaries.9.1_opening
 	}
 	desc = tributaries.9.1_desc
-	sender = scope:my_suzerain
+	sender = scope:my_suzerain_evt
 
 	immediate = {
 		custom_tooltip = becomes_a_trib

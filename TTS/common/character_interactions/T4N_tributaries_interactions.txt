@@ -351,11 +351,32 @@ offer_tribute = {
 	send_options_exclusive = yes
 
 	on_accept = {
-		offer_tribute_effect = yes
-		scope:actor = {
-			trigger_event = { id = tributaries.9.1 }
-			#set_variable = { name = my_suzerain value = scope:recipient }
-		}		
+		scope:recipient = {
+			if = {
+				limit = {
+					scope:non_permanent_trib = yes
+				}
+				make_tributary = {
+					TYPE = tributary_non_permanent
+					SUZERAIN = scope:recipient
+					TRIBUTARY = scope:actor
+				}
+			}
+			else_if = {
+				limit = {
+					scope:permanent_trib = yes
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					SUZERAIN = scope:recipient
+					TRIBUTARY = scope:actor
+				}		
+			}
+			save_scope_as = my_suzerain_evt
+			scope:actor = {
+				trigger_event = { id = tributaries.9.1 }
+			}
+		}
 	}
 
 	on_decline = {

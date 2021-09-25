@@ -159,6 +159,10 @@ pass_tributary_type_to_heir = {
 				}	
 			}
 		}
+		var:my_suzerain = {
+			remove_list_variable = { name = all_tributaries target = $SCOPE$ }
+			remove_variable = my_suzerain
+		}
 	}
 }
 
