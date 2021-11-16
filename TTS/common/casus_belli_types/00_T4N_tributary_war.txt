@@ -239,12 +239,21 @@ independence_tributary_war_cb = {
 
     truce_days = 970
 
+    allowed_for_character = {
+        scope:attacker = {
+            exists = var:my_suzerain
+            var:my_suzerain = scope:defender
+        }
+    }
+
     allowed_for_character_display_regardless = {
-        scope:defender = {
-            exists = var:suzerain
-            OR = {
-                is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
-                is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
+        scope:attacker = {
+            exists = var:my_suzerain
+            var:my_suzerain = {
+                OR = {
+                    is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
+                    is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
+                }
             }
         }
     }
