@@ -129,6 +129,23 @@ make_custom_tributary = {
 			name = monthly_piety_tributary
 			value = $MONTHLY_PIETY_TRIBUTARY$
 		}
+
+		#can declare war on tributary
+		#can call to war Suzerain
+		#can call to war Tributary flags
+
+		set_variable = {
+			name = can_declare_war_on_trib
+			value = $CAN_DECLARE_WAR_ON_TRIB_FLAG$
+		}
+		set_variable = {
+			name = can_call_to_war_suzerain
+			value = $CAN_CALL_TO_WAR_SUZERAIN_FLAG$
+		}		
+		set_variable = {
+			name = can_call_to_war_tributary
+			value = $CAN_CALL_TO_WAR_TRIBUTARY_FLAG$
+		}		
 	}
 }
 
