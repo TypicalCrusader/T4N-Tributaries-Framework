@@ -82,53 +82,56 @@ tributaries.3 = {
 	type = character_event
 	hidden = yes
 	
-	scope:tributary_slash_suzerain_loser = {
+	immediate = {
+		
+		scope:tributary_slash_suzerain_loser = {
 
-		switch = {
-			trigger = is_suzerain
+			switch = {
+				trigger = is_suzerain
 
-			yes = {
-				if = {
-					limit = {
-						AND = {
-							is_independent_ruler = no
-							is_landed = no
-						}
-					}
-					every_in_list = {
-						variable = permanent_tributaries
-						
-						set_variable = { name = my_suzerain value = root }
-						root = {
-							add_to_variable_list = { name = permanent_tributaries target = prev }
-						}
-					}
-					clear_variable_list = permanent_tributaries
-					clear_variable_list = non_permanent_tributaries
-				}
-			}
-			no = {
-				if = {
-					limit = {
-						is_landed = no
-					}
+				yes = {
 					if = {
 						limit = {
-							is_permanent_tributary = {
-								SUZERAIN = var:my_suzerain
-								TRIBUTARY = this
+							AND = {
+								is_independent_ruler = no
+								is_landed = no
 							}
 						}
-						var:my_suzerain = {
-							remove_list_variable = { name = permanent_tributaries target = prev }
-							remove_list_variable = { name = all_tributaries target = prev }
+						every_in_list = {
+							variable = permanent_tributaries
+							
+							set_variable = { name = my_suzerain value = root }
+							root = {
+								add_to_variable_list = { name = permanent_tributaries target = prev }
+							}
 						}
+						clear_variable_list = permanent_tributaries
+						clear_variable_list = non_permanent_tributaries
 					}
-					else = {
-						var:my_suzerain = {
-							remove_list_variable = { name = non_permanent_tributaries target = prev }
-							remove_list_variable = { name = all_tributaries target = prev }
-						}					
+				}
+				no = {
+					if = {
+						limit = {
+							is_landed = no
+						}
+						if = {
+							limit = {
+								is_permanent_tributary = {
+									SUZERAIN = var:my_suzerain
+									TRIBUTARY = this
+								}
+							}
+							var:my_suzerain = {
+								remove_list_variable = { name = permanent_tributaries target = prev }
+								remove_list_variable = { name = all_tributaries target = prev }
+							}
+						}
+						else = {
+							var:my_suzerain = {
+								remove_list_variable = { name = non_permanent_tributaries target = prev }
+								remove_list_variable = { name = all_tributaries target = prev }
+							}					
+						}
 					}
 				}
 			}
@@ -196,18 +199,42 @@ tributaries.5 = {
 	hidden = yes
 
 	immediate = {
+		set_variable = {
+			name = cash_display
+			value = 0
+		}
+		set_variable = {
+			name = prestige_display
+			value = 0
+		}
+		set_variable = {
+			name = piety_display
+			value = 0
+		}
 		if = {
 			limit = {
 				has_non_permanent_tributaries = yes
 			}
 			every_in_list = {
 				variable = non_permanent_tributaries
-				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = var:tribute_gold_percent }}
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income  multiply = var:tribute_gold_percent }}
 				add_prestige = var:monthly_prestige_tributary
 				add_piety = var:monthly_piety_tributary
-				prev = {
+				root = {
 					add_prestige = prev.var:monthly_prestige_suzerain
 					add_piety = prev.var:monthly_piety_suzerain
+					change_variable = {
+						name = cash_display
+						add = { value = prev.monthly_character_income multiply = prev.var:tribute_gold_percent }
+					}
+					change_variable = {
+						name = prestige_display
+						add = prev.var:monthly_prestige_suzerain
+					}
+					change_variable = {
+						name = piety_display
+						add = prev.var:monthly_piety_suzerain
+					}
 				}
 				
 			}
@@ -219,13 +246,26 @@ tributaries.5 = {
 			every_in_list = {
 				variable = permanent_tributaries
 
-				pay_long_term_gold = { target = prev gold = { value = monthly_character_income multiply = var:tribute_gold_percent }}
+				pay_long_term_gold = { target = prev gold = { value = monthly_character_income  multiply = var:tribute_gold_percent }}
 				add_prestige = var:monthly_prestige_tributary
 				add_piety = var:monthly_piety_tributary
-				prev = {
+				root = {
 					add_prestige = prev.var:monthly_prestige_suzerain
 					add_piety = prev.var:monthly_piety_suzerain
+					change_variable = {
+						name = cash_display
+						add = { value = prev.monthly_character_income multiply = prev.var:tribute_gold_percent }
+					}
+					change_variable = {
+						name = prestige_display
+						add = prev.var:monthly_prestige_suzerain
+					}
+					change_variable = {
+						name = piety_display
+						add = prev.var:monthly_piety_suzerain
+					}
 				}		
+
 			}
 		}
 	}

@@ -8,10 +8,7 @@ call_suzerain_to_war = {
 			scope:recipient = {
 				is_tributary = yes
 			}
-			OR = {
-				is_defender = yes
-				is_attacker = yes
-			}
+			is_at_war = yes
 			NOT = { is_at_war_with = scope:recipient }
 		}
 		scope:recipient = {
@@ -21,16 +18,23 @@ call_suzerain_to_war = {
 
 	is_valid_showing_failures_only = {
 		#all hail jank, this is a only way i think i can achive that xD
-		NOT = {
+		NOR = {
 			scope:actor = {
-				exists = var:my_suzerain
-				any_war_ally = {
-					this = var:my_suzerain
-				}
-				var:my_suzerain = {
-					is_target_in_variable_list = { name = permanent_tributaries target = prev }
+				AND = {
+					exists = var:my_suzerain
+					any_war_ally = {
+						this = var:my_suzerain
+					}
 				}
 			}
+			scope:recipient = {
+				is_at_war_with = scope:actor
+			}
+		}
+		custom_description = {
+			text = trib_type_allows_call_to_arms
+			exists = var:can_call_to_war_tributary
+			var:can_call_to_war_tributary.compare_value = flag:yes
 		}
 	}
 
@@ -38,7 +42,7 @@ call_suzerain_to_war = {
 		scope:actor = {
 			if = {
 				limit = {
-					is_attacker = yes
+					is_attacker = this
 				}
 				add_attacker = scope:recipient
 			}
@@ -50,10 +54,9 @@ call_suzerain_to_war = {
 
 	ai_target_quick_trigger = {							# Quick triggers for the ai_targets
 		adult = yes										# The target needs to be adult
-		attracted_to_owner = yes						# The target needs to be attracted to owner
-		owner_attracted = yes							# Owner needs to be attracted to the target
-		prison = yes 									# Target must be in prison
+		prison = no 									# Target must be in prison
 	}
+
 	ai_accept = {
 		base = 20
 
@@ -254,10 +257,7 @@ call_tributaries_to_war = {
 	is_shown = {
 		scope:actor = {
 			is_suzerain = yes
-			OR = {
-				is_defender = yes
-				is_attacker = yes
-			}
+			is_at_war = yes
 		}
 		scope:recipient = {
 			exists = var:my_suzerain
@@ -269,18 +269,23 @@ call_tributaries_to_war = {
 
 	is_valid_showing_failures_only = {
 		scope:actor = {
-			custom_tooltip = tributaries_not_already_called
-			any_in_list = {
-				variable = permanent_tributaries
-				NOT = {
-					any_war_ally = {
-						this = prev
-					}
-				}
+			any_war_ally = {
+				this = scope:recipient
 			}
+		}
+		scope:recipient = {
+			NOR = { 
+				is_at_war_with = scope:actor 
+			}
+			custom_description = {
+				text = trib_type_allows_call_to_arms
+				exists = var:can_call_to_war_suzerain
+				var:can_call_to_war_suzerain.compare_value = flag:yes
+			}			
 		}
 	}
 
+	#TODO:Change
 	auto_accept = {
 		always = yes
 	}
@@ -1416,13 +1421,25 @@ annex_tributary = {
 			NOT = {
 				this = scope:recipient
 			}
-		}
-		exists = scope:recipient.var:possible_vasalisation_year
-		scope:recipient.var:possible_vasalisation_year.compare_value <= current_year		
+		}		
 	}
 
 	is_valid_showing_failures_only = {
 		scope:actor.primary_title.tier > scope:recipient.primary_title.tier
+		exists = scope:recipient.var:possible_vasalisation_year
+		OR = {
+			custom_description = {
+				text = trib_type_disallow_annexing_subjects
+				scope:recipient.var:possible_vasalisation_year.compare_value <= -1
+			}
+			custom_description = {
+				text = trib_type_allow_annexing_subjects
+				AND = {
+					scope:recipient.var:possible_vasalisation_year.compare_value > -1
+					scope:recipient.var:possible_vasalisation_year.compare_value <= current_year
+				}
+			}		
+		}
 	}
 
 	#auto_accept = {

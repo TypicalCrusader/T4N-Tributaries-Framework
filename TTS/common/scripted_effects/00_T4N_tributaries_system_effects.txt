@@ -129,7 +129,18 @@ make_custom_tributary = {
 			name = monthly_piety_tributary
 			value = $MONTHLY_PIETY_TRIBUTARY$
 		}
-
+		set_variable = {
+			name = man_at_arm_cap_per_ten_subjects
+			value = $MAN_AT_ARM_CAP_PER_TEN_SUBJECTS$
+		}	
+		set_variable = {
+			name = monthly_levy_reinforcement_rate_per_subject
+			value = $MONTHLY_LEVY_REINFORCEMENT_RATE_PER_SUBJECT$
+		}	
+		set_variable = {
+			name = monthly_levy_reinforcement_rate_tributary
+			value = $MONTHLY_LEVY_REINFORCEMENT_RATE_TRIBUTARY$
+		}
 		#can declare war on tributary
 		#can call to war Suzerain
 		#can call to war Tributary flags
