@@ -367,7 +367,7 @@ norman_conquest_cb = {
 			LOSER = scope:attacker
 			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
 			IS_RELIGIOUS_WAR = no
-			WINNER_FAME_SCALE = scale_10_war_defender_win
+			WINNER_FAME_SCALE = 10
 			LOSER_FAME_SCALE = -10
 			WINNER_ALLY_FAME_SCALE = 10
 			LOSER_ALLY_FAME_SCALE = 10
@@ -907,7 +907,7 @@ norwegian_invasion_cb = {
 			LOSER = scope:attacker
 			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
 			IS_RELIGIOUS_WAR = no
-			WINNER_FAME_SCALE = scale_10_war_defender_win
+			WINNER_FAME_SCALE = 10
 			LOSER_FAME_SCALE = -10
 			WINNER_ALLY_FAME_SCALE = 10
 			LOSER_ALLY_FAME_SCALE = 10
@@ -1209,8 +1209,10 @@ sons_of_lothbrok_invasion_cb = {
 
 		# Prestige loss for the attacker
 		scope:attacker = {
-			pay_short_term_gold_reparations_effect = {
-				GOLD_VALUE = 5
+			pay_short_term_gold = {
+				gold = 3
+				target = scope:defender
+				yearly_income = yes
 			}
 			add_prestige = {
 				value = major_prestige_value
@@ -1220,9 +1222,7 @@ sons_of_lothbrok_invasion_cb = {
 
 		# Prestige for Defender
 		scope:defender = {
-			add_prestige_war_defender_effect = {
-				PRESTIGE_VALUE = major_prestige_value
-			}
+			add_prestige = major_prestige_value
 		}
 
 		# Prestige for the attacker's war allies
@@ -1277,7 +1277,6 @@ sons_of_lothbrok_invasion_cb = {
 
 hungarian_migration_cb = {
 	group = invasion	#Switching this to event will render the CB invisible.
-	ai = no # AI targeting is handled through game_rule events.
 
 	allowed_for_character = {
 		culture = culture:mogyer
@@ -1308,6 +1307,8 @@ hungarian_migration_cb = {
 	full_occupation_by_defender_gives_victory = no
 	landless_attacker_needs_armies = no
 	attacker_capital_gives_war_score = no
+
+	#AI targeting is handled through game_rule events.
 
 	valid_to_start = {
 		#May only target Hungary.
@@ -1515,32 +1516,32 @@ hungarian_migration_cb = {
 								take_baronies = yes
 							}
 						}
-					}
-				}
 
-				# Grab counties belonging to duchies that don't exist
-				every_in_de_jure_hierarchy = {
-					limit = {
-						tier = tier_county
-						exists = holder
-						holder = {
-							top_liege = scope:defender
+						# Grab the counties that go with the duchies, too.
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+								exists = holder
+								holder = {
+									top_liege = scope:defender
 
-							# Vassal players in Hungary get to keep their holdings, so they can play as vassals of the new king instead of game-overing.
-							NAND = {
-								NOT = { this = top_liege }
-								is_ai = no
+									# Vassal players in Hungary get to keep their holdings, so they can play as vassals of the new king instead of game-overing.
+									NAND = {
+										NOT = { this = top_liege }
+										is_ai = no
+									}
+								}
 							}
+							hidden_effect = {
+								change_title_holder = {
+									holder = scope:attacker
+									change = scope:change
+									take_baronies = yes
+								}
+							}
+							add_to_temporary_list = county_titles_under_transfer
 						}
 					}
-					hidden_effect = {
-						change_title_holder = {
-							holder = scope:attacker
-							change = scope:change
-							take_baronies = yes
-						}
-					}
-					add_to_temporary_list = county_titles_under_transfer
 				}
 			}
 			resolve_title_and_vassal_change = scope:change
@@ -1621,8 +1622,10 @@ hungarian_migration_cb = {
 
 		# Prestige loss for the attacker
 		scope:attacker = {
-			pay_short_term_gold_reparations_effect = {
-				GOLD_VALUE = 5
+			pay_short_term_gold = {
+				gold = 5
+				target = scope:defender
+				yearly_income = yes
 			}
 			add_prestige = {
 				value = massive_prestige_value
@@ -1644,7 +1647,7 @@ hungarian_migration_cb = {
 			LOSER = scope:attacker
 			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
 			IS_RELIGIOUS_WAR = no
-			WINNER_FAME_SCALE = scale_10_war_defender_win
+			WINNER_FAME_SCALE = 10
 			LOSER_FAME_SCALE = -10
 			WINNER_ALLY_FAME_SCALE = 10
 			LOSER_ALLY_FAME_SCALE = 10
@@ -1687,6 +1690,10 @@ fp1_scandi_adventurer_conquest = {
 
 	allowed_for_character = {
 		is_ai = yes
+	}
+
+	allowed_for_character_display_regardless = {
+		casus_belli_block = yes
 	}
 
 	allowed_against_character = {
@@ -1936,8 +1943,10 @@ fp1_scandi_adventurer_conquest = {
 
 		# Prestige loss for the attacker
 		scope:attacker = {
-			pay_short_term_gold_reparations_effect = {
-				GOLD_VALUE = 5
+			pay_short_term_gold = {
+				gold = 3
+				target = scope:defender
+				yearly_income = yes
 			}
 			add_prestige = {
 				value = major_prestige_value
@@ -1947,9 +1956,7 @@ fp1_scandi_adventurer_conquest = {
 
 		# Prestige for Defender
 		scope:defender = {
-			add_prestige_war_defender_effect = {
-				PRESTIGE_VALUE = major_prestige_value
-			}
+			add_prestige = major_prestige_value
 		}
 
 		# Prestige for the attacker's war allies

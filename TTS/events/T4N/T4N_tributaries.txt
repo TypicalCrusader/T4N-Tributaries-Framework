@@ -157,19 +157,12 @@ tributaries.4 = {
 		if = {
 			limit = {
 				NOT = {
-					is_suzerain = yes
-				}
-			}		
-		}
-		if = {
-			limit = {
-				NOT = {
 					has_permanent_tributaries = yes
 				}
 			}
 			clear_variable_list = permanent_tributaries
 		}
-		else_if = {
+		if = {
 			limit = {
 				NOT = {
 					has_non_permanent_tributaries = yes
@@ -177,11 +170,10 @@ tributaries.4 = {
 			}
 			clear_variable_list = non_permanent_tributaries
 		}
-		else_if = {
+		if = {
 			limit = {
-				NAND = {
-					has_permanent_tributaries = yes
-					has_non_permanent_tributaries = yes
+				NOT = {
+					has_tributaries = yes
 				}
 			}
 			clear_variable_list = permanent_tributaries
@@ -382,12 +374,12 @@ tributaries.9 = {
 
 #Response from new suzerain
 #Root is new trib
-tributaries.9.1 = {
+tributaries.10 = {
 	type = letter_event
 	opening = {
-		desc = tributaries.9.1_opening
+		desc = tributaries.10_opening
 	}
-	desc = tributaries.9.1_desc
+	desc = tributaries.10_desc
 	sender = scope:my_suzerain_evt
 
 	immediate = {

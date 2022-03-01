@@ -7,7 +7,7 @@
 			visible = "[CanChangeMapMode]"
 			name = "map_mode_simple_realms_button"
 			onclick = "[SetMapMode('simple_realms')]"
-			raw_text = "Srlm"
+			text = "Srlm"
 			tooltip = "MAPMODE_REALMS"
 		}
 
@@ -15,7 +15,7 @@
 			visible = "[CanChangeMapMode]"
 			name = "map_mode_terrain_button"
 			onclick = "[SetMapMode('terrain')]"
-			raw_text = "Ter"
+			text = "Ter"
 			tooltip = "MAPMODE_TERRAIN"
 		}
 
@@ -23,7 +23,7 @@
 			visible = "[CanChangeMapMode]"
 			name = "map_mode_baronies_button"
 			onclick = "[SetMapMode('baronies')]"
-			raw_text = "Bar"
+			text = "Bar"
 			tooltip = "MAPMODE_BARONIES"
 		}
 
@@ -31,7 +31,7 @@
 			visible = "[CanChangeMapMode]"
 			name = "map_mode_realm_areas_button"
 			onclick = "[SetMapMode('realm_areas')]"
-			raw_text = "Area"
+			text = "Area"
 			tooltip = "MAPMODE_AREAS"
 		}
 
@@ -39,29 +39,22 @@
 			visible = "[CanChangeMapMode]"
 			name = "map_mode_diplomacy_button"
 			onclick = "[SetMapMode('diplomacy')]"
-			raw_text = "Diplo"
+			text = "Diplo"
 			tooltip = "MAPMODE_DIPLOMACY"
 		}
 
 		button_round  = {
 			visible = "[CanChangeMapMode]"
 			onclick = "[SetMapMode('debug_character_pools')]"
-			raw_text = "Pools"
-			raw_tooltip = "Character Pools"
+			text = "Pools"
+			tooltip = "Character Pools"
 		}
 
 		button_round  = {
 			visible = "[CanChangeMapMode]"
 			onclick = "[SetMapMode('debug_ai_war_coordinator_targets')]"
-			raw_text = "AI"
-			raw_tooltip = "AI War Coordinator targets"
-		}
-
-		button_round  = {
-			visible = "[CanChangeMapMode]"
-			onclick = "[SetMapMode('debug_visual_regions')]"
-			raw_text = "Reg"
-			raw_tooltip = "Visual Geographical Regions"
+			text = "AI"
+			tooltip = "AI War Coordinator targets"
 		}
 	}
 
@@ -77,7 +70,7 @@
 			margin_left = 10
 			margin_bottom = 10
 			margin_top = -12
-			margin_right = 10
+			margin_right = 20
 			color = { 0.15 0.15 0.15 0.75 }
 		}
 
@@ -346,38 +339,6 @@
 			}
 		}
 
-		## Realm
-		icon_button_mapmode = {
-			name = "map_mode_realms_button"
-			position = { 0 25 }
-			size = { 50 50 }
-			visible = "[CanChangeMapMode]"
-
-			blockoverride "mm_button"
-			{
-				onclick = "[SetMapMode('realms')]"
-				onclick = "[ClearExploringRealms]"
-				down = "[IsMapMode('realms')]"
-				shortcut = "map_mode_1"
-				tooltip = "MAPMODE_REALMS"
-			}
-			blockoverride "mm_icon"
-			{
-				size = { 50 50 }
-				down = "[IsMapMode('realms')]"
-				texture = "gfx/interface/icons/flat_icons/mapmode_realm.dds"
-			}
-
-			blockoverride "mm_glow"
-			{
-				visible = no
-			}
-
-			blockoverride "mm_bg_color"
-			{
-				color = { 0.18 0.18 0 1 }
-			}
-		}
 
 		flowcontainer = {
 			parentanchor = right|bottom
@@ -391,6 +352,39 @@
 				direction = horizontal
 				ignoreinvisible = yes
 				spacing = -3
+
+				## Realm
+				icon_button_mapmode = {
+					name = "map_mode_realms_button"
+					position = { 0 25 }
+					size = { 38 38 }
+					visible = "[CanChangeMapMode]"
+
+					blockoverride "mm_button"
+					{
+						onclick = "[SetMapMode('realms')]"
+						onclick = "[ClearExploringRealms]"
+						down = "[IsMapMode('realms')]"
+						shortcut = "map_mode_1"
+						tooltip = "MAPMODE_REALMS"
+					}
+					blockoverride "mm_icon"
+					{
+						size = { 38 38 }
+						down = "[IsMapMode('realms')]"
+						texture = "gfx/interface/icons/flat_icons/mapmode_realm.dds"
+					}
+
+					blockoverride "mm_glow"
+					{
+						visible = no
+					}
+
+					blockoverride "mm_bg_color"
+					{
+						color = { 0.18 0.18 0 1 }
+					}
+				}
 
 				icon_button_mapmode = {
 					name = "map_mode_duchies_button"
@@ -486,6 +480,31 @@
 
 				visible = "[CanChangeMapMode]"
 
+				icon_button_mapmode = {
+					name = "custom_tributaries_map_button"
+					size = { 32 32 }
+					parentanchor = vcenter
+					enabled = "[And(Not(IsObserver), GetScriptedGui('custom_tributary_map').IsValid(GuiScope.End))]"
+
+					blockoverride "mm_button"
+					{
+						onclick = "[SetMapMode('debug_character_pools')]"
+						onclick = "[GetScriptedGui('custom_tributary_map').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+
+						down = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
+						tooltip = "CUSTOM_TRIBUTARY_MAP_TOOLTIP"
+					}
+					blockoverride "mm_icon"
+					{
+						down = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
+						texture = "gfx/interface/icons/flat_icons/mapmode_tributaries.dds"
+					}
+
+					blockoverride "mm_glow"
+					{
+						visible = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
+					}
+				}
 
 				icon_button_mapmode = {
 					name = "map_mode_religion_button"
@@ -532,30 +551,6 @@
 					blockoverride "mm_glow"
 					{
 						visible = "[IsMapMode('cultures')]"
-					}
-				}
-
-				icon_button_mapmode = {
-					name = "map_mode_houses_button"
-					size = { 32 32 }
-					parentanchor = vcenter
-
-					blockoverride "mm_button"
-					{
-						onclick = "[SetMapMode('houses')]"
-						down = "[IsMapMode('houses')]"
-						shortcut = "map_mode_4"
-						tooltip = "MAPMODE_HOUSES"
-					}
-					blockoverride "mm_icon"
-					{
-						down = "[IsMapMode('houses')]"
-						texture = "gfx/interface/icons/flat_icons/mapmode_houses.dds"
-					}
-
-					blockoverride "mm_glow"
-					{
-						visible = "[IsMapMode('houses')]"
 					}
 				}
 
@@ -619,21 +614,6 @@
 				}
 
 				button_tertiary = {
-					name = "custom_tributaries_map_button"
-					size = { 110 25 }
-					parentanchor = hcenter
-					visible = "[CanChangeMapMode]"
-					enabled = "[And(Not(IsObserver), GetScriptedGui('custom_tributary_map').IsValid(GuiScope.End))]"
-					onclick = "[SetMapMode('debug_character_pools')]"
-					onclick = "[GetScriptedGui('custom_tributary_map').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
-
-					down = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
-					tooltip = "CUSTOM_TRIBUTARY_MAP_TOOLTIP"
-					using = tooltip_ws
-					text = "CUSTOM_MAPMODE_TRIBUTARIES_NAME"
-				}
-
-				button_tertiary = {
 					name = "map_mode_government_button"
 					visible = "[CanChangeMapMode]"
 					parentanchor = hcenter
@@ -693,28 +673,13 @@
 				}
 
 				button_tertiary = {
-					name = "map_mode_court_languages_button"
-					visible = "[And( HasDlcFeature( 'royal_court' ), CanChangeMapMode )]"
-					parentanchor = hcenter
-
-					size = { 110 25 }
-					onclick = "[SetMapMode('court_languages')]"
-					shortcut = "map_mode_7"
-
-					text = "MAPMODE_COURT_LANGUAGES_NAME"
-
-					tooltip = "MAPMODE_COURT_LANGUAGES"
-					using = tooltip_ws
-				}
-
-				button_tertiary = {
 					name = "players"
 					visible = "[And( Or(GameHasMultiplePlayers, InDebugMode), CanChangeMapMode)]"
 					parentanchor = hcenter
 
 					size = { 110 25 }
 					onclick = "[SetMapMode('players')]"
-					shortcut = "map_mode_8"
+					shortcut = "map_mode_7"
 					text = "MAPMODE_PLAYERS_LABEL"
 
 					tooltip = "MAPMODE_PLAYERS"

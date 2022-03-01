@@ -6,4 +6,5 @@
   CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY_SUZERAIN:0 "Tributary/Suzerain"
   CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY:0 "Tributary"
   CUSTOM_TRIBUTARY_MAP_ANY_SUZERAIN:0 "Suzerain"
-  CUSTOM_TRIBUTARY_MAP_TOOLTIP: "[T4N_tributaries|E]\n"
+  CUSTOM_TRIBUTARY_MAP_TOOLTIP: "#T Tributaries#!\nShows all [T4N_tributaries|E] that exist on the map.\n#L #T #X BROKEN RN#!#!#!"
+  CUSTOM_MAPMODE_TRIBUTARIES_NAME: "Tributaries"

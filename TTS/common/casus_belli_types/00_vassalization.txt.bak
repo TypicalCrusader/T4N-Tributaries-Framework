@@ -10,7 +10,7 @@
 	# scope:attacker is the attacker
 	# scope:defender is the defender
 
-	allowed_against_character_display_regardless = {
+	allowed_for_character_display_regardless = {
 		scope:defender = {
 			custom_description = {
 				text = "vassalization_cb_target_too_many_counties"

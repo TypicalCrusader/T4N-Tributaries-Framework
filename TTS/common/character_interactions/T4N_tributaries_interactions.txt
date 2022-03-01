@@ -379,7 +379,7 @@ offer_tribute = {
 			}
 			save_scope_as = my_suzerain_evt
 			scope:actor = {
-				trigger_event = { id = tributaries.9.1 }
+				trigger_event = { id = tributaries.10 }
 			}
 		}
 	}
@@ -1381,28 +1381,11 @@ free_tributary = {
 	
 	on_accept = {
 		scope:recipient = {
-			remove_variable = my_suzerain
-			if = {
-				limit = {
-					scope:actor = {
-						is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
-					}
-				}
-				scope:actor = {
-					remove_list_variable = { name = non_permanent_tributaries target = prev }
-				}					
+			unset_tributary = {
+				TRIBUTARY = this
+				TRIBUTARY_BASE_TYPE = var:tributary_type
 			}
-			else = {
-				scope:actor = {
-					remove_list_variable = { name = permanent_tributaries target = prev }
-				}
-			}
-			scope:actor = {
-				remove_list_variable = { name = all_tributaries target = prev }
-			}
-		}
-		scope:actor = {
-			trigger_event = { id = tributaries.4 }
+			trigger_event = { id = tributaries.11 } #letter informing that they are no longer required to pay tribute
 		}
 	}
 
@@ -1486,12 +1469,12 @@ turn_non_perma_tributary_to_perma = {
 		OR = {
 			custom_description = {
 				text = trib_type_disallow_permafing_subjects
-				cope:recipient.var:possible_permafication_year.compare_value <= -1
+				scope:recipient.var:possible_permafication_year.compare_value <= -1
 			}
 			custom_description = {
 				text = trib_type_allow_permafing_subjects
 				AND = {
-					cope:recipient.var:possible_permafication_year.compare_value > -1
+					scope:recipient.var:possible_permafication_year.compare_value > -1
 					scope:recipient.var:possible_permafication_year.compare_value <= current_year	
 				}
 			}		

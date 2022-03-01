@@ -9,35 +9,33 @@
 
     truce_days = 970
 
-    allowed_for_character_display_regardless = {
-        scope:defender = {
+    allowed_for_character = {
+        NAND = {
             primary_title = {
-                tier >= tier_county
+                tier < tier_county
             }
-            NOT = { exists = var:my_suzerain }
-            scope:attacker.primary_title.tier >= scope:defender.primary_title.tier  
-            custom_description = {
-                text = not_a_tributary
-                subject = scope:defender
-                NOT = {
-                    scope:attacker = {
-                        OR = {
-                            is_target_in_variable_list = { name = permanent_tributaries target = scope:defender }
-                            is_target_in_variable_list = { name = non_permanent_tributaries target = scope:defender }
-                        }
+            scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
+            exists = var:my_suzerain
+        }
+    }
+    allowed_against_character = {
+        primary_title = {
+            tier >= tier_county
+        }
+        NOT = { exists = var:my_suzerain }
+        scope:attacker.primary_title.tier >= scope:defender.primary_title.tier  
+        custom_description = {
+            text = not_a_tributary
+            subject = scope:defender
+            NOT = {
+                scope:attacker = {
+                    OR = {
+                        is_target_in_variable_list = { name = permanent_tributaries target = scope:defender }
+                        is_target_in_variable_list = { name = non_permanent_tributaries target = scope:defender }
                     }
                 }
-            }            
-        }
-        NAND = {
-            scope:attacker = {
-                primary_title = {
-                    tier < tier_county
-                }
-                scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
-                exists = var:my_suzerain
             }
-        }
+        } 
     }
 
     cost = {
@@ -124,7 +122,7 @@ permament_tributary_war_cb = {
 
     truce_days = 970
 
-    allowed_for_character_display_regardless = {
+    allowed_for_character = {
         scope:defender = {
             primary_title = {
                 tier >= tier_county
@@ -239,21 +237,12 @@ independence_tributary_war_cb = {
 
     truce_days = 970
 
-    allowed_for_character = {
-        scope:attacker = {
-            exists = var:my_suzerain
-            var:my_suzerain = scope:defender
-        }
-    }
-
-    allowed_for_character_display_regardless = {
-        scope:attacker = {
-            exists = var:my_suzerain
-            var:my_suzerain = {
-                OR = {
-                    is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
-                    is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
-                }
+    allowed_against_character = {
+        scope:defender = {
+            exists = var:suzerain
+            OR = {
+                is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
+                is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
             }
         }
     }
@@ -279,23 +268,10 @@ independence_tributary_war_cb = {
 
     on_victory = {
         scope:attacker = {
-            delete_variable = var:my_suzerain
-        }
-        scope:defender = {
-            if = {
-                limit = {
-                    is_target_in_variable_list = { name = permanent_tributaries target = scope:attacker }
-                }
-                remove_list_variable = { name = permanent_tributaries target = scope:attacker }
-                remove_list_variable = { name = all_tributaries target = scope:attacker }
+            unset_tributary = {
+                TRIBUTARY = this
+                TRIBUTARY_BASE_TYPE = var:tributary_type
             }
-            if = {
-                limit = {
-                    is_target_in_variable_list = { name = non_permanent_tributaries target = scope:attacker }
-                }
-                remove_list_variable = { name = non_permanent_tributaries target = scope:attacker }
-                remove_list_variable = { name = all_tributaries target = scope:attacker }
-            }           
         }
     }
 

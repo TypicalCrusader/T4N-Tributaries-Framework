@@ -121,7 +121,7 @@
 				}
 			}
 		}
-		#Under Byzantine law, a ruler must be unblemished
+		#The Byzantine Emperor must be unblemished
 		trigger_if = {
 			limit = {
 				scope:defender.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
@@ -148,7 +148,7 @@
 		#Under Byzantine law, a ruler must be able to produce children.
 		trigger_if = {
 			limit = {
-				scope:defender.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+				scope:defender = { has_culture_group = culture_group:byzantine_group }
 			}
 			scope:claimant = {
 				custom_description = {

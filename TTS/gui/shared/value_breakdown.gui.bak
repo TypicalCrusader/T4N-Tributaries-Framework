@@ -17,8 +17,6 @@ types Breakdowns
 			margin = { 17 10 }
 			spacing = 3
 
-			block "header" {}
-
 			item = {
 				hbox = {
 					name = "value_breakdown"
@@ -64,6 +62,7 @@ types Breakdowns
 
 	## Gold Breakdown Tooltip
 	type widget_gold_breakdown_tooltip = widget {
+		size = { 50 50 }
 		alwaystransparent = no
 
 		block "background" { #### needed to solve the hack for tooltip in Realm View
@@ -74,9 +73,10 @@ types Breakdowns
 			layoutpolicy_horizontal = expanding
 
 			set_parent_size_to_minimum = yes
-			margin = { 14 8 }
-			margin_bottom = 18
-			spacing = 14
+			minimumsize = { 280 0 }
+
+			margin = { 15 10 }
+			spacing = 20
 
 			block "my_gold" {}
 
@@ -99,7 +99,7 @@ types Breakdowns
 	}
 
 	type vbox_gold_breakdown = vbox {
-		spacing = 6
+		spacing = 5
 		alwaystransparent = no
 
 		vbox = {
@@ -113,7 +113,7 @@ types Breakdowns
 				background = {
 					using = Background_Area
 					margin = { 10 0 }
-					margin_bottom = 8
+					margin_bottom = 5
 				}
 			}
 
@@ -121,7 +121,6 @@ types Breakdowns
 				name = "values_grid"
 				datamodel = "[ValueBreakdown.GetSubValues]"
 				layoutpolicy_horizontal = expanding
-				margin_top = 2
 
 				item = {
 					hbox = {
@@ -208,12 +207,11 @@ types Breakdowns
 			name = "tooltip_container"
 			set_parent_size_to_minimum = yes
 			filter_mouse = all
-			margin = { 14 8 }
-			margin_bottom = 12
+			margin = { 15 15 }
 
 			vbox = {
 				layoutpolicy_horizontal = expanding
-				margin_bottom = 14
+				margin_bottom = 20
 				spacing = 5
 
 				block "header" {}
@@ -230,21 +228,14 @@ types Breakdowns
 						margin = { 10 0 }
 						margin_bottom = 5
 					}
-				}
 
-
-				text_single = {
-					name = "total_label_no_tooltip"
-					layoutpolicy_horizontal = expanding
-					text = "TOTAL_BREAKDOWN_LABEL"
-					visible = "[EqualTo_CFixedPoint(PlayerValueItem.GetBalance, '(CFixedPoint)0')]"
 				}
 
 				text_single = {
 					name = "total_label"
 					layoutpolicy_horizontal = expanding
 					text = "TOTAL_BREAKDOWN_LABEL"
-					visible = "[NotEqualTo_CFixedPoint(PlayerValueItem.GetBalance, '(CFixedPoint)0')]"
+
 					using = tooltip_ws
 
 					tooltipwidget = {
@@ -430,164 +421,5 @@ types Breakdowns
 				}
 			}
 		}
-	}
-
-	type court_position_aptitude_breakdown_tooltip = widget {
-		name = "AptitudeBreakdownTooltip"
-		using = GeneralTooltipSetup
-		alwaystransparent = no
-
-		using = DefaultTooltipBackground
-		vbox = {
-			set_parent_size_to_minimum = yes
-			margin = { 16 8 }
-			minimumsize = { 300 80 }
-
-			# Header
-			hbox = {
-				layoutpolicy_horizontal = expanding
-				minimumsize = { 100% 50 }
-
-				background = {
-					name = "header"
-					texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
-					spriteType = Corneredstretched
-					margin = { 15 0 }
-					texture_density = 2
-
-					modify_texture = {
-						name = "mask"
-						texture = "gfx/interface/component_masks/mask_title_big_top.dds"
-						spriteType = Corneredstretched
-						spriteborder = { 160 0 }
-						blend_mode = alphamultiply
-						alpha = 0.5
-					}
-				}
-
-				hbox = {
-					layoutpolicy_horizontal = expanding
-					block "header_additions" {}
-
-					vbox = {
-						name = "FancyHeader"
-						layoutpolicy_horizontal = expanding
-						alwaystransparent = no
-
-						text_single = {
-							layoutpolicy_horizontal = expanding
-							autoresize = yes
-							name = "title"
-
-							fontsize_min = 14
-							using = Font_Size_Medium
-							fonttintcolor = "[TooltipInfo.GetTintColor]"
-
-							block "header_text" {
-
-							}
-						}
-					}
-				}
-
-				expand = {}
-			}
-
-			# Modifiers
-			vbox = {
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-
-				text_single = {
-					layoutpolicy_horizontal = expanding
-					default_format = "#S"
-					text = COURT_POSITION_TOOLTIP_EFFECT_ON_LIEGE
-				}
-
-				vbox = {
-					margin = { 16 4 }
-					textbox = {
-					name = "modifiers"
-					using = DefaultTooltipText
-					layoutpolicy_horizontal = expanding
-					multiline = yes
-					fonttintcolor = "[TooltipInfo.GetTintColor]"
-					alwaystransparent = no
-
-					block "modifier_list" { }
-				}
-			}
-
-			# Breakdown
-			vbox = {
-				name = "aptitude_breakdown"
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-				margin = { 0 8 }
-
-
-				# Header
-				hbox = {
-					layoutpolicy_horizontal = expanding
-					text_single = {
-						layoutpolicy_horizontal = expanding
-						default_format = "#S"
-						text = COURT_POSITION_aptitude_character_possessive
-					}
-					expand = {}
-				}
-				
-				# The Breakdown
-				vbox = {
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datamodel = "[ValueBreakdown.GetSubValues]"
-					alwaystransparent = no
-					margin = { 16 4 }
-
-					item = {
-						hbox = {
-							name = "value_breakdown"
-							spacing = 5
-
-							layoutpolicy_horizontal = expanding
-
-							text_single = {
-								name = "name"
-								layoutpolicy_horizontal = expanding
-								text = "[ValueBreakdown.GetName]"
-								fonttintcolor = "[TooltipInfo.GetTintColor]"
-								margin_right = 10
-							}
-
-							text_single = {
-								visible = "[And(ValueBreakdown.HasTooltip, ValueBreakdown.ShouldShowValue)]"
-								name = "value_with_tooltip"
-								text = "[ValueBreakdown.GetValue|L]"
-								align = right
-								fonttintcolor = "[TooltipInfo.GetTintColor]"
-
-								using = tooltip_below
-
-								tooltipwidget = {
-									recursive = yes
-
-									widget_value_breakdown_tooltip = {}
-								}
-							}
-
-							text_single = {
-								visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
-								name = "value_with_no_tooltip"
-								text = "[ValueBreakdown.GetValue]"
-								align = right
-								fonttintcolor = "[TooltipInfo.GetTintColor]"
-							}
-						}
-					}
-				}
-			}
-		}
-
 	}
 }
