@@ -105,18 +105,24 @@ T4N_tributaries_on_title_lost = {
 
             var:my_suzerain = {
                 if = {
-                    limit = {
-                        OR = {
-                            is_landed = no
-                            is_independent_ruler = no
+                    if = {
+                        limit = {
+                            is_permanent_tributary = {
+                                SUZERAIN = this
+                                TRIBUTARY = root
+                            }
                         }
-                        is_tributary = yes
+                        unset_tributary = {
+                            TRIBUTARY = root
+                            TRIBUTARY_BASE_TYPE = flag:permanent
+                        }                
                     }
-                    unset_tributary = {
-                        TRIBUTARY = root
-                        TRIBUTARY_BASE_TYPE = var:tributary_type
+                    else = {
+                        unset_tributary = {
+                            TRIBUTARY = root
+                            TRIBUTARY_BASE_TYPE = flag:non_permanent
+                        }
                     }
-
                 }
             }
             var:suzerain = {
@@ -130,11 +136,17 @@ T4N_tributaries_on_title_lost = {
                     }
                     every_in_list = {
                         variable = permanent_tributaries
+                        set_variable = { 
+                            name = tributary_succ_var
+                            value = this
+                        }
                         pass_tributary_type_to_heir = {
-                            SCOPE = this
+                            SCOPE = var:tributary_succ_var
                             TYPE = var:tributary_type
+                            TRIBUTARY = var:tributary_succ_var
                             NEW_RULER = scope:new_holder
                         }
+                        remove_variable = tributary_succ_var
                     }
                     clear_variable_list = non_permanent_tributaries
                 }
@@ -164,18 +176,29 @@ T4N_tributaries_on_death = {
 			#Root is old ruler
             every_in_list = {
 				variable = permanent_tributaries
+                set_variable = { 
+                   name = tributary_succ_var
+                   value = this
+                }
                 pass_tributary_type_to_heir = {
-                    SCOPE = this
+                    SCOPE = var:tributary_succ_var
                     TYPE = var:tributary_type
+                    TRIBUTARY = prev
                     NEW_RULER = root.primary_heir
                 }
+                remove_variable = tributary_succ_var
 			}		
 			every_in_list = {
 				variable = non_permanent_tributaries
-                unset_tributary = {
-                    TRIBUTARY = this
-                    TRIBUTARY_BASE_TYPE = var:tributary_type
+                set_variable = { 
+                    name = tributary_succ_var_np
+                    value = this
                 }
+                unset_tributary = {
+                    TRIBUTARY = var:tributary_succ_var_np
+                    TRIBUTARY_BASE_TYPE = flag:non_permanent
+                }
+                remove_variable = tributary_succ_var_np
 			}	
 			remove_variable = suzerain
         }
@@ -187,26 +210,35 @@ T4N_tributaries_on_death = {
             }
 			#give the heir var:my_suzerain
 			#Root is old tributary
-            switch = {
-                trigger = var:tributary_type
-                flag:permanent = {
-                    pass_tributary_type_to_heir = {
-                        SCOPE = this
-                        TYPE = var:tributary_type
-                        NEW_RULER = var:my_suzerain.primary_heir
+            if = {
+                limit = {
+                    is_permanent_tributary = {
+                        SUZERAIN = var:my_suzerain
+                        TRIBUTARY = root
                     }
                 }
-                flag:non_permanent = {
-                    var:my_suzerain = {
-                        every_in_list = {
-                            variable = non_permanent_tributaries
-                            unset_tributary = {
-                                TRIBUTARY = this
-                                TRIBUTARY_BASE_TYPE = var:tributary_type
-                            }
-                        }
-                    }
+                set_variable = { 
+                    name = tributary_succ_var
+                    value = this
                 }
+                pass_tributary_type_to_heir = {
+                    SCOPE = scope:tributary_succ_var
+                    TYPE = var:tributary_type
+                    TRIBUTARY = prev.primary_heir
+                    NEW_RULER = var:my_suzerain
+                }
+                remove_variable = tributary_succ_var              
+            }
+            else = {
+                set_variable = { 
+                    name = tributary_succ_var_np
+                    value = this
+                }
+                unset_tributary = {
+                    TRIBUTARY = var:tributary_succ_var_np
+                    TRIBUTARY_BASE_TYPE = flag:non_permanent
+                }
+                remove_variable = tributary_succ_var_np
             }
         }
     }

@@ -151,7 +151,7 @@ types Lists
 										text_single = {
 											name = "character_relation"
 											layoutpolicy_horizontal = expanding
-											text = "|  [Character.GetRelationToString( GetPlayer )]"
+											raw_text = "|  [Character.GetRelationToString( GetPlayer )]"
 											default_format = "#low"
 											autoresize = no
 											align = nobaseline
@@ -458,7 +458,7 @@ types Lists
 									hbox = {
 										visible = "[And(Character.HasRelationTo( GetPlayer ), Not(Character.IsPlayer))]"
 										text_single = {
-											text = "•"
+											raw_text = "•"
 											align = nobaseline
 											margin = { 5 0 }
 										}
@@ -667,7 +667,7 @@ types Lists
 					}
 					block "dropdown_active_item_properties"
 					{
-						text = "#D Current Option#!"
+						raw_text = "#D Current Option#!"
 					}
 					button_trigger = none
 
@@ -689,7 +689,7 @@ types Lists
 
 					block "dropdown_item_properties"
 					{
-						text = "#D Option#!"
+						raw_text = "#D Option#!"
 					}
 
 					default_format = "#clickable"
@@ -1493,7 +1493,7 @@ types Lists
 								name = "character_relation"
 								visible = "[Character.GetLiege.IsLocalPlayer]"
 								layoutpolicy_horizontal = expanding
-								text = "[Character.GetRelationToString(GetPlayer)] "
+								raw_text = "[Character.GetRelationToString(GetPlayer)] "
 								default_format = "#low"
 								autoresize = no
 								fontsize_min = 13
@@ -1851,7 +1851,7 @@ type widget_tribs_list_item = widget {
               name = "character_relation"
               visible = "[Character.GetLiege.IsLocalPlayer]"
               layoutpolicy_horizontal = expanding
-              text = "[Character.GetRelationToString(GetPlayer)] "
+              raw_text = "[Character.GetRelationToString(GetPlayer)] "
               default_format = "#low"
               autoresize = no
               fontsize_min = 13
@@ -1910,7 +1910,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }
@@ -1928,7 +1928,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }
@@ -1945,7 +1945,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }

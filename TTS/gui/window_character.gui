@@ -3484,7 +3484,6 @@ window = {
 
 
 									hbox = {
-										layoutpolicy_horizontal = expanding
 										spacing = 20
 
 										widget = {
@@ -3661,7 +3660,7 @@ window = {
 
 						block "header_text"
 						{
-							text = "#D NEEDS TEXT#!"
+							raw_text = "#D NEEDS TEXT#!"
 						}
 					}
 
@@ -4020,6 +4019,48 @@ window = {
 
 			expand = {}
 		}
+
+		type realm_name_and_type_vbox = vbox {
+			layoutpolicy_horizontal = expanding
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+
+				text_single = {
+					name = "character_title"
+					layoutpolicy_horizontal = expanding
+					text = "[Title.GetNameNoTooltip|U]"
+					default_format = "#medium"
+					using = Font_Size_Medium
+					max_width = 300
+				}
+
+				expand = {}
+			}
+
+			text_single = {
+				name = "faction"
+				visible = "[Title.HasFaction]"
+				layoutpolicy_horizontal = expanding
+				autoresize = no
+				text = "CV_CIVIL_WAR_FACTION"
+				default_format = "#low"
+				align = nobaseline
+				fontsize_min = 14
+			}
+
+			text_single = {
+				name = "government_type"
+				visible = "[Not( Title.HasFaction )]"
+				layoutpolicy_horizontal = expanding
+				autoresize = no
+				text = "CV_REALM_TYPE"
+				default_format = "#low"
+				align = nobaseline
+				fontsize_min = 14
+			}
+		}
+
 	}
 
 	template Animation_Character_Window_Refresh

@@ -1,6 +1,7 @@
 ﻿#Tributaries Character Inetractions
 
 call_suzerain_to_war = {
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 
 	is_shown = {
@@ -259,48 +260,118 @@ call_tributaries_to_war = {
 			is_suzerain = yes
 			is_at_war = yes
 		}
-		scope:recipient = {
-			exists = var:my_suzerain
-			var:my_suzerain = {
-				this = scope:actor
-			}
-		}
 	}
 
 	is_valid_showing_failures_only = {
 		scope:actor = {
-			any_war_ally = {
-				this = scope:recipient
-			}
-		}
-		scope:recipient = {
-			NOR = { 
-				is_at_war_with = scope:actor 
-			}
+			this = scope:recipient
 			custom_description = {
 				text = trib_type_allows_call_to_arms
-				exists = var:can_call_to_war_suzerain
-				var:can_call_to_war_suzerain.compare_value = flag:yes
-			}			
+				any_in_list = {
+					variable = all_tributaries
+					exists = var:can_call_to_war_suzerain
+					var:can_call_to_war_suzerain.compare_value = flag:yes
+				}
+			}				
 		}
 	}
 
-	#TODO:Change
 	auto_accept = {
 		always = yes
 	}
 
 	on_accept = {
-		custom_description = {
-			text = call_of_arms_is_sent_to_tributaries
-		}
-		scope:actor = {
-			save_scope_as = suzerain_cta_caller
-		}
-		scope:recipient = {
-			trigger_event = { id = tributaries.13 }
+		every_in_list = {
+			variable = all_tributaries
+			limit = {
+				exists = var:can_call_to_war_suzerain
+				var:can_call_to_war_suzerain.compare_value = flag:yes
+			}
+			scope:actor = {
+				if = {
+					limit = {
+						is_attacker_in_war = yes
+					}
+					add_attacker = prev
+				}
+				else = {
+					add_defender = prev
+				}
+			}
 		}
 	}
+
+	ai_target_quick_trigger = {							# Quick triggers for the ai_targets
+		adult = yes										# The target needs to be adult
+		prison = no 									# Target must be in prison
+	}
+
+	# Score above 0 means the AI will call this ally. Note that DESIRED_WAR_SIDE_STRENGTH still applies and can prevent calling the ally
+	ai_will_do = {
+		base = 100
+		
+		modifier = { # If the player is at war, do not bother them with offensive calls
+			scope:target.casus_belli.primary_attacker = scope:actor
+			scope:recipient = {
+				is_ai = no
+				any_character_war = {
+					primary_defender = scope:recipient
+				}
+			}
+			factor = 0
+		}
+		
+		modifier = { # Don't call players in against their heirs (they wouldn't accept the reverse situation... don't be a hypocrite)
+			exists = scope:recipient.player_heir
+			scope:recipient = {			
+				is_ai = no
+			}
+			trigger_if = {
+				limit = { scope:target.casus_belli.primary_defender = scope:actor }
+				scope:target.casus_belli.primary_attacker = scope:recipient.player_heir
+			}
+			trigger_else = {
+				scope:target.casus_belli.primary_defender = scope:recipient.player_heir
+			}
+			factor = 0
+		}
+		
+		modifier = { # Same with spouses
+			scope:recipient = {			
+				is_ai = no
+			}
+			trigger_if = {
+				limit = { scope:target.casus_belli.primary_defender = scope:actor }
+				any_spouse = {
+					this = scope:target.casus_belli.primary_attacker
+				}
+			}
+			trigger_else = {
+				any_spouse = {
+					this = scope:target.casus_belli.primary_defender
+				}
+			}
+			factor = 0
+		}
+		
+		modifier = { # Don't call brand-new allies into old wars, at least until some time has elapsed.
+			has_variable = delay_calling_recent_ally
+			var:delay_calling_recent_ally = scope:recipient
+			scope:target = {
+				war_days >= 30
+			}
+			factor = 0
+
+		}
+
+		modifier = { # If the recipient is allied to both the attacker and the defender, the attacker shouldn't call
+			scope:target.casus_belli.primary_attacker = scope:actor
+			scope:target.casus_belli.primary_defender = {
+				is_allied_to = scope:recipient
+			}
+			factor = 0
+		}
+	}	
 }
 
 #ruler offers tribute to other character
@@ -1381,11 +1452,25 @@ free_tributary = {
 	
 	on_accept = {
 		scope:recipient = {
-			unset_tributary = {
-				TRIBUTARY = this
-				TRIBUTARY_BASE_TYPE = var:tributary_type
-			}
-			trigger_event = { id = tributaries.11 } #letter informing that they are no longer required to pay tribute
+            if = {
+                limit = {
+                    is_permanent_tributary = {
+                        SUZERAIN = scope:actor
+                        TRIBUTARY = this
+                    }
+                }
+                unset_tributary = {
+                    TRIBUTARY = this
+                    TRIBUTARY_BASE_TYPE = flag:permanent
+                }                
+            }
+            else = {
+                unset_tributary = {
+                    TRIBUTARY = this
+                    TRIBUTARY_BASE_TYPE = flag:non_permanent
+                }
+            }
+			trigger_event = { id = tributaries.8 } #letter informing that they are no longer required to pay tribute
 		}
 	}
 
@@ -1440,9 +1525,25 @@ annex_tributary = {
 				}
 				change_liege = { liege = scope:actor change = scope:change }
 				resolve_title_and_vassal_change = scope:change
-				remove_variable = my_suzerain
 				scope:actor = {
-					remove_list_variable = { name = permanent_tributaries target = prev }
+					if = {
+						limit = {
+							is_permanent_tributary = {
+								SUZERAIN = this
+								TRIBUTARY = scope:recipient
+							}
+						}
+						unset_tributary = {
+							TRIBUTARY = scope:recipient
+							TRIBUTARY_BASE_TYPE = flag:permanent
+						}                
+					}
+					else = {
+						unset_tributary = {
+							TRIBUTARY = scope:recipient
+							TRIBUTARY_BASE_TYPE = flag:non_permanent
+						}
+					}
 				}
 			}
 		}
@@ -1496,10 +1597,19 @@ turn_non_perma_tributary_to_perma = {
 					remove_list_variable = { name = non_permanent_tributaries target = prev }
 					add_to_variable_list = { name = permanent_tributaries target = prev }
 				}
-				set_variable = {
-					name = possible_vasalisation_year
-					value = { value = current_year add = 30} 
-				}				
+				remove_variable = possible_permafication_year
+				scope:actor = {
+					unset_tributary = {
+						TRIBUTARY = scope:recipient
+						TRIBUTARY_BASE_TYPE = flag:non_permanent
+					}
+					#TODO:MAKE SOME KIND OF EFFECT/S + TRIGGER/S THAT WOULD AUTOMATICALLY ASSIGN CORRECT PERMA TRIB TYPE BASED ON THE NON PERMA TRIB TYPE ~ T.
+					make_tributary = {
+						TYPE = tributary_permanent
+						SUZERAIN = scope:actor
+						TRIBUTARY = scope:recipient
+					}				
+				}		
 			}
 		}
 	}
