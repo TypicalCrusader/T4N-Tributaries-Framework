@@ -53,40 +53,6 @@ T4N_tributaries_on_war_won_attacker = {
 	} 
 }
 
-# called when a war is started.
-# same scopes are available in these events as in the CBs' on_declaration, this just fires for all CBs instead of a specific CB.
-
-on_war_started = {
-    on_actions = {
-        T4N_tributaries_on_war_started
-    }
-}
-
-T4N_tributaries_on_war_started = {
-    effect = {
-        if = { #permanent tributary calls his suzerain to defensive war
-            limit = {
-                scope:defender = {
-                    exists = var:my_suzerain
-                    any_war_ally = {
-                        NOT = {
-                            this = var:my_suzerain
-                        }
-                    }
-                    var:my_suzerain = {
-                        is_target_in_variable_list = { name = permanent_tributaries target = prev }
-                    }
-                }
-            }
-            scope:defender = {
-                save_scope_as = call_to_arms_tribute
-                var:my_suzerain = {
-                    trigger_event = { id = tributaries.6 }
-                }
-            }
-        }
-    }
-}
 
 # A title is lost by a character
 # root = the old holder

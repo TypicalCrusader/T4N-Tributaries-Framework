@@ -295,7 +295,6 @@ offer_tribute_effect = {
 	}
 }
 
-#FIX :base type =/= trib type
 unset_tributary = {
 	$TRIBUTARY$ = {
 		switch = {

@@ -309,10 +309,9 @@ tributaries.9 = {
 		desc = tributaries.9_opening
 	}
 	desc = tributaries.9_desc
-	sender = scope:trib
+	sender = scope:recipient
 
 	immediate = {
-		custom_tooltip = becomes_a_trib
 	}
 
 	option = {
