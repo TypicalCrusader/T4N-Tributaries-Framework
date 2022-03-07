@@ -174,6 +174,7 @@ T4N_tributaries_on_death = {
                     exists = var:my_suzerain
                 }
             }
+            debug_log = "I passed my_suzerain"
 			#give the heir var:my_suzerain
 			#Root is old tributary
             if = {
@@ -183,16 +184,23 @@ T4N_tributaries_on_death = {
                         TRIBUTARY = root
                     }
                 }
+                debug_log = "I passed trib type check"
                 set_variable = { 
                     name = tributary_succ_var
-                    value = this
+                    value = root
                 }
                 pass_tributary_type_to_heir = {
-                    SCOPE = scope:tributary_succ_var
+                    SCOPE = var:tributary_succ_var
                     TYPE = var:tributary_type
-                    TRIBUTARY = prev.primary_heir
+                    TRIBUTARY = root.primary_heir
                     NEW_RULER = var:my_suzerain
                 }
+                debug_log = "I Passed tributary pass effect"
+                unset_tributary = {
+                    TRIBUTARY = root
+                    TRIBUTARY_BASE_TYPE = flag:permanent
+                }
+                debug_log = "I passed unset"
                 remove_variable = tributary_succ_var              
             }
             else = {
