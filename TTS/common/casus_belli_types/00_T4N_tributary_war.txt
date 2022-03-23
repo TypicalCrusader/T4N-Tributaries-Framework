@@ -9,16 +9,25 @@
 
     truce_days = 970
 
-    allowed_for_character = {
-        NAND = {
-            primary_title = {
-                tier < tier_county
-            }
-            scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
-            exists = var:my_suzerain
-        }
-    }
+   # allowed_for_character = {
+    #    NAND = {
+    #        primary_title = {
+    #            tier < tier_county
+    #        }
+    #        scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
+    #        exists = var:my_suzerain
+    #    }
+    #}
     allowed_against_character = {
+        scope:attacker = {
+            NAND = {
+                primary_title = {
+                    tier < tier_county
+                }
+                scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
+                exists = var:my_suzerain
+            }
+        }
         primary_title = {
             tier >= tier_county
         }
@@ -79,9 +88,7 @@
 
 	on_white_peace = { 
         scope:attacker = {
-            prestige = {
-                value = -150
-            }
+            add_prestige = -150
         }
     }
 
@@ -95,13 +102,13 @@
 				trigger = { scope:defender = { is_local_player = yes } }
 				desc = trib_on_defeat_desc_defender
 			}
-			desc = trib_on_defeat
+			desc = trib_on_defeat_desc
 		}
 	}
 
     on_defeat = {
         scope:attacker = {
-            prestige = -150
+            add_prestige = -150
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
     }
@@ -123,7 +130,7 @@ permament_tributary_war_cb = {
 
     truce_days = 970
 
-    allowed_for_character = {
+    allowed_against_character = {
         scope:defender = {
             primary_title = {
                 tier >= tier_county
@@ -195,9 +202,7 @@ permament_tributary_war_cb = {
 
 	on_white_peace = { 
         scope:attacker = {
-            prestige = {
-                value = -150
-            }
+            add_prestige = -150
         }
     }
 
@@ -217,7 +222,7 @@ permament_tributary_war_cb = {
 
     on_defeat = {
         scope:attacker = {
-            prestige = -150
+            add_prestige = -150
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
     }
@@ -306,9 +311,7 @@ independence_tributary_war_cb = {
 
 	on_white_peace = { 
         scope:attacker = {
-            prestige = {
-               value = -150
-            } 
+            add_prestige = -150
         }
     }
 
@@ -329,15 +332,13 @@ independence_tributary_war_cb = {
 
     on_defeat = {
         scope:attacker = {
-            prestige = {
-                value = -150
-            }
+            add_prestige = -150
             pay_long_term_gold = { target = scope:defender gold = 150 }
         }
     }
 
     on_invalidated_desc = {
-        desc = trib_indp_on_invalidated_des
+        desc = trib_indp_on_invalidated_desc
     }
 
 }

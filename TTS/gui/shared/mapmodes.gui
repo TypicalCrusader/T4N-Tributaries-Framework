@@ -117,113 +117,113 @@
 				color = { 0.15 0.15 0.15 0.75 }
 			}
 
-			text_single = {
-				parentanchor = hcenter
-				text = "CUSTOM_TRIBUTARY_MAP_LEGEND"
-				default_format = "#color_yellow"
-			}
+			#text_single = {
+			#	parentanchor = hcenter
+			#	text = "CUSTOM_TRIBUTARY_MAP_LEGEND"
+			#	default_format = "#color_yellow"
+			#}
 
-			flowcontainer = {
-				direction = vertical
-				spacing = 20
-				margin_bottom = 10
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 0.0 0.7 0.15 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_ME"
-						}
-						expand = {}
-					}
-				}
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 1.0 0.85 0.0 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_MY_TRIBUTARY"
-						}
-						expand = {}
-					}
-				}
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 1.0 0 0 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_MY_SUZERAIN"
-						}
-						expand = {}
-					}
-				}
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 1.0 0.5 0.20 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY_SUZERAIN"
-						}
-						expand = {}
-					}
-				}
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 1.0 0.88 0.20 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY"
-						}
-						expand = {}
-					}
-				}
-				widget = {
-					hbox = {
-						icon = {
-							texture = "gfx/interface/colors/white.dds"
-							size = { 8 8 }
-							color = { 1.0 0.3 0.3 1 }
-						}
-						spacing = 5
-						text_single = {
-							margin_top = -6
-							align = center
-							text = "CUSTOM_TRIBUTARY_MAP_ANY_SUZERAIN"
-						}
-						expand = {}
-					}
-				}
-			}
+			#flowcontainer = {
+			#	direction = vertical
+			#	spacing = 20
+			#	margin_bottom = 10
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 0.0 0.7 0.15 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_ME"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 1.0 0.85 0.0 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_MY_TRIBUTARY"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 1.0 0 0 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_MY_SUZERAIN"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 1.0 0.5 0.20 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY_SUZERAIN"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 1.0 0.88 0.20 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_ANY_TRIBUTARY"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#	widget = {
+			#		hbox = {
+			#			icon = {
+			#				texture = "gfx/interface/colors/white.dds"
+			#				size = { 8 8 }
+			#				color = { 1.0 0.3 0.3 1 }
+			#			}
+			#			spacing = 5
+			#			text_single = {
+			#				margin_top = -6
+			#				align = center
+			#				text = "CUSTOM_TRIBUTARY_MAP_ANY_SUZERAIN"
+			#			}
+			#			expand = {}
+			#		}
+			#	}
+			#}
 		}
 
 		flowcontainer = {
@@ -624,10 +624,10 @@
 					parentanchor = hcenter
 					visible = "[CanChangeMapMode]"
 					enabled = "[And(Not(IsObserver), GetScriptedGui('custom_tributary_map').IsValid(GuiScope.End))]"
-					onclick = "[SetMapMode('debug_character_pools')]"
-					onclick = "[GetScriptedGui('custom_tributary_map').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+					#onclick = "[SetMapMode('debug_character_pools')]"
+					#onclick = "[GetScriptedGui('custom_tributary_map').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
 
-					down = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
+					#down = "[And( GetScriptedGui('custom_tributary_map').IsShown(GuiScope.End), IsMapMode('debug_character_pools') )]"
 					tooltip = "CUSTOM_TRIBUTARY_MAP_TOOLTIP"
 					using = tooltip_ws
 					text = "CUSTOM_MAPMODE_TRIBUTARIES_NAME"

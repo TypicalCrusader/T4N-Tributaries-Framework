@@ -20,8 +20,12 @@
 				scope:attacker = { target_is_liege_or_above = scope:defender }
 			}
 		}
+	}
+
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
+	
 	target_titles = de_jure
 	ai_only_against_neighbors = yes
 	#target_title_tier = all
@@ -29,6 +33,7 @@
 	#target_de_jure_regions_above = yes
 	combine_into_one = yes
 
+	
 	valid_to_start = {
 		scope:target = {
 			any_this_title_or_de_jure_above = {
@@ -446,7 +451,7 @@ individual_county_de_jure_cb = {
 		}
 	}
 
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 
@@ -905,7 +910,7 @@ individual_duchy_de_jure_cb = {
 		}
 	}
 
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 
@@ -1369,7 +1374,7 @@ imperial_reconquest_cb = {
 		}
 	}
 
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 
@@ -1562,7 +1567,7 @@ dismantle_holy_pretender_cb = {
 		}
 	}
 
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 
@@ -1709,7 +1714,7 @@ dismantle_byz_pretender_cb = {
 		}
 	}
 
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 

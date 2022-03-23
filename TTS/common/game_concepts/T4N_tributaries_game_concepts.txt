@@ -1,4 +1,4 @@
-T4N_tributary = {
+﻿T4N_tributary = {
 	texture = "gfx/interface/icons/icon_vassal.dds"
 	alias = { T4N_tributaries }
 }

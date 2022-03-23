@@ -18,7 +18,6 @@
 	}
 
 	allowed_for_character_display_regardless = {
-		casus_belli_block = yes
 		trigger_if = {
 			limit = {
 				culture = {
@@ -31,6 +30,10 @@
 			prestige_level >= 4
 		}
 	}
+
+	allowed_against_character_display_regardless = {
+		casus_belli_block = yes
+	}	
 	
 	allowed_against_character = {
 		scope:attacker = {
@@ -454,7 +457,6 @@ clan_invasion_war = {
 	}
 
 	allowed_for_character_display_regardless = {
-		casus_belli_block = yes
 		trigger_if = {
 			limit = {
 				culture = {
@@ -467,6 +469,10 @@ clan_invasion_war = {
 			prestige_level >= 4
 		}
 	}
+
+	allowed_against_character_display_regardless = {
+		casus_belli_block = yes
+	}	
 	
 	allowed_against_character = {
 		scope:attacker = {
@@ -1385,7 +1391,7 @@ mongol_realm_invasion_war = {
 		prestige_level >= 1
 	}
 	
-	allowed_for_character_display_regardless = {
+	allowed_against_character_display_regardless = {
 		casus_belli_block = yes
 	}
 
