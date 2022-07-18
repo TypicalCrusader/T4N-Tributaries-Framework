@@ -32,9 +32,9 @@
 
 
 # Filled Near
-@filled_near_gradient_alpha_inside = 			0.3
+@filled_near_gradient_alpha_inside = 			1
 @filled_near_gradient_alpha_outside = 			@hollow_near_gradient_alpha_outside
-@filled_near_gradient_width = 					0.2
+@filled_near_gradient_width = 					0.4
 @filled_near_gradient_color_mult = 				1
 @filled_near_edge_width = 						@hollow_near_gradient_width
 @filled_near_edge_sharpness = 					0.000
@@ -68,7 +68,7 @@
 @filled_far_after_lighting_blend = 				1
 
 # Filled Pre Flat Map
-@pre_flat_map_gradient_alpha_inside = 			1
+@pre_flat_map_gradient_alpha_inside = 			@filled_far_gradient_alpha_inside
 @pre_flat_map_gradient_alpha_outside = 			@filled_far_gradient_alpha_outside
 @pre_flat_map_gradient_width = 					@filled_far_gradient_width
 @pre_flat_map_gradient_color_mult = 			@filled_far_gradient_color_mult
@@ -80,7 +80,7 @@
 @pre_flat_map_after_lighting_blend = 			@filled_far_after_lighting_blend
 
 # Flat Map
-@flat_map_gradient_alpha_inside = 				0.9
+@flat_map_gradient_alpha_inside = 				0.8
 @flat_map_gradient_alpha_outside = 				@pre_flat_map_gradient_alpha_outside
 @flat_map_gradient_width = 						@pre_flat_map_gradient_width
 @flat_map_gradient_color_mult = 				@pre_flat_map_gradient_color_mult
@@ -3304,82 +3304,3 @@ debug_geographical_region = {
 	}
 }
 
-struggle = {
-	color_mode = struggle
-	small_map_names = duchies
-	large_map_names = selected_character_realms
-	selection = selected_character_realms_or_holdings
-	fill_in_impassable = no
-
-	gradient_parameters = {
-		zoom_step =					@zoom_step_near
-
-		gradient_alpha_inside = 	@filled_near_gradient_alpha_inside
-		gradient_alpha_outside = 	@filled_near_gradient_alpha_outside
-		gradient_width = 			@filled_near_gradient_width
-		gradient_color_mult =		@filled_near_gradient_color_mult
-		edge_width = 				@filled_near_edge_width
-		edge_sharpness = 			@filled_near_edge_sharpness
-		edge_alpha = 				@filled_near_edge_alpha
-		edge_color_mult = 			@filled_near_edge_color_mult
-		before_lighting_blend =		@filled_near_before_lighting_blend
-		after_lighting_blend =		@filled_near_after_lighting_blend
-	}
-	gradient_parameters = {
-		zoom_step =					@zoom_step_mid
-
-		gradient_alpha_inside = 	@filled_mid_gradient_alpha_inside
-		gradient_alpha_outside = 	@filled_mid_gradient_alpha_outside
-		gradient_width = 			@filled_mid_gradient_width
-		gradient_color_mult =		@filled_mid_gradient_color_mult
-		edge_width = 				@filled_mid_edge_width
-		edge_sharpness = 			@filled_mid_edge_sharpness
-		edge_alpha = 				@filled_mid_edge_alpha
-		edge_color_mult = 			@filled_mid_edge_color_mult
-		before_lighting_blend =		@filled_mid_before_lighting_blend
-		after_lighting_blend =		@filled_mid_after_lighting_blend
-	}
-	gradient_parameters = {
-		zoom_step =					@zoom_step_far
-
-		gradient_alpha_inside = 	@filled_far_gradient_alpha_inside
-		gradient_alpha_outside = 	@filled_far_gradient_alpha_outside
-		gradient_width = 			@filled_far_gradient_width
-		gradient_color_mult =		@filled_far_gradient_color_mult
-		edge_width = 				@filled_far_edge_width
-		edge_sharpness = 			@filled_far_edge_sharpness
-		edge_alpha = 				@filled_far_edge_alpha
-		edge_color_mult = 			@filled_far_edge_color_mult
-		before_lighting_blend =		@filled_far_before_lighting_blend
-		after_lighting_blend =		@filled_far_after_lighting_blend
-	}
-	gradient_parameters = {
-		zoom_step =					@zoom_step_pre_flat_map
-
-		gradient_alpha_inside = 	@pre_flat_map_gradient_alpha_inside
-		gradient_alpha_outside = 	@pre_flat_map_gradient_alpha_outside
-		gradient_width = 			@pre_flat_map_gradient_width
-		gradient_color_mult =		@pre_flat_map_gradient_color_mult
-		edge_width = 				@pre_flat_map_edge_width
-		edge_sharpness = 			@pre_flat_map_edge_sharpness
-		edge_alpha = 				@pre_flat_map_edge_alpha
-		edge_color_mult = 			@pre_flat_map_edge_color_mult
-		before_lighting_blend =		@pre_flat_map_before_lighting_blend
-		after_lighting_blend =		@pre_flat_map_after_lighting_blend
-	}
-	gradient_parameters = {
-		zoom_step =					@zoom_step_flat_map
-
-		gradient_alpha_inside = 	@flat_map_gradient_alpha_inside
-		gradient_alpha_outside = 	@flat_map_gradient_alpha_outside
-		gradient_width = 			@flat_map_gradient_width
-		gradient_color_mult =		@flat_map_gradient_color_mult
-		edge_width = 				@flat_map_edge_width
-		edge_sharpness = 			@flat_map_edge_sharpness
-		edge_alpha = 				@flat_map_edge_alpha
-		edge_color_mult = 			@flat_map_edge_color_mult
-		before_lighting_blend =		@flat_map_before_lighting_blend
-		after_lighting_blend =		@flat_map_after_lighting_blend
-
-	}
-}

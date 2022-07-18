@@ -240,6 +240,7 @@ pass_tributary_type_to_heir = {
 				}	
 			}
 		}
+		remove_variable = my_suzerain
 	}
 }
 

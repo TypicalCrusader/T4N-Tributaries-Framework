@@ -33,9 +33,9 @@ call_suzerain_to_war = {
 			}
 		}
 		custom_description = {
-			text = trib_type_allows_call_to_arms
+			text = trib_type_allows_call_to_arms_trib
 			exists = var:can_call_to_war_tributary
-			var:can_call_to_war_tributary.compare_value = flag:yes
+			var:can_call_to_war_tributary = flag:yes
 		}
 	}
 
@@ -270,7 +270,7 @@ call_tributaries_to_war = {
 				any_in_list = {
 					variable = all_tributaries
 					exists = var:can_call_to_war_suzerain
-					var:can_call_to_war_suzerain.compare_value = flag:yes
+					var:can_call_to_war_suzerain = flag:yes
 				}
 			}				
 		}
@@ -285,17 +285,25 @@ call_tributaries_to_war = {
 			variable = all_tributaries
 			limit = {
 				exists = var:can_call_to_war_suzerain
-				var:can_call_to_war_suzerain.compare_value = flag:yes
+				var:can_call_to_war_suzerain = flag:yes
 			}
+			save_temporary_scope_as = temp_trib_war
 			scope:actor = {
+				random_character_war = {
+					save_temporary_scope_as = temp_war
+				}
 				if = {
 					limit = {
-						is_attacker_in_war = yes
+						is_attacker_in_war = scope:tmp_war
 					}
-					add_attacker = prev
+					scope:tmp_war = {
+						add_attacker = scope:temp_trib_war
+					}
 				}
 				else = {
-					add_defender = prev
+					scope:tmp_war = {
+						add_defender = scope:temp_trib_war
+					}
 				}
 			}
 		}
@@ -393,7 +401,8 @@ offer_tribute = {
                 any_vassal_or_below = {
                     this = scope:recipient
                 }		
-			}			
+			}
+			is_independent_ruler = yes			
 		}
 		scope:recipient = {
 			NOT = {
@@ -401,6 +410,7 @@ offer_tribute = {
 			}
 			is_at_war = no				
 			highest_held_title_tier >= tier_county
+			is_independent_ruler = yes
 		}
 	}
 
@@ -781,7 +791,9 @@ offer_tribute = {
 			desc = offer_vassalization_interaction_aibehavior_culture_tt
 			trigger = {
 				scope:actor = {
-					has_same_culture_group_as = scope:recipient
+					culture = {
+						has_same_culture_heritage = scope:recipient.culture
+					}
 					NOT = { has_same_culture_as = scope:recipient }
 				}
 			}
@@ -792,7 +804,11 @@ offer_tribute = {
 			desc = offer_vassalization_interaction_aibehavior_culture_group_tt
 			trigger = {
 				scope:actor = {
-					NOT = { has_same_culture_group_as = scope:recipient }
+					NOT = { 
+						culture = {
+							has_same_culture_heritage = scope:recipient.culture
+						}
+					}
 				}
 			}
 		}
@@ -912,6 +928,7 @@ ruler_offer_tribute_to_recipient = {
 			}
 			is_at_war = no
 			NOT = { this = scope:recipient }
+			is_independent_ruler = yes
 		}
 		scope:recipient = {
 			NOT = {
@@ -926,6 +943,7 @@ ruler_offer_tribute_to_recipient = {
                     this = scope:actor
                 }		
 			}
+			is_independent_ruler = yes
 		}
 	}
 
@@ -996,7 +1014,7 @@ ruler_offer_tribute_to_recipient = {
 			desc = will_not_accept_smaller_suzerain
 		}
 		modifier = {
-			add = 500
+			add = 100
 			scope:actor.realm_size > scope:recipient.realm_size
 			desc = will_accept_bigger_suzerain		
 		}
@@ -1304,7 +1322,10 @@ ruler_offer_tribute_to_recipient = {
 			desc = offer_vassalization_interaction_aibehavior_culture_tt
 			trigger = {
 				scope:actor = {
-					has_same_culture_group_as = scope:recipient
+					culture = {
+						has_same_culture_heritage = scope:recipient.culture
+					}
+					
 					NOT = { has_same_culture_as = scope:recipient }
 				}
 			}
@@ -1315,7 +1336,11 @@ ruler_offer_tribute_to_recipient = {
 			desc = offer_vassalization_interaction_aibehavior_culture_group_tt
 			trigger = {
 				scope:actor = {
-					NOT = { has_same_culture_group_as = scope:recipient }
+					NOT = { 
+						culture = {
+							has_same_culture_heritage = scope:recipient.culture
+						}
+					}
 				}
 			}
 		}
@@ -1497,7 +1522,7 @@ annex_tributary = {
 		exists = scope:recipient.var:possible_vasalisation_year
 		OR = {
 			custom_description = {
-				text = trib_type_allow_annexing_subjects
+				text = trib_type_disallow_annexing_subjects
 				scope:recipient.var:possible_vasalisation_year.compare_value <= -1
 			}
 			custom_description = {
@@ -1569,7 +1594,7 @@ turn_non_perma_tributary_to_perma = {
 		exists = scope:recipient.var:possible_permafication_year
 		OR = {
 			custom_description = {
-				text = trib_type_allow_permafing_subjects
+				text = trib_type_disallow_permafing_subjects
 				scope:recipient.var:possible_permafication_year.compare_value <= -1
 			}
 			custom_description = {

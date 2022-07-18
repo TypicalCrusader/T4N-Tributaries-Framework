@@ -47,11 +47,9 @@
 			trigger_else = {
 				piety_level >= 1
 			}
-		}
-	}
+		} 
 
-	allowed_against_character_display_regardless = {
-		casus_belli_block = yes
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	allowed_against_character = {
@@ -596,10 +594,8 @@ religious_war = {
 				piety_level >= 2
 			}
 		}
-	}
 
-	allowed_against_character_display_regardless = {
-		casus_belli_block = yes
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	allowed_against_character = {
@@ -1159,10 +1155,8 @@ major_religious_war = {
 				NOT = { has_character_flag = declared_major_religious_war_flag }
 			}
 		}
-	}
 
-	allowed_against_character_display_regardless = {
-		casus_belli_block = yes
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	allowed_against_character = {
@@ -1696,10 +1690,8 @@ excommunication_war = {
 				}
 			}
 		}
-	}
 
-	allowed_against_character_display_regardless = {
-		casus_belli_block = yes
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	target_de_jure_regions_above = yes
@@ -3122,10 +3114,8 @@ undirected_great_holy_war = {
 	}
 
 	allowed_for_character_display_regardless = {
-	}
 
-	allowed_against_character_display_regardless = {
-		casus_belli_block = yes
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	valid_to_start = {
@@ -3828,13 +3818,13 @@ directed_great_holy_war = {
 			text = great_holy_war_cooldown
 			NOT = {	scope:attacker.faith = { exists = var:variable_ghw_cooldown }}
 		}
+		casus_belli_block = { SCOPEATK = scope:attacker SCOPEDEF = root }
 	}
 
 	allowed_against_character = {
 		scope:attacker.faith = {
 			is_hostile_enough_for_holy_war_trigger = { FAITH = scope:defender.faith }
 		}
-		casus_belli_block = yes
 	}
 
 	valid_to_start = {

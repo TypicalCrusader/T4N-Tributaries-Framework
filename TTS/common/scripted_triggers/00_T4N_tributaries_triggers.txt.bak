@@ -43,45 +43,38 @@ has_non_permanent_tributaries = {
 }
 
 can_declare_war_on_tributary = {
-	$SCOPETRIB$ = {
-		AND = {
-			exists = var:can_declare_war_on_trib 
-			var:can_declare_war_on_trib = flag:no
-			exists = var:my_suzerain
-			var:my_suzerain = $SCOPE2$
+	#exists = var:suzerain
+	$SCOPE$ = {
+		exists = var:can_declare_war_on_trib 
+		var:can_declare_war_on_trib = flag:no
+		exists = var:my_suzerain
+		var:my_suzerain = {
+			this = $SCOPE2$ 
 		} 
 	}
 }
 
 can_declare_war_on_suzerain = {
-	$SCOPETRIB$ = {
-		AND = {
-			exists = var:my_suzerain
-			var:my_suzerain = $SCOPE2$
-		}	
+	$SCOPE$ = {
+		exists = var:my_suzerain
+		var:my_suzerain = {
+			this = $SCOPE2$
+		} 
 	}
 }
 
 casus_belli_block = {
-	trigger_if = {
-		limit = {
-			$SCOPEDEF$ = {
-				AND = {
-					exists = var:can_declare_war_on_trib 
-					exists = var:my_suzerain
-				}
+	#CB Tributaries block
+	scope:attacker = {
+		#OR = {
+			custom_description = {
+				text = cannot_attack_suzerain
+				NOT = { can_declare_war_on_tributary = { SCOPE = scope:defender SCOPE2 = scope:attacker } }
 			}
-		}
-		custom_description = {
-			text = cannot_attack_suzerain
-			NOT = { can_declare_war_on_tributary = { SCOPETRIB = $SCOPEDEF$ SCOPE2 = $SCOPEATK$ } }
-		}
-		custom_description = {
-			text = cannot_attack_tributary
-			NOT = { can_declare_war_on_suzerain = { SCOPETRIB = $SCOPEATK$ SCOPE2 = $SCOPEDEF$ } } 
-		}
-	}
-	trigger_else = {
-		always = yes
+			custom_description = {
+				text = cannot_attack_tributary
+				NOT = { can_declare_war_on_suzerain = { SCOPE = scope:attacker SCOPE2 = scope:defender } } 
+			}
+		#}
 	}
 }

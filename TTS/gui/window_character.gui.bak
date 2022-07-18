@@ -8,7 +8,6 @@ window = {
 	datacontext = "[CharacterWindow.GetCharacter]"
 	movable = no
 	layer = middle
-	allow_outside = yes
 
 	using = Window_Size_Sidebar
 	using = Window_Background_Sidebar

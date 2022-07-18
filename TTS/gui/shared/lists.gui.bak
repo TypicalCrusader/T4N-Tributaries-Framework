@@ -1077,6 +1077,7 @@ types Lists
 		size = { 18 18 }
 
 		using = Master_Button_Modify_Texture
+
 		blockoverride "master_color_frame" {
 			frame = 1
 		}
@@ -1637,17 +1638,10 @@ types Lists
 								}
 							}
 
-							text_single = { # Display the usual Levy and Tax for Feudal
-								visible = "[Character.GetGovernment.IsType('feudal_government')]"
+							text_single = {
 								layoutpolicy_horizontal = expanding
 								text = "MY_REALM_WINDOW_VASSAL_OBLIGATION"
 								default_format = "#low"
-								align = nobaseline
-							}
-
-							text_single = { # Display the government type for non Feudal
-								visible = "[Not(Character.GetGovernment.IsType('feudal_government'))]"
-								text = "[Character.GetGovernment.GetName]"
 								align = nobaseline
 							}
 
@@ -1861,7 +1855,7 @@ type widget_tribs_list_item = widget {
               name = "character_relation"
               visible = "[Character.GetLiege.IsLocalPlayer]"
               layoutpolicy_horizontal = expanding
-              text = "[Character.GetRelationToString(GetPlayer)] "
+              raw_text = "[Character.GetRelationToString(GetPlayer)] "
               default_format = "#low"
               autoresize = no
               fontsize_min = 13
@@ -1920,7 +1914,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }
@@ -1938,7 +1932,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }
@@ -1955,7 +1949,7 @@ type widget_tribs_list_item = widget {
 
             text_single = {
               layoutpolicy_horizontal = expanding
-              text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+              raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
               align = nobaseline
               default_format = "#high"
             }
