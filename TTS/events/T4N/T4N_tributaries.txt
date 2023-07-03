@@ -17,48 +17,47 @@ tributaries.3 = {
 			if = {
 				limit = {
 					is_suzerain = yes
-				}
-				if = {
-					limit = {
-						AND = {
-							is_independent_ruler = no
-							is_landed = no
-						}
-					}
-					every_in_list = {
-						variable = permanent_tributaries
-						
-						set_variable = { name = my_suzerain value = root }
-						root = {
-							add_to_variable_list = { name = permanent_tributaries target = prev }
-						}
-					}
-					clear_variable_list = permanent_tributaries
-					clear_variable_list = non_permanent_tributaries
-				}
-			}
-			else = {
-				if = {
-					limit = {
+					OR = {
+						is_independent_ruler = no
 						is_landed = no
 					}
-					if = {
-						limit = {
-							is_permanent_tributary = {
-								SUZERAIN = var:my_suzerain
-								TRIBUTARY = this
-							}
-						}
-						var:my_suzerain = {
-							remove_list_variable = { name = permanent_tributaries target = prev }
-							remove_list_variable = { name = all_tributaries target = prev }
+				}
+				every_in_list = {
+					variable = permanent_tributaries
+						
+					set_variable = { name = my_suzerain value = root }
+					root = {
+						add_to_variable_list = { name = permanent_tributaries target = prev }
+						add_to_variable_list = { name = all_tributaries target = prev }
+					}
+				}
+				clear_variable_list = permanent_tributaries
+				clear_variable_list = non_permanent_tributaries
+			}
+			else_if = {
+				limit = {
+					is_tributary = yes
+					OR = {
+						is_independent_ruler = no
+						is_landed = no
+					}
+				}
+				if = {
+					limit = {
+						is_permanent_tributary = {
+							SUZERAIN = var:my_suzerain
+							TRIBUTARY = scope:tributary_slash_suzerain_loser
 						}
 					}
-					else = {
-						var:my_suzerain = {
-							remove_list_variable = { name = non_permanent_tributaries target = prev }
-							remove_list_variable = { name = all_tributaries target = prev }
-						}					
+					unset_tributary = {
+						TRIBUTARY = scope:tributary_slash_suzerain_loser
+						TRIBUTARY_BASE_TYPE = flag:permanent
+					}
+				}	
+				else = {
+					unset_tributary = {
+						TRIBUTARY = scope:tributary_slash_suzerain_loser
+						TRIBUTARY_BASE_TYPE = flag:non_permanent
 					}
 				}
 			}
@@ -199,9 +198,8 @@ tributaries.5 = {
 tributaries.6 = {
 	type = letter_event
 	opening = {
-		title = tributary_6_tit
+		desc = tributary_6_tit
 	}
-	title = tributary_6_tit
 	desc = tributary_6_desc
 	sender = {
 		character = scope:call_to_arms_tribute
@@ -260,7 +258,7 @@ tributaries.6 = {
 tributaries.7 = {
 	type = letter_event
 	opening = {
-		title = tributary_7_tit
+		desc = tributary_7_tit
 	}
 	desc = tributary_7_desc
 	sender = {

@@ -32,6 +32,7 @@
   trib_indp_on_defeat_desc_attacker:0 "[attacker.GetShortUIName|U] stops being our Tributary"
   trib_indp_on_defeat_desc_defender:0 "We remain as suzerain of [attacker.GetShortUIName|U]"
   trib_indp_on_invalidated_desc:0 "War between [attacker.GetShortUIName|U] and [defender.GetShortUIName|U] is invalidated"
+ 
 
   NOT_cannot_attack_suzerain_l: "Target is not a protected by its Tributary Type"
   cannot_attack_suzerain_l: "Tributary type of Target dissalows suzerain to declare war on the Tributary"
