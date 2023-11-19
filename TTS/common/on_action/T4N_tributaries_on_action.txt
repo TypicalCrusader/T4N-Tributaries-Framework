@@ -136,6 +136,9 @@ T4N_tributaries_on_death = {
             limit = {
                 has_realm_law_flag = partition_succession_law 
             }
+            root.primary_heir = {
+                save_scope_as = main_heir
+            }
             ordered_heir = {       
                 order_by = age
                 limit = {
@@ -148,7 +151,7 @@ T4N_tributaries_on_death = {
                 make_tributary = {
                     TYPE = tributary_karling
                     TRIBUTARY = scope:heir
-                    SUZERAIN = prev.primary_heir
+                    SUZERAIN = scope:main_heir
                 }                              
             }
             debug_log = "Partition Succesion happened in which newly formed realms became tributaries of primary heir"
@@ -187,28 +190,7 @@ T4N_tributaries_on_death = {
                 }
                 remove_variable = tributary_succ_var_np
 			}	          
-			remove_variable = suzerain
-            if = { 
-                limit = {
-                    has_realm_law_flag = partition_succession_law 
-                }
-                ordered_heir = {       
-                    order_by = age
-                    limit = {
-                        NOT = { this = root.primary_heir }
-                        any_heir_to_title = {
-                            tier == root.primary_title.tier
-                        }
-                    }
-                    save_scope_as = heir
-                    make_tributary = {
-                        TYPE = tributary_karling
-                        TRIBUTARY = scope:heir
-                        SUZERAIN = prev.primary_heir
-                    }                              
-                }
-                debug_log = "Partition Succesion happened in which newly formed realms became tributaries of primary heir"
-            }            
+			remove_variable = suzerain        
         }
         if = {
             limit = {
