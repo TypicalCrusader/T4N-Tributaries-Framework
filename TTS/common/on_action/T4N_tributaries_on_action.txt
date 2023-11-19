@@ -132,6 +132,27 @@ on_death = {
 
 T4N_tributaries_on_death = {
     effect = {
+        if = { 
+            limit = {
+                has_realm_law_flag = partition_succession_law 
+            }
+            ordered_heir = {       
+                order_by = age
+                limit = {
+                    NOT = { this = root.primary_heir }
+                    any_heir_to_title = {
+                        tier == root.primary_title.tier
+                    }
+                }
+                save_scope_as = heir
+                make_tributary = {
+                    TYPE = tributary_karling
+                    TRIBUTARY = scope:heir
+                    SUZERAIN = prev.primary_heir
+                }                              
+            }
+            debug_log = "Partition Succesion happened in which newly formed realms became tributaries of primary heir"
+        }      
         if = {
             limit = {
                 root = {
@@ -165,8 +186,29 @@ T4N_tributaries_on_death = {
                     TRIBUTARY_BASE_TYPE = flag:non_permanent
                 }
                 remove_variable = tributary_succ_var_np
-			}	
+			}	          
 			remove_variable = suzerain
+            if = { 
+                limit = {
+                    has_realm_law_flag = partition_succession_law 
+                }
+                ordered_heir = {       
+                    order_by = age
+                    limit = {
+                        NOT = { this = root.primary_heir }
+                        any_heir_to_title = {
+                            tier == root.primary_title.tier
+                        }
+                    }
+                    save_scope_as = heir
+                    make_tributary = {
+                        TYPE = tributary_karling
+                        TRIBUTARY = scope:heir
+                        SUZERAIN = prev.primary_heir
+                    }                              
+                }
+                debug_log = "Partition Succesion happened in which newly formed realms became tributaries of primary heir"
+            }            
         }
         if = {
             limit = {
@@ -195,6 +237,31 @@ T4N_tributaries_on_death = {
                     TRIBUTARY = root.primary_heir
                     NEW_RULER = var:my_suzerain
                 }
+                if = { 
+                    limit = {
+                        has_realm_law_flag = partition_succession_law 
+                    }
+                    ordered_heir = {       
+                        order_by = age
+                        limit = {
+                            NOT = { this = root.primary_heir }
+                            any_heir_to_title = {
+                                tier == root.primary_title.tier
+                            }
+                        }
+                        set_variable = { 
+                            name = succ_trib_var
+                            value = this
+                        }
+                        save_scope_as = heir
+                        make_tributary = {
+                            TYPE = tributary_karling
+                            TRIBUTARY = scope:heir
+                            SUZERAIN = var:my_suzerain
+                        }                                       
+                    }
+                    debug_log = "Partition Succesion happened in which newly formed realms became tributaries of character former suzerain"
+                }                  
                 debug_log = "I Passed tributary pass effect"
                 unset_tributary = {
                     TRIBUTARY = root

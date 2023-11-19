@@ -52,14 +52,14 @@ tributary_permanent = {
 	}
 }
 
-# Both of these are permanent sub-types
+#kinda the case that was happening when Charlemagne died and Treaty of Verdun was passed, the rulers were mostly indpendent BUT they were nominal vassals of Lothair I 
 tributary_karling = {
 	define_tributary = {
 		TRIBUTARY = $TRIBUTARY$
 		SUZERAIN = $SUZERAIN$
-		TRIBUTARY_BASE_TYPE = flag:permanent
+		TRIBUTARY_BASE_TYPE = flag:non_permanent
 		TYPE = flag:karling_tributary
-		TRIBUTE_GOLD_PERCENT = 0.05
+		TRIBUTE_GOLD_PERCENT = 0.02
 		MONTHLY_PRESTIGE_SUZERAIN = 0
 		MONTHLY_PRESTIGE_TRIBUTARY = 0
 		MONTHLY_PIETY_SUZERAIN = 0
@@ -75,11 +75,12 @@ tributary_karling = {
 	$TRIBUTARY$ = {
 		set_variable = {
             name = possible_vasalisation_year
-            value = { value = current_year add = -1 } 
+            value = { value = current_year add = 30 } 
         }
 	}
 }
 
+#Perma subtype
 tributary_china = {
 	define_tributary = {
 		TRIBUTARY = $TRIBUTARY$

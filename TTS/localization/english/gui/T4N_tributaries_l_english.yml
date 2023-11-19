@@ -9,3 +9,4 @@
  PRESTIGE_INCOME_TRIBUTARIES: "From [T4N_tributaries|E]: #P +[SelectLocalization(GetPlayer.MakeScope.Var('prestige_display').IsSet, 'prestige_display_loc','0.0')]#!/month"
  piety_display_loc: "[GetPlayer.MakeScope.Var('piety_display').GetValue]"
  PIETY_INCOME_TRIBUTARIES: "From [T4N_tributaries|E]: #P +[SelectLocalization(GetPlayer.MakeScope.Var('prestige_display').IsSet, 'piety_display_loc','0.0')]#!/month" 
+ karling_tributary: "[T4N_karling_tributary|E]"

@@ -215,6 +215,7 @@ define_tributary = {
 
 pass_tributary_type_to_heir = {
 	$SCOPE$ = {
+	
 		switch = {
 			trigger = $TYPE$
 

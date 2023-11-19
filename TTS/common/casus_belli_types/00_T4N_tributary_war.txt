@@ -15,7 +15,9 @@
                 tier < tier_county
             }
             scope:attacker.primary_title.tier < scope:defender.primary_title.tier  
-            exists = var:my_suzerain
+            var:my_suzerain ?= {
+                NOT = { this = scope:defender }
+            }
         }
     }
     allowed_against_character = {
@@ -29,7 +31,9 @@
             subject = scope:defender
             NOT = {
                 scope:attacker = {
-                    is_target_in_variable_list = { name = all_tributaries target = scope:defender }
+                    var:my_suzerain ?= {
+                        NOT = { this = scope:defender }
+                    }
                 }
             }
         } 
@@ -130,7 +134,9 @@ permament_tributary_war_cb = {
                 tier < tier_county
             }
             this.primary_title.tier < scope:defender.primary_title.tier  
-            exists = var:my_suzerain
+            var:my_suzerain ?= {
+                NOT = { this = scope:defender }
+            }
         }
     }
     allowed_against_character = {
@@ -144,7 +150,9 @@ permament_tributary_war_cb = {
             subject = scope:defender
             NOT = {
                 scope:attacker = {
-                    is_target_in_variable_list = { name = all_tributaries target = scope:defender }
+                    var:my_suzerain ?= {
+                        NOT = { this = scope:defender }
+                    }
                 }
             }
         }    
