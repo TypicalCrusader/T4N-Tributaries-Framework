@@ -135,6 +135,9 @@ T4N_tributaries_on_death = {
         if = { 
             limit = {
                 has_realm_law_flag = partition_succession_law 
+                root = {
+                    NOT = { exists = var:my_suzerain }
+                }
             }
             root.primary_heir = {
                 save_scope_as = main_heir
