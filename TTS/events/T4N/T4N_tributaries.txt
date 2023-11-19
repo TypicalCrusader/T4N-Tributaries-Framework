@@ -51,13 +51,11 @@ tributaries.3 = {
 					}
 					unset_tributary = {
 						TRIBUTARY = scope:tributary_slash_suzerain_loser
-						TRIBUTARY_BASE_TYPE = flag:permanent
 					}
 				}	
 				else = {
 					unset_tributary = {
 						TRIBUTARY = scope:tributary_slash_suzerain_loser
-						TRIBUTARY_BASE_TYPE = flag:non_permanent
 					}
 				}
 			}

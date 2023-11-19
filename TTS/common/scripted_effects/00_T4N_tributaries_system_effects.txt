@@ -107,64 +107,79 @@ define_tributary = {
 
 	$TRIBUTARY$ = {
 		# Store suzerain scope
+
 		set_variable = { name = my_suzerain value = $SUZERAIN$ }
 
-		# Store tributary type
-		# Useful for localisation and similar customisation
-		set_variable = {
-			name = tributary_type
-			value = $TYPE$
+		create_story = {
+			type = T4N_tributary_story_cycle
+			save_scope_as = T4N_tributary_story_cycle_scope
 		}
 
-		# Tribute values
-		set_variable = {
-			name = tribute_gold_percent
-			value = $TRIBUTE_GOLD_PERCENT$
-		}
-		set_variable = {
-			name = monthly_prestige_suzerain
-			value = $MONTHLY_PRESTIGE_SUZERAIN$
-		}
-		set_variable = {
-			name = monthly_prestige_tributary
-			value = $MONTHLY_PRESTIGE_TRIBUTARY$
-		}
-		set_variable = {
-			name = monthly_piety_suzerain
-			value = $MONTHLY_PIETY_SUZERAIN$
-		}
-		set_variable = {
-			name = monthly_piety_tributary
-			value = $MONTHLY_PIETY_TRIBUTARY$
-		}
-		set_variable = {
-			name = man_at_arm_cap_per_ten_subjects
-			value = $MAN_AT_ARM_CAP_PER_TEN_SUBJECTS$
-		}	
-		set_variable = {
-			name = monthly_levy_reinforcement_rate_per_subject
-			value = $MONTHLY_LEVY_REINFORCEMENT_RATE_PER_SUBJECT$
-		}	
-		set_variable = {
-			name = monthly_levy_reinforcement_rate_tributary
-			value = $MONTHLY_LEVY_REINFORCEMENT_RATE_TRIBUTARY$
-		}
-		#can declare war on tributary
-		#can call to war Suzerain
-		#can call to war Tributary flags
+		scope:T4N_tributary_story_cycle_scope = {
+			$TRIBUTARY$ = {
+				set_variable = {
+					name = T4N_tributary_story_cycle_var
+					value = prev
+				}
+			}
 
-		set_variable = {
-			name = can_declare_war_on_trib
-			value = $CAN_DECLARE_WAR_ON_TRIB_FLAG$
-		}
-		set_variable = {
-			name = can_call_to_war_suzerain
-			value = $CAN_CALL_TO_WAR_SUZERAIN_FLAG$
-		}		
-		set_variable = {
-			name = can_call_to_war_tributary
-			value = $CAN_CALL_TO_WAR_TRIBUTARY_FLAG$
-		}		
+			# Store tributary type
+			# Useful for localisation and similar customisation
+			set_variable = {
+				name = tributary_type
+				value = $TYPE$
+			}
+
+			# Tribute values
+			set_variable = {
+				name = tribute_gold_percent
+				value = $TRIBUTE_GOLD_PERCENT$
+			}
+			set_variable = {
+				name = monthly_prestige_suzerain
+				value = $MONTHLY_PRESTIGE_SUZERAIN$
+			}
+			set_variable = {
+				name = monthly_prestige_tributary
+				value = $MONTHLY_PRESTIGE_TRIBUTARY$
+			}
+			set_variable = {
+				name = monthly_piety_suzerain
+				value = $MONTHLY_PIETY_SUZERAIN$
+			}
+			set_variable = {
+				name = monthly_piety_tributary
+				value = $MONTHLY_PIETY_TRIBUTARY$
+			}
+			set_variable = {
+				name = man_at_arm_cap_per_ten_subjects
+				value = $MAN_AT_ARM_CAP_PER_TEN_SUBJECTS$
+			}	
+			set_variable = {
+				name = monthly_levy_reinforcement_rate_per_subject
+				value = $MONTHLY_LEVY_REINFORCEMENT_RATE_PER_SUBJECT$
+			}	
+			set_variable = {
+				name = monthly_levy_reinforcement_rate_tributary
+				value = $MONTHLY_LEVY_REINFORCEMENT_RATE_TRIBUTARY$
+			}
+			#can declare war on tributary
+			#can call to war Suzerain
+			#can call to war Tributary flags
+
+			set_variable = {
+				name = can_declare_war_on_trib
+				value = $CAN_DECLARE_WAR_ON_TRIB_FLAG$
+			}
+			set_variable = {
+				name = can_call_to_war_suzerain
+				value = $CAN_CALL_TO_WAR_SUZERAIN_FLAG$
+			}		
+			set_variable = {
+				name = can_call_to_war_tributary
+				value = $CAN_CALL_TO_WAR_TRIBUTARY_FLAG$
+			}	
+		}	
 	}
 
 	#calulate income
@@ -214,34 +229,20 @@ define_tributary = {
 }
 
 pass_tributary_type_to_heir = {
-	$SCOPE$ = {
-	
-		switch = {
-			trigger = $TYPE$
-
-			flag:karling_tributary = {
-				make_tributary = {
-					TYPE = tributary_karling
-					TRIBUTARY = $TRIBUTARY$
-					SUZERAIN = $NEW_RULER$
-				}				
-			}
-			flag:china_tributary = {
-				make_tributary = {
-					TYPE = tributary_china
-					TRIBUTARY = $TRIBUTARY$
-					SUZERAIN = $NEW_RULER$
-				}	
-			}
-			flag:permanent_tributary = {
-				make_tributary = {
-					TYPE = tributary_permanent
-					TRIBUTARY = $TRIBUTARY$
-					SUZERAIN = $NEW_RULER$
-				}	
-			}
-		}
+	$TRIBUTARY$ = {
+		set_variable = { name = my_suzerain value = $SUZERAIN$ }	
+		set_variable = { name = T4N_tributary_story_cycle_var value = $SCOPE$.var:T4N_tributary_story_cycle_var }    		
 	}
+	$SUZERAIN$ = {
+		add_to_variable_list = { name = permanent_tributaries target = $TRIBUTARY$ }
+		add_to_variable_list = { name = all_tributaries target = $TRIBUTARY$ }
+		unset_tributary = { TRIBUTARY = $SCOPE$ }
+	}		
+	$SCOPE$ = {
+		var:T4N_tributary_story_cycle_var ?= {
+			make_story_owner = $TRIBUTARY$
+		}
+	}			
 }
 
 
@@ -297,44 +298,22 @@ offer_tribute_effect = {
 
 unset_tributary = {
 	$TRIBUTARY$ = {
-		switch = {
-			trigger = $TRIBUTARY_BASE_TYPE$
-			flag:permanent = {
-				var:my_suzerain = {
-					remove_list_variable = { name = permanent_tributaries target = prev }			
+		var:my_suzerain ?= {
+			remove_list_variable = { name = all_tributaries target = $TRIBUTARY$ }
+			if = {
+				limit = {
+					is_permanent_tributary = { SUZERAIN = $TRIBUTARY$.var:my_suzerain TRIBUTARY = $TRIBUTARY$ }
 				}
-				remove_variable = possible_vasalisation_year
+				remove_list_variable = { name = permanent_tributaries target = $TRIBUTARY$ }
 			}
-			flag:non_permanent = {
-				var:my_suzerain = {
-					remove_list_variable = { name = non_permanent_tributaries target = prev }
-				}
-				remove_variable = possible_permafication_year
+			else = {
+				remove_list_variable = { name = non_permanent_tributaries target = $TRIBUTARY$ }
 			}
 		}
-
-		var:my_suzerain = { remove_list_variable = { name = all_tributaries target = prev } }
-
-		# Store suzerain scope
+		var:T4N_tributary_story_cycle_var ?= {
+			end_story = yes
+		}
 		remove_variable = my_suzerain
-
-		# Store tributary type
-		remove_variable = tributary_type
-
-		# Tribute values
-		remove_variable = tribute_gold_percent
-		remove_variable = monthly_prestige_suzerain
-		remove_variable = monthly_prestige_tributary
-		remove_variable = monthly_piety_suzerain
-		remove_variable = monthly_piety_tributary
-		remove_variable = man_at_arm_cap_per_ten_subjects
-		remove_variable = monthly_levy_reinforcement_rate_per_subject
-		remove_variable = monthly_levy_reinforcement_rate_tributary
-		#can declare war on tributary
-		#can call to war Suzerain
-		#can call to war Tributary flags
-		remove_variable = can_declare_war_on_trib
-		remove_variable = can_call_to_war_suzerain	
-		remove_variable = can_call_to_war_tributary	
+		remove_variable = T4N_tributary_story_cycle_var
 	}
 }

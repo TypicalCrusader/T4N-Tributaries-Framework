@@ -45,10 +45,8 @@ has_non_permanent_tributaries = {
 can_declare_war_on_tributary = {
 	$SCOPETRIB$ = {
 		AND = {
-			exists = var:can_declare_war_on_trib 
-			var:can_declare_war_on_trib = flag:no
-			exists = var:my_suzerain
-			var:my_suzerain = $SCOPE2$
+			var:T4N_tributary_story_cycle_var.var:can_declare_war_on_trib ?= flag:no
+			var:my_suzerain ?= $SCOPE2$
 		} 
 	}
 }

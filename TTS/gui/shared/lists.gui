@@ -2549,7 +2549,7 @@ types Lists
 				text_single = {
 					layoutpolicy_horizontal = expanding
 					align = nobaseline
-					text = "[Character.MakeScope.Var('tributary_type').GetFlagName]"
+					text = "[Character.MakeScope.Var('T4N_tributary_story_cycle_var').Var('tributary_type').GetFlagName]"
 				}
 			}
 			expand = {}
@@ -2592,7 +2592,7 @@ types Lists
 
 				text_single = {
 				layoutpolicy_horizontal = expanding
-				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
+				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('T4N_tributary_story_cycle_var').Var('tribute_gold_percent').GetValue,'(CFixedPoint)100')|0]%"
 				align = nobaseline
 				default_format = "#high"
 				}
@@ -2610,7 +2610,7 @@ types Lists
 
 				text_single = {
 				layoutpolicy_horizontal = expanding
-				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('T4N_tributary_story_cycle_var').Var('monthly_prestige_suzerain').GetValue,'(CFixedPoint)100')|0]%"
 				align = nobaseline
 				default_format = "#high"
 				}
@@ -2627,7 +2627,7 @@ types Lists
 
 				text_single = {
 				layoutpolicy_horizontal = expanding
-				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
+				raw_text = "[Multiply_CFixedPoint(Character.MakeScope.Var('T4N_tributary_story_cycle_var').Var('monthly_piety_suzerain').GetValue,'(CFixedPoint)100')|0]%"
 				align = nobaseline
 				default_format = "#high"
 				}

@@ -1,0 +1,11 @@
+﻿T4N_tributary_story_cycle = { #Used to store variables for tributaries
+
+	on_setup = {
+	}
+
+	on_end = {
+	}
+
+	on_owner_death = {
+	}
+}

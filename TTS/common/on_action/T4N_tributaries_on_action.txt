@@ -66,27 +66,33 @@ on_title_lost = {
 
 T4N_tributaries_on_title_lost = {
     effect = {
+        save_scope_as = temp_scope
         switch = {
             trigger = exists
 
             var:my_suzerain = {
                 if = {
+                    limit = {
+                        OR = {
+                            is_landed = no
+                            is_independent_ruler = no
+                            liege = scope:new_holder
+                        }
+                    }
                     if = {
                         limit = {
                             is_permanent_tributary = {
-                                SUZERAIN = this
-                                TRIBUTARY = root
+                                SUZERAIN = scope:temp_scope.var:my_suzerain
+                                TRIBUTARY = scope:temp_scope
                             }
                         }
                         unset_tributary = {
-                            TRIBUTARY = root
-                            TRIBUTARY_BASE_TYPE = flag:permanent
+                            TRIBUTARY = scope:temp_scope
                         }                
                     }
                     else = {
                         unset_tributary = {
-                            TRIBUTARY = root
-                            TRIBUTARY_BASE_TYPE = flag:non_permanent
+                            TRIBUTARY = scope:temp_scope
                         }
                     }
                 }
@@ -108,11 +114,19 @@ T4N_tributaries_on_title_lost = {
                         }
                         pass_tributary_type_to_heir = {
                             SCOPE = var:tributary_succ_var
-                            TYPE = var:tributary_type
                             TRIBUTARY = var:tributary_succ_var
-                            NEW_RULER = scope:new_holder
+                            SUZERAIN = scope:new_holder
                         }
                         remove_variable = tributary_succ_var
+                    }
+                    every_in_list = {                    
+                        variable = non_permanent_tributaries
+                        set_variable = { 
+                            name = tributary_non_perma_succ_var
+                            value = this
+                        }                        
+                        unset_tributary = { TRIBUTARY = var:tributary_non_perma_succ_var }
+                        remove_variable = tributary_non_perma_succ_var
                     }
                     clear_variable_list = non_permanent_tributaries
                 }
@@ -165,6 +179,7 @@ T4N_tributaries_on_death = {
                     exists = var:suzerain
                 }
             }
+            save_scope_as = suzerain
 			#Copy old Ruler tributaries list to his primary heir (on_death)
 			#Root is old ruler
             every_in_list = {
@@ -175,9 +190,8 @@ T4N_tributaries_on_death = {
                 }
                 pass_tributary_type_to_heir = {
                     SCOPE = var:tributary_succ_var
-                    TYPE = var:tributary_type
-                    TRIBUTARY = prev
-                    NEW_RULER = root.primary_heir
+                    TRIBUTARY = var:tributary_succ_var
+                    SUZERAIN = scope:suzerain.primary_heir
                 }
                 remove_variable = tributary_succ_var
 			}		
@@ -189,11 +203,10 @@ T4N_tributaries_on_death = {
                 }
                 unset_tributary = {
                     TRIBUTARY = var:tributary_succ_var_np
-                    TRIBUTARY_BASE_TYPE = flag:non_permanent
                 }
                 remove_variable = tributary_succ_var_np
 			}	          
-			remove_variable = suzerain        
+			remove_variable = suzerain       
         }
         if = {
             limit = {
@@ -201,27 +214,30 @@ T4N_tributaries_on_death = {
                     exists = var:my_suzerain
                 }
             }
+            save_scope_as = temp_scope
+            var:my_suzerain = {
+                save_scope_as = suzerain
+            }
+            root.primary_heir = {
+                save_scope_as = tributary
+            }
             debug_log = "I passed my_suzerain"
 			#give the heir var:my_suzerain
 			#Root is old tributary
             if = {
                 limit = {
                     is_permanent_tributary = {
-                        SUZERAIN = var:my_suzerain
-                        TRIBUTARY = root
+                        SUZERAIN = scope:suzerain
+                        TRIBUTARY = scope:temp_scope
                     }
                 }
                 debug_log = "I passed trib type check"
-                set_variable = { 
-                    name = tributary_succ_var
-                    value = root
-                }
                 pass_tributary_type_to_heir = {
-                    SCOPE = var:tributary_succ_var
-                    TYPE = var:tributary_type
-                    TRIBUTARY = root.primary_heir
-                    NEW_RULER = var:my_suzerain
-                }
+                    SCOPE = scope:temp_scope
+                    TRIBUTARY = scope:tributary
+                    SUZERAIN = scope:suzerain
+                }               
+                unset_tributary = { TRIBUTARY = scope:temp_scope }
                 if = { 
                     limit = {
                         has_realm_law_flag = partition_succession_law 
@@ -250,7 +266,6 @@ T4N_tributaries_on_death = {
                 debug_log = "I Passed tributary pass effect"
                 unset_tributary = {
                     TRIBUTARY = root
-                    TRIBUTARY_BASE_TYPE = flag:permanent
                 }
                 debug_log = "I passed unset"
                 remove_variable = tributary_succ_var              
@@ -262,7 +277,6 @@ T4N_tributaries_on_death = {
                 }
                 unset_tributary = {
                     TRIBUTARY = var:tributary_succ_var_np
-                    TRIBUTARY_BASE_TYPE = flag:non_permanent
                 }
                 remove_variable = tributary_succ_var_np
             }
